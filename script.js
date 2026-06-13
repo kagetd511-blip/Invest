@@ -40,9 +40,9 @@ if(currentUser){
     );
 
     document.getElementById(
-        "namaUser"
-    ).textContent =
-    user.phone;
+"namaUser"
+).textContent =
+user.username;
 
     document.getElementById(
         "saldoHeader"
