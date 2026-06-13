@@ -88,20 +88,68 @@ body{
     object-fit:cover;
 }
 
-.menu-cepat{
+/* TICKER HARGA */
+
+.fuel-ticker{
+    margin:15px;
+    height:45px;
+
+    background:#004aad;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
     display:flex;
-    gap:10px;
-    padding:15px;
+
+    align-items:center;
+
+    position:relative;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
 
-.menu-cepat button{
-    flex:1;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#004aad;
+.ticker-track{
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:35px;
+
+    white-space:nowrap;
+
+    padding-left:100%;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    animation:jalan 30s linear infinite;
+}
+
+/* tulisan nama BBM */
+.ticker-track span{
     color:white;
-    cursor:pointer;
+    flex-shrink:0;
+}
+
+/* hanya harga */
+.ticker-track span b{
+    color:#00ff66;
+    font-weight:700;
+    text-shadow:0 0 6px rgba(0,255,102,.5);
+}
+
+@keyframes jalan{
+
+    from{
+        transform:translateX(5%);
+    }
+
+    to{
+        transform:translateX(-100%);
+    }
+
 }
 
 .paket-container{
