@@ -1,72 +1,107 @@
+function showAlert(title, message){
+
+    document.getElementById(
+    "alertTitle"
+    ).innerText = title;
+
+    document.getElementById(
+    "alertMessage"
+    ).innerText = message;
+
+    document.getElementById(
+    "customAlert"
+    ).classList.add("show");
+
+}
+
+function closeAlert(){
+
+    document.getElementById(
+    "customAlert"
+    ).classList.remove("show");
+
+}
+
 function login(){
 
-let phone =
-document.getElementById("phone").value.trim();
+    let phone =
+    document.getElementById("phone")
+    .value.trim();
 
-let password =
-document.getElementById("password").value;
+    let password =
+    document.getElementById("password")
+    .value;
 
-if(phone === ""){
+    if(phone === ""){
 
-    alert(
-    "Masukkan Nomor HP"
-    );
+        showAlert(
+        "Peringatan",
+        "Masukkan Nomor HP"
+        );
 
-    return;
+        return;
 
-}
+    }
 
-if(password === ""){
+    if(password === ""){
 
-    alert(
-    "Masukkan Sandi"
-    );
+        showAlert(
+        "Peringatan",
+        "Masukkan Sandi"
+        );
 
-    return;
+        return;
 
-}
+    }
 
-let data =
-localStorage.getItem(phone);
+    let data =
+    localStorage.getItem(phone);
 
-if(!data){
+    if(!data){
 
-    alert(
-    "Akun belum terdaftar"
-    );
+        showAlert(
+        "Login Gagal",
+        "Akun belum terdaftar"
+        );
 
-    return;
+        return;
 
-}
+    }
 
-let user =
-JSON.parse(data);
+    let user =
+    JSON.parse(data);
 
-if(user.password === password){
+    if(user.password === password){
 
-    localStorage.setItem(
-    "isLogin",
-    "true"
-    );
+        localStorage.setItem(
+        "isLogin",
+        "true"
+        );
 
-    localStorage.setItem(
-    "currentUser",
-    phone
-    );
+        localStorage.setItem(
+        "currentUser",
+        phone
+        );
 
-    alert(
-    "Login berhasil"
-    );
+        showAlert(
+        "Berhasil",
+        "Login berhasil"
+        );
 
-    window.location.href =
-    "dashboard.html";
+        setTimeout(() => {
 
-}else{
+            window.location.href =
+            "dashboard.html";
 
-    alert(
-    "Sandi salah"
-    );
+        }, 1000);
 
-}
+    }else{
+
+        showAlert(
+        "Login Gagal",
+        "Sandi yang Anda masukkan salah"
+        );
+
+    }
 
 }
