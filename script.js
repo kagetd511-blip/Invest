@@ -28,3 +28,58 @@ setInterval(() => {
     slides[currentSlide].classList.add("active");
 
 }, 9000);
+
+const currentUser =
+localStorage.getItem("currentUser");
+
+if(currentUser){
+
+    const user =
+    JSON.parse(
+        localStorage.getItem(currentUser)
+    );
+
+    document.getElementById(
+        "namaUser"
+    ).textContent =
+    user.phone;
+
+    document.getElementById(
+        "saldoHeader"
+    ).textContent =
+    "Rp " +
+    Number(user.saldo)
+    .toLocaleString("id-ID");
+
+    document.getElementById(
+        "saldoDrawer"
+    ).textContent =
+    "Rp " +
+    Number(user.saldo)
+    .toLocaleString("id-ID");
+
+    document.getElementById(
+        "memberId"
+    ).textContent =
+    "ID Member : " +
+    user.memberId;
+
+    document.getElementById(
+        "userPhone"
+    ).textContent =
+    "Nomor HP : " +
+    user.phone;
+
+    document.getElementById(
+        "userLevel"
+    ).textContent =
+    "Level : " +
+    user.level;
+
+    document.getElementById(
+        "userReferral"
+    ).textContent =
+    "Referral : " +
+    (user.referral || "-");
+
+}
