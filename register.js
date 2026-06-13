@@ -1,5 +1,9 @@
 function register(){
 
+let username =
+document.getElementById("username")
+.value.trim();
+
 let phone =
 document.getElementById("phone").value.trim();
 
@@ -14,6 +18,16 @@ document.getElementById("confirmPassword").value;
 
 let referral =
 document.getElementById("referral").value.trim();
+
+if(username === ""){
+
+alert(
+"Username wajib diisi"
+);
+
+return;
+
+}
 
 if(phone === ""){
 
@@ -56,6 +70,8 @@ if(localStorage.getItem(phone)){
 }
 
 let userData = {
+
+    username: username,
 
     phone: phone,
 
