@@ -1,105 +1,192 @@
+function showAlert(title, message){
+
+    document.getElementById(
+    "alertTitle"
+    ).innerText = title;
+
+    document.getElementById(
+    "alertMessage"
+    ).innerText = message;
+
+    document.getElementById(
+    "customAlert"
+    ).classList.add("show");
+
+}
+
+function closeAlert(){
+
+    document.getElementById(
+    "customAlert"
+    ).classList.remove("show");
+
+}
+
+function togglePassword(){
+
+    let password =
+    document.getElementById("password");
+
+    if(password.type === "password"){
+
+        password.type = "text";
+
+    }else{
+
+        password.type = "password";
+
+    }
+
+}
+
+function toggleConfirmPassword(){
+
+    let confirmPassword =
+    document.getElementById(
+    "confirmPassword"
+    );
+
+    if(confirmPassword.type === "password"){
+
+        confirmPassword.type = "text";
+
+    }else{
+
+        confirmPassword.type = "password";
+
+    }
+
+}
+
 function register(){
 
-let username =
-document.getElementById("username")
-.value.trim();
+    let username =
+    document.getElementById("username")
+    .value.trim();
 
-let phone =
-document.getElementById("phone").value.trim();
+    let phone =
+    document.getElementById("phone")
+    .value.trim();
 
-let email =
-document.getElementById("email").value.trim();
+    let email =
+    document.getElementById("email")
+    .value.trim();
 
-let password =
-document.getElementById("password").value;
+    let password =
+    document.getElementById("password")
+    .value;
 
-let confirmPassword =
-document.getElementById("confirmPassword").value;
+    let confirmPassword =
+    document.getElementById(
+    "confirmPassword"
+    ).value;
 
-let referral =
-document.getElementById("referral").value.trim();
+    let referral =
+    document.getElementById("referral")
+    .value.trim();
 
-if(username === ""){
+    if(username === ""){
 
-alert(
-"Username wajib diisi"
-);
+        showAlert(
+        "Peringatan",
+        "Username wajib diisi"
+        );
 
-return;
+        return;
 
-}
+    }
 
-if(phone === ""){
+    if(phone === ""){
 
-    alert(
-    "Nomor HP wajib diisi"
+        showAlert(
+        "Peringatan",
+        "Nomor HP wajib diisi"
+        );
+
+        return;
+
+    }
+
+    if(password === ""){
+
+        showAlert(
+        "Peringatan",
+        "Sandi wajib diisi"
+        );
+
+        return;
+
+    }
+
+    if(confirmPassword === ""){
+
+        showAlert(
+        "Peringatan",
+        "Ulangi sandi wajib diisi"
+        );
+
+        return;
+
+    }
+
+    if(password !== confirmPassword){
+
+        showAlert(
+        "Peringatan",
+        "Ulangi sandi tidak cocok"
+        );
+
+        return;
+
+    }
+
+    if(localStorage.getItem(phone)){
+
+        showAlert(
+        "Pendaftaran Gagal",
+        "Nomor HP sudah terdaftar"
+        );
+
+        return;
+
+    }
+
+    let userData = {
+
+        username: username,
+
+        phone: phone,
+
+        email: email,
+
+        password: password,
+
+        referral: referral,
+
+        saldo: 0,
+
+        level: "Member",
+
+        registerDate:
+        new Date().toLocaleDateString("id-ID")
+
+    };
+
+    localStorage.setItem(
+        phone,
+        JSON.stringify(userData)
     );
 
-    return;
-
-}
-
-if(password === ""){
-
-    alert(
-    "Sandi wajib diisi"
+    showAlert(
+    "Berhasil",
+    "Pendaftaran berhasil"
     );
 
-    return;
+    setTimeout(() => {
 
-}
+        window.location.href =
+        "index.html";
 
-if(password !== confirmPassword){
-
-    alert(
-    "Ulangi sandi tidak cocok"
-    );
-
-    return;
-
-}
-
-if(localStorage.getItem(phone)){
-
-    alert(
-    "Nomor HP sudah terdaftar"
-    );
-
-    return;
-
-}
-
-let userData = {
-
-    username: username,
-
-    phone: phone,
-
-    email: email,
-
-    password: password,
-
-    referral: referral,
-
-    saldo: 0,
-
-    level: "Member",
-
-    registerDate:
-    new Date().toLocaleDateString()
-
-};
-
-localStorage.setItem(
-    phone,
-    JSON.stringify(userData)
-);
-
-alert(
-"Pendaftaran berhasil"
-);
-
-window.location.href =
-"index.html";
+    }, 1500);
 
 }
