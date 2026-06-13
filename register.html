@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Akun</title><style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+
+background:
+linear-gradient(
+180deg,
+#03132b 0%,
+#06224a 40%,
+#0b3f8d 100%
+);
+
+overflow:hidden;
+}
+
+body::before{
+content:"";
+position:absolute;
+
+width:300px;
+height:300px;
+
+background:#00ff88;
+
+border-radius:50%;
+
+filter:blur(120px);
+
+top:-100px;
+left:-100px;
+
+opacity:.25;
+}
+
+body::after{
+content:"";
+position:absolute;
+
+width:300px;
+height:300px;
+
+background:#008cff;
+
+border-radius:50%;
+
+filter:blur(120px);
+
+bottom:-100px;
+right:-100px;
+
+opacity:.25;
+}
+
+.register-card{
+
+position:relative;
+z-index:2;
+
+width:100%;
+max-width:430px;
+
+background:
+rgba(255,255,255,.08);
+
+backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,.1);
+
+border-radius:30px;
+
+padding:30px 25px;
+
+box-shadow:
+0 25px 60px rgba(0,0,0,.35);
+
+}
+
+.logo-box{
+
+width:120px;
+height:120px;
+
+margin:auto;
+
+background:
+rgba(255,255,255,.08);
+
+border-radius:25px;
+
+overflow:hidden;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+border:1px solid rgba(255,255,255,.1);
+
+}
+
+.logo-box img{
+
+width:100%;
+height:100%;
+
+object-fit:contain;
+
+padding:10px;
+
+}
+
+h2{
+
+text-align:center;
+
+color:white;
+
+margin-top:18px;
+
+font-size:28px;
+
+}
+
+.subtitle{
+
+text-align:center;
+
+color:rgba(255,255,255,.7);
+
+margin-top:8px;
+
+margin-bottom:25px;
+
+}
+
+.input-group{
+
+margin-bottom:15px;
+
+}
+
+.input-group input{
+
+width:100%;
+
+height:55px;
+
+padding:0 15px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+background:
+rgba(255,255,255,.1);
+
+color:white;
+
+font-size:15px;
+
+}
+
+.input-group input::placeholder{
+
+color:rgba(255,255,255,.6);
+
+}
+
+.password-box{
+
+position:relative;
+
+}
+
+.password-box input{
+
+padding-right:55px;
+
+}
+
+.password-box span{
+
+position:absolute;
+
+right:18px;
+
+top:50%;
+
+transform:translateY(-50%);
+
+cursor:pointer;
+
+font-size:18px;
+
+color:white;
+
+user-select:none;
+
+}
+
+.register-btn{
+
+width:100%;
+
+height:55px;
+
+border:none;
+
+border-radius:15px;
+
+cursor:pointer;
+
+font-size:16px;
+
+font-weight:700;
+
+background:
+linear-gradient(
+135deg,
+#00ff88,
+#00c95f
+);
+
+color:#03233e;
+
+margin-top:10px;
+
+}
+
+.login-link{
+
+text-align:center;
+
+margin-top:20px;
+
+color:white;
+
+}
+
+.login-link a{
+
+color:#00ff88;
+
+text-decoration:none;
+
+font-weight:bold;
+
+}
+
+</style></head>
+<body><div class="register-card"><div class="logo-box">
+<img src="assets/logo.png" alt="Logo">
+</div><h2>Daftar Akun</h2><p class="subtitle">
+Lengkapi data untuk membuat akun
+</p><div class="input-group">
+<input
+type="tel"
+id="phone"
+placeholder="Nomor HP">
+</div><div class="input-group">
+<input
+type="email"
+id="email"
+placeholder="Email (Opsional)">
+</div><div class="input-group">
+<div class="password-box"><input
+type="password"
+id="password"
+placeholder="Sandi">
+
+<span onclick="togglePassword('password')">
+👁️
+</span></div>
+</div><div class="input-group">
+<div class="password-box"><input
+type="password"
+id="confirmPassword"
+placeholder="Ulangi Sandi">
+
+<span onclick="togglePassword('confirmPassword')">
+👁️
+</span></div>
+</div><div class="input-group">
+<input
+type="text"
+id="referral"
+placeholder="Kode Referral">
+</div><button
+class="register-btn"
+onclick="register()">
+Buat Akun
+</button>
+
+<p class="login-link">
+Sudah punya akun?
+<a href="index.html">
+Login
+</a>
+</p></div><script>
+
+function togglePassword(id){
+
+let input =
+document.getElementById(id);
+
+if(input.type === "password"){
+
+input.type = "text";
+
+}else{
+
+input.type = "password";
+
+}
+
+}
+
+</script><script src="register.js"></script></body>
+</html>
