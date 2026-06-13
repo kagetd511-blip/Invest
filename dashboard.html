@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+
+if(
+localStorage.getItem("isLogin")
+!== "true"
+){
+    window.location.href =
+    "index.html";
+}
+
+</script>
+
 <title>Dashboard Investasi</title>
 
 <link rel="stylesheet" href="style.css">
@@ -24,8 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     <i class="fas fa-wallet"></i>
 
     <div class="saldo-info">
-        <small>Saldo</small>
-        <span>Rp 80.250.000</span>
+        <span id="saldoHeader">Rp 0</span>
     </div>
 
 </div>
@@ -44,15 +56,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     <div class="profile">
 
-        <img src="https://i.pravatar.cc/100" alt="">
+    <img src="https://i.pravatar.cc/100" alt="">
 
-        <h3>John Doe</h3>
+    <h3 id="namaUser">Pengguna</h3>
 
-        <p>Saldo Tersedia</p>
+    <p id="memberId">ID Member : -</p>
 
-        <h2>Rp 1.250.000</h2>
+    <p id="userPhone">Nomor HP : -</p>
 
-    </div>
+    <p id="userLevel">Level : Member</p>
+
+    <p id="userReferral">Referral : -</p>
+
+    <h2 id="saldoDrawer">Rp 0</h2>
+
+</div>
 
     <ul>
         <li><i class="fas fa-user"></i> Profil Akun</li>
@@ -62,7 +80,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <li><i class="fas fa-history"></i> Riwayat Transaksi</li>
         <li><i class="fas fa-users"></i> Referral</li>
         <li><i class="fas fa-cog"></i> Pengaturan</li>
-        <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+        <li onclick="logout()">
+<i class="fas fa-sign-out-alt"></i>
+Logout
+</li>
     </ul>
 
 </div>
