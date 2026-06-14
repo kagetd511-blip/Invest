@@ -95,7 +95,7 @@ function tambahSaldoTest(){
 }
 
 // ========================
-// UPDATE PAKET (FIX FINAL)
+// UPDATE PAKET (FIX FINAL STABLE)
 // ========================
 function updatePaket(){
 
@@ -106,29 +106,35 @@ function updatePaket(){
 
     user.paketAktif.forEach(p => {
 
-        // init timer
         if(!p.lastTick) p.lastTick = now;
 
-        // 🔥 SIMULASI: tiap 5 detik = 1 hari
+        // 5 detik = 1 hari simulasi
         if(now - p.lastTick >= 5000){
 
             p.hariBerjalan++;
             p.durasi--;
 
             const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
+
             p.saldoPaket += profit;
 
             p.lastTick = now;
         }
     });
 
-    // selesai paket
+    // ========================
+    // CAIR FINAL (FIX UTAMA)
+    // ========================
     user.paketAktif = user.paketAktif.filter(p => {
 
         if(p.durasi <= 0){
-            user.saldo += p.modal;
+
+            // 🔥 INI FIX: modal + semua profit
+            user.saldo += p.saldoPaket;
+
             return false;
         }
+
         return true;
     });
 
@@ -136,7 +142,7 @@ function updatePaket(){
 }
 
 // ========================
-// TAMPILKAN PAKET AKTIF (FIX %)
+// TAMPILKAN PAKET AKTIF (FIX UI)
 // ========================
 function tampilkanPaketAktif(){
 
@@ -155,8 +161,9 @@ function tampilkanPaketAktif(){
 
         const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
 
-        // 💥 TOTAL + PERSEN PROFIT
         const total = p.saldoPaket;
+
+        // 💥 persen profit REAL
         const persenProfit = (((total - p.modal) / p.modal) * 100).toFixed(1);
 
         box.insertAdjacentHTML("beforeend", `
@@ -173,7 +180,7 @@ function tampilkanPaketAktif(){
                     </span>
                 </h4>
 
-                <p>Keuntungan Harian: Rp ${profit.toLocaleString("id-ID")}</p>
+                <p>+Rp ${profit.toLocaleString("id-ID")} / hari</p>
 
                 <p>Sisa Hari: ${p.durasi}</p>
 
@@ -187,7 +194,7 @@ function tampilkanPaketAktif(){
 }
 
 // ========================
-// TEST PROFIT (WAJIB BUTTON)
+// TEST PROFIT
 // ========================
 function testProfit(){
 
