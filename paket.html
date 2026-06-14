@@ -295,184 +295,81 @@ Kembali
 <script>
 
 const paketData = {
-
-1:{
-nama:"Paket 1",
-modal:416000,
-profit:"Rp50.000 / Hari",
-durasi:"14 Hari",
-gambar:"assets/pakett1.jpg"
-},
-
-2:{
-nama:"Paket 2",
-modal:1200000,
-profit:"Rp150.000 / Hari",
-durasi:"14 Hari",
-gambar:"assets/pakett2.jpg"
-},
-
-3:{
-nama:"Paket 3",
-modal:3500000,
-profit:"Rp550.000 / Hari",
-durasi:"14 Hari",
-gambar:"assets/pakett3.jpg"
-},
-
-4:{
-nama:"Paket 4",
-modal:9600000,
-profit:"Rp1.600.000 / Hari",
-durasi:"14 Hari",
-gambar:"assets/pakett4.jpg"
-},
-
-5:{
-nama:"Paket 5",
-modal:22200000,
-profit:"Rp4.400.000 / Hari",
-durasi:"14 Hari",
-gambar:"assets/pakett5.jpg"
-},
-
-6:{
-nama:"Paket 6",
-modal:45300000,
-profit:"Rp11.500.000 / Hari",
-durasi:"14 Hari",
-gambar:"assets/pakett6.jpg"
-},
-
-7:{
-nama:"Paket 7",
-modal:85600000,
-profit:"Rp24.000.000 / Hari",
-durasi:"14 Hari",
-gambar:"assets/pakett7.jpg"
-}
-
+1:{nama:"Paket 1",modal:416000,profit:"Rp50.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett1.jpg"},
+2:{nama:"Paket 2",modal:1200000,profit:"Rp150.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett2.jpg"},
+3:{nama:"Paket 3",modal:3500000,profit:"Rp550.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett3.jpg"},
+4:{nama:"Paket 4",modal:9600000,profit:"Rp1.600.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett4.jpg"},
+5:{nama:"Paket 5",modal:22200000,profit:"Rp4.400.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett5.jpg"},
+6:{nama:"Paket 6",modal:45300000,profit:"Rp11.500.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett6.jpg"},
+7:{nama:"Paket 7",modal:85600000,profit:"Rp24.000.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett7.jpg"}
 };
 
-const paketId =
-localStorage.getItem("selectedPaket");
+const paketId = localStorage.getItem("selectedPaket");
+const paket = paketData[paketId];
 
-const paket =
-paketData[paketId];
+if(!paket){
+    alert("Paket tidak ditemukan!");
+    throw new Error("paket undefined");
+}
 
-document.getElementById(
-"namaPaket"
-).innerText =
-paket.nama;
+const currentUser = localStorage.getItem("currentUser");
+const userData = localStorage.getItem(currentUser);
 
-document.getElementById(
-"fotoPaket"
-).src =
-paket.gambar;
+if(!currentUser || !userData){
+    alert("User tidak ditemukan!");
+    throw new Error("user undefined");
+}
 
-document.getElementById(
-"modalPaket"
-).innerText =
-"Rp " +
-paket.modal.toLocaleString("id-ID");
+const user = JSON.parse(userData);
 
-document.getElementById(
-"profitPaket"
-).innerText =
-paket.profit;
+/* tampilkan data */
+document.getElementById("namaPaket").innerText = paket.nama;
+document.getElementById("fotoPaket").src = paket.gambar;
+document.getElementById("modalPaket").innerText = "Rp " + paket.modal.toLocaleString("id-ID");
+document.getElementById("profitPaket").innerText = paket.profit;
+document.getElementById("durasiPaket").innerText = paket.durasi;
 
-document.getElementById(
-"durasiPaket"
-).innerText =
-paket.durasi;
+document.getElementById("saldoUser").innerText =
+"Rp " + Number(user.saldo).toLocaleString("id-ID");
 
-const currentUser =
-localStorage.getItem(
-"currentUser"
-);
-
-const user =
-JSON.parse(
-localStorage.getItem(
-currentUser
-)
-);
-
-document.getElementById(
-"saldoUser"
-).innerText =
-"Rp " +
-Number(user.saldo)
-.toLocaleString("id-ID");
-
-const buyBtn =
-document.getElementById(
-"buyBtn"
-);
+const buyBtn = document.getElementById("buyBtn");
 
 if(user.saldo < paket.modal){
 
-buyBtn.disabled = true;
-
-buyBtn.innerText =
-"Saldo Tidak Cukup";
+    buyBtn.disabled = true;
+    buyBtn.innerText = "Saldo Tidak Cukup";
 
 }else{
 
-buyBtn.onclick = () => {
+    buyBtn.onclick = () => {
 
-if(confirm(
-"Beli paket ini?"
-)){
+        if(confirm("Beli paket ini?")){
 
-user.saldo =
-Number(user.saldo)
-- paket.modal;
+            user.saldo -= paket.modal;
 
-/* SIMPAN PAKET AKTIF */
-if(!user.paketAktif){
-    user.paketAktif = [];
-}
+            if(!user.paketAktif){
+                user.paketAktif = [];
+            }
 
-user.paketAktif.push({
+            user.paketAktif.push({
+                id:Number(paketId),
+                nama:paket.nama,
+                modal:paket.modal,
+                saldoPaket:paket.modal,
+                profit:paket.profit,
+                gambar:paket.gambar,
+                durasi:14,
+                hariBerjalan:0,
+                terakhirUpdate:new Date().toDateString()
+            });
 
-    id:Number(paketId),
+            localStorage.setItem(currentUser, JSON.stringify(user));
 
-    nama:paket.nama,
+            alert("Pembelian berhasil");
 
-    modal:paket.modal,
-
-    saldoPaket:paket.modal,
-
-    profit:paket.profit,
-
-    gambar:paket.gambar,
-
-    durasi:14,
-
-    hariBerjalan:0,
-
-    terakhirUpdate:
-    new Date().toDateString()
-
-});
-
-localStorage.setItem(
-currentUser,
-JSON.stringify(user)
-);
-
-alert(
-"Pembelian berhasil"
-);
-
-window.location.href =
-"dashboard.html";
-
-}
-
-};
-
+            window.location.href = "dashboard.html";
+        }
+    };
 }
 
 </script>
