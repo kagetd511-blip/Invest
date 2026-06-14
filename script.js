@@ -83,3 +83,15 @@ user.username;
     (user.referral || "-");
 
 }
+
+function pilihPaket(id){
+
+    localStorage.setItem(
+        "selectedPaket",
+        id
+    );
+
+    window.location.href =
+    "paket.html";
+
+}
