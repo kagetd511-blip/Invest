@@ -430,28 +430,32 @@ Number(user.saldo)
 - paket.modal;
 
 /* SIMPAN PAKET AKTIF */
-user.paketAktif = {
+if(!user.paketAktif){
+    user.paketAktif = [];
+}
 
-id: Number(paketId),
+user.paketAktif.push({
 
-nama: paket.nama,
+    id:Number(paketId),
 
-modal: paket.modal,
+    nama:paket.nama,
 
-saldoPaket: paket.modal,
+    modal:paket.modal,
 
-profit: paket.profit,
+    saldoPaket:paket.modal,
 
-gambar: paket.gambar,
+    profit:paket.profit,
 
-durasi: 14,
+    gambar:paket.gambar,
 
-hariBerjalan: 0,
+    durasi:14,
 
-terakhirUpdate:
-new Date().toDateString()
+    hariBerjalan:0,
 
-};
+    terakhirUpdate:
+    new Date().toDateString()
+
+});
 
 localStorage.setItem(
 currentUser,
