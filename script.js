@@ -1,18 +1,28 @@
 // ========================
-// MENU DRAWER
+// GLOBAL STATE
+// ========================
+let currentUserKey = localStorage.getItem("currentUser");
+let user = null;
+
+// ambil ulang user dari localStorage (biar selalu update)
+function loadUser(){
+    currentUserKey = localStorage.getItem("currentUser");
+    user = currentUserKey ? JSON.parse(localStorage.getItem(currentUserKey)) : null;
+}
+
+// ========================
+// DRAWER MENU
 // ========================
 const menuBtn = document.getElementById("menuBtn");
 const drawer = document.getElementById("drawer");
 const overlay = document.getElementById("overlay");
 
-if(menuBtn){
+if(menuBtn && drawer && overlay){
     menuBtn.addEventListener("click", () => {
         drawer.classList.add("active");
         overlay.classList.add("active");
     });
-}
 
-if(overlay){
     overlay.addEventListener("click", () => {
         drawer.classList.remove("active");
         overlay.classList.remove("active");
@@ -39,29 +49,25 @@ if(slides.length > 0){
 }
 
 // ========================
-// GET USER
-// ========================
-let currentUserKey = localStorage.getItem("currentUser");
-let user = currentUserKey ? JSON.parse(localStorage.getItem(currentUserKey)) : null;
-
-// ========================
 // RENDER USER
 // ========================
 function renderUser(){
 
+    loadUser();
     if(!user) return;
 
-    document.getElementById("namaUser").innerText = user.username;
-    document.getElementById("saldoHeader").innerText =
-        "Rp " + Number(user.saldo).toLocaleString("id-ID");
+    const set = (id, val) => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = val;
+    };
 
-    document.getElementById("saldoDrawer").innerText =
-        "Rp " + Number(user.saldo).toLocaleString("id-ID");
-
-    document.getElementById("memberId").innerText = "ID Member : " + user.memberId;
-    document.getElementById("userPhone").innerText = "Nomor HP : " + user.phone;
-    document.getElementById("userLevel").innerText = "Level : " + user.level;
-    document.getElementById("userReferral").innerText = "Referral : " + (user.referral || "-");
+    set("namaUser", user.username);
+    set("saldoHeader", "Rp " + Number(user.saldo).toLocaleString("id-ID"));
+    set("saldoDrawer", "Rp " + Number(user.saldo).toLocaleString("id-ID"));
+    set("memberId", "ID Member : " + user.memberId);
+    set("userPhone", "Nomor HP : " + user.phone);
+    set("userLevel", "Level : " + user.level);
+    set("userReferral", "Referral : " + (user.referral || "-"));
 }
 
 // ========================
@@ -77,49 +83,51 @@ function pilihPaket(id){
 // ========================
 function tambahSaldoTest(){
 
+    loadUser();
     if(!user) return;
 
     user.saldo += 10000000;
 
     localStorage.setItem(currentUserKey, JSON.stringify(user));
 
-    alert("TEST: Saldo +10.000.000");
+    alert("TEST SALDO +10.000.000");
 
     renderUser();
 }
 
 // ========================
-// UPDATE PAKET (PROFIT)
+// UPDATE PAKET / PROFIT
 // ========================
 function updatePaket(){
 
+    loadUser();
     if(!user || !Array.isArray(user.paketAktif)) return;
 
-    const sekarang = new Date();
-    const hariIni = sekarang.toDateString();
+    const now = new Date();
+    const hariIni = now.toDateString();
 
-    user.paketAktif.forEach(paket => {
+    user.paketAktif.forEach(p => {
 
-        if(paket.terakhirUpdate !== hariIni){
+        if(p.terakhirUpdate !== hariIni){
 
-            paket.hariBerjalan++;
-            paket.durasi--;
+            p.hariBerjalan++;
+            p.durasi--;
 
-            let profit = parseInt(paket.profit.replace(/[^0-9]/g,""));
+            const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
+            p.saldoPaket += profit;
 
-            paket.saldoPaket += profit;
-
-            paket.terakhirUpdate = hariIni;
+            p.terakhirUpdate = hariIni;
         }
     });
 
-    // selesai paket
+    // kalau paket habis
     user.paketAktif = user.paketAktif.filter(p => {
 
         if(p.durasi <= 0){
             user.saldo += p.modal;
             return false;
         }
+
         return true;
     });
 
@@ -131,27 +139,29 @@ function updatePaket(){
 // ========================
 function tampilkanPaketAktif(){
 
+    loadUser();
     if(!user || !Array.isArray(user.paketAktif)) return;
 
-    user.paketAktif.forEach(paket => {
+    user.paketAktif.forEach(p => {
 
-        let box = document.getElementById("paket" + paket.id);
+        const box = document.getElementById("paket" + p.id);
         if(!box) return;
 
-        let old = box.querySelector(".status-aktif");
+        // hapus tampilan lama
+        const old = box.querySelector(".status-aktif");
         if(old) old.remove();
 
-        let persen = (paket.hariBerjalan / 14) * 100;
+        const persen = (p.hariBerjalan / 14) * 100;
 
         box.insertAdjacentHTML("beforeend", `
             <div class="status-aktif">
                 <div class="badge">AKTIF</div>
 
                 <p>Saldo Paket</p>
-                <h4>Rp ${Number(paket.saldoPaket).toLocaleString("id-ID")}</h4>
+                <h4>Rp ${Number(p.saldoPaket).toLocaleString("id-ID")}</h4>
 
-                <p>${paket.profit}</p>
-                <p>Sisa: ${paket.durasi} Hari</p>
+                <p>${p.profit}</p>
+                <p>Sisa ${p.durasi} Hari</p>
 
                 <div class="progress">
                     <div class="progress-fill" style="width:${persen}%"></div>
@@ -162,13 +172,16 @@ function tampilkanPaketAktif(){
 }
 
 // ========================
-// TEST LIVE (INI BIAR KELIHATAN JALAN)
+// TEST PROFIT MANUAL (WAJIB ADA BUTTON)
 // ========================
 function testProfit(){
 
-    if(!user) return;
+    loadUser();
 
-    if(!Array.isArray(user.paketAktif)) return alert("Tidak ada paket");
+    if(!user || !Array.isArray(user.paketAktif)){
+        alert("Tidak ada paket aktif");
+        return;
+    }
 
     user.paketAktif.forEach(p => {
         p.saldoPaket += 50000;
@@ -176,7 +189,7 @@ function testProfit(){
 
     localStorage.setItem(currentUserKey, JSON.stringify(user));
 
-    alert("TEST: Profit +50.000 ditambahkan");
+    alert("TEST PROFIT +50.000 BERHASIL");
 
     renderAll();
 }
@@ -185,25 +198,27 @@ function testProfit(){
 // RENDER ALL
 // ========================
 function renderAll(){
-
     renderUser();
     updatePaket();
     tampilkanPaketAktif();
 }
 
 // ========================
-// AUTO UPDATE TIAP 5 DETIK
+// AUTO UPDATE PROFIT
 // ========================
 setInterval(() => {
+
+    loadUser();
 
     if(!user) return;
 
     updatePaket();
+
     localStorage.setItem(currentUserKey, JSON.stringify(user));
 
     renderAll();
 
-    console.log("AUTO UPDATE BERJALAN");
+    console.log("AUTO UPDATE OK");
 
 }, 5000);
 
