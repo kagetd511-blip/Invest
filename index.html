@@ -2,6 +2,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <title>Login Akun</title><style>
 
 *{
@@ -366,9 +368,15 @@ cursor:pointer;
 
 font-size:18px;
 
-color:white;
+color:rgba(255,255,255,.8);
 
-user-select:none;
+transition:.3s;
+
+}
+
+.password-box span:hover{
+
+color:#00ff88;
 
 }
 
@@ -457,9 +465,11 @@ type="password"
 id="password"
 placeholder="Sandi">
 
-<span onclick="togglePassword()">
-👁️
-</span></div></div><button
+<span onclick="togglePassword()" id="eyeIcon">
+<i class="fa-solid fa-eye"></i>
+</span>
+
+</div></div><button
 class="login-btn"
 onclick="login()">
 Login
