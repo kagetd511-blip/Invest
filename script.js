@@ -4,29 +4,28 @@
 let currentUserKey = localStorage.getItem("currentUser");
 let user = null;
 
-// ambil ulang user dari localStorage (biar selalu update)
 function loadUser(){
     currentUserKey = localStorage.getItem("currentUser");
     user = currentUserKey ? JSON.parse(localStorage.getItem(currentUserKey)) : null;
 }
 
 // ========================
-// DRAWER MENU
+// DRAWER
 // ========================
 const menuBtn = document.getElementById("menuBtn");
 const drawer = document.getElementById("drawer");
 const overlay = document.getElementById("overlay");
 
 if(menuBtn && drawer && overlay){
-    menuBtn.addEventListener("click", () => {
+    menuBtn.onclick = () => {
         drawer.classList.add("active");
         overlay.classList.add("active");
-    });
+    };
 
-    overlay.addEventListener("click", () => {
+    overlay.onclick = () => {
         drawer.classList.remove("active");
         overlay.classList.remove("active");
-    });
+    };
 }
 
 // ========================
@@ -35,15 +34,10 @@ if(menuBtn && drawer && overlay){
 const slides = document.querySelectorAll(".slide");
 let currentSlide = 0;
 
-if(slides.length > 0){
+if(slides.length){
     setInterval(() => {
         slides[currentSlide].classList.remove("active");
-
-        currentSlide++;
-        if(currentSlide >= slides.length){
-            currentSlide = 0;
-        }
-
+        currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add("active");
     }, 5000);
 }
@@ -56,7 +50,7 @@ function renderUser(){
     loadUser();
     if(!user) return;
 
-    const set = (id, val) => {
+    const set = (id,val) => {
         const el = document.getElementById(id);
         if(el) el.innerText = val;
     };
@@ -92,23 +86,22 @@ function tambahSaldoTest(){
 
     alert("TEST SALDO +10.000.000");
 
-    renderUser();
+    renderAll();
 }
 
 // ========================
-// UPDATE PAKET / PROFIT
+// UPDATE PAKET + PROFIT
 // ========================
 function updatePaket(){
 
     loadUser();
     if(!user || !Array.isArray(user.paketAktif)) return;
 
-    const now = new Date();
-    const hariIni = now.toDateString();
+    const today = new Date().toDateString();
 
     user.paketAktif.forEach(p => {
 
-        if(p.terakhirUpdate !== hariIni){
+        if(p.terakhirUpdate !== today){
 
             p.hariBerjalan++;
             p.durasi--;
@@ -116,18 +109,17 @@ function updatePaket(){
             const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
             p.saldoPaket += profit;
 
-            p.terakhirUpdate = hariIni;
+            p.terakhirUpdate = today;
         }
     });
 
-    // kalau paket habis
+    // selesai paket
     user.paketAktif = user.paketAktif.filter(p => {
 
         if(p.durasi <= 0){
             user.saldo += p.modal;
             return false;
         }
-
         return true;
     });
 
@@ -135,7 +127,7 @@ function updatePaket(){
 }
 
 // ========================
-// TAMPILKAN PAKET AKTIF
+// TAMPILKAN PAKET + PROFIT % FIX
 // ========================
 function tampilkanPaketAktif(){
 
@@ -147,11 +139,13 @@ function tampilkanPaketAktif(){
         const box = document.getElementById("paket" + p.id);
         if(!box) return;
 
-        // hapus tampilan lama
         const old = box.querySelector(".status-aktif");
         if(old) old.remove();
 
-        const persen = (p.hariBerjalan / 14) * 100;
+        const persenHari = (p.hariBerjalan / 14) * 100;
+
+        // PROFIT %
+        const profitPercent = ((p.saldoPaket - p.modal) / p.modal) * 100;
 
         box.insertAdjacentHTML("beforeend", `
             <div class="status-aktif">
@@ -160,11 +154,12 @@ function tampilkanPaketAktif(){
                 <p>Saldo Paket</p>
                 <h4>Rp ${Number(p.saldoPaket).toLocaleString("id-ID")}</h4>
 
-                <p>${p.profit}</p>
-                <p>Sisa ${p.durasi} Hari</p>
+                <p>Profit: ${profitPercent.toFixed(2)}%</p>
+
+                <p>Sisa Hari: ${p.durasi}</p>
 
                 <div class="progress">
-                    <div class="progress-fill" style="width:${persen}%"></div>
+                    <div class="progress-fill" style="width:${persenHari}%"></div>
                 </div>
             </div>
         `);
@@ -172,7 +167,7 @@ function tampilkanPaketAktif(){
 }
 
 // ========================
-// TEST PROFIT MANUAL (WAJIB ADA BUTTON)
+// TEST PROFIT MANUAL
 // ========================
 function testProfit(){
 
@@ -189,7 +184,7 @@ function testProfit(){
 
     localStorage.setItem(currentUserKey, JSON.stringify(user));
 
-    alert("TEST PROFIT +50.000 BERHASIL");
+    alert("TEST PROFIT +50.000");
 
     renderAll();
 }
@@ -204,12 +199,11 @@ function renderAll(){
 }
 
 // ========================
-// AUTO UPDATE PROFIT
+// AUTO UPDATE
 // ========================
 setInterval(() => {
 
     loadUser();
-
     if(!user) return;
 
     updatePaket();
@@ -217,8 +211,6 @@ setInterval(() => {
     localStorage.setItem(currentUserKey, JSON.stringify(user));
 
     renderAll();
-
-    console.log("AUTO UPDATE OK");
 
 }, 5000);
 
