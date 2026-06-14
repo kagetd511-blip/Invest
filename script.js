@@ -82,6 +82,9 @@ user.username;
     "Referral : " +
     (user.referral || "-");
 
+    updatePaket(user);
+tampilkanPaketAktif(user);
+
 }
 
 function pilihPaket(id){
@@ -120,5 +123,126 @@ function tambahSaldoTest(){
     );
 
     location.reload();
+
+}
+
+function updatePaket(user){
+
+    if(!user.paketAktif){
+        return;
+    }
+
+    let paket =
+    user.paketAktif;
+
+    let sekarang =
+    new Date();
+
+    let hariIni =
+    sekarang.toDateString();
+
+    if(
+        paket.terakhirUpdate !== hariIni
+        &&
+        sekarang.getHours() >= 7
+    ){
+
+        paket.hariBerjalan++;
+
+        paket.durasi--;
+
+        paket.terakhirUpdate =
+        hariIni;
+
+        if(paket.durasi <= 0){
+
+            user.saldo =
+            Number(user.saldo)
+            + Number(paket.modal);
+
+            delete user.paketAktif;
+
+            alert(
+            "Paket selesai, modal telah dikembalikan"
+            );
+
+        }
+
+        localStorage.setItem(
+            currentUser,
+            JSON.stringify(user)
+        );
+
+    }
+
+}
+
+function tampilkanPaketAktif(user){
+
+    const box =
+    document.getElementById(
+    "paketAktifBox"
+    );
+
+    if(!box) return;
+
+    if(!user.paketAktif){
+
+        box.innerHTML = "";
+
+        return;
+
+    }
+
+    let paket =
+    user.paketAktif;
+
+    let persen =
+    (
+        paket.hariBerjalan / 14
+    ) * 100;
+
+    box.innerHTML = `
+
+    <div class="paket-aktif">
+
+        <h3>${paket.nama}</h3>
+
+        <img src="${paket.gambar}">
+
+        <p>
+        Modal :
+        Rp ${Number(paket.modal)
+        .toLocaleString("id-ID")}
+        </p>
+
+        <p>
+        Keuntungan :
+        ${paket.profit}
+        </p>
+
+        <p>
+        Sisa Hari :
+        ${paket.durasi} Hari
+        </p>
+
+        <div class="progress">
+
+            <div
+            class="progress-fill"
+            style="
+            width:${persen}%
+            ">
+            </div>
+
+        </div>
+
+        <p>
+        ${persen.toFixed(0)}%
+        </p>
+
+    </div>
+
+    `;
 
 }
