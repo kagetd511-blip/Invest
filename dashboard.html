@@ -15,7 +15,7 @@ localStorage.getItem("isLogin")
 }
 
 </script>
-
+    
 <title>Dashboard Investasi</title>
 
 <link rel="stylesheet" href="style.css">
@@ -54,21 +54,47 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <!-- DRAWER -->
 <div id="drawer">
 
-    <div class="profile">
+<div class="profile">
 
-    <img src="https://i.pravatar.cc/100" alt="">
+<div class="avatar-default">
+    <i class="fas fa-user"></i>
+</div>
 
     <h3 id="namaUser">Pengguna</h3>
 
-    <p id="memberId">ID Member : -</p>
+    <div class="profile-info">
 
-    <p id="userPhone">Nomor HP : -</p>
+        <div class="info-item">
+            <span>ID Member</span>
+            <b id="memberId">-</b>
+        </div>
 
-    <p id="userLevel">Level : Member</p>
+        <div class="info-item">
+            <span>Nomor HP</span>
+            <b id="userPhone">-</b>
+        </div>
 
-    <p id="userReferral">Referral : -</p>
+        <div class="info-item">
+            <span>Level</span>
+            <b id="userLevel">Member</b>
+        </div>
 
-    <h2 id="saldoDrawer">Rp 0</h2>
+        <div class="info-item">
+            <span>Referral</span>
+            <b id="userReferral">-</b>
+        </div>
+
+    </div>
+
+    <div class="saldo-card-drawer">
+
+        <small>Saldo Tersedia</small>
+
+        <h2 id="saldoDrawer">
+            Rp 0
+        </h2>
+
+    </div>
 
 </div>
 
