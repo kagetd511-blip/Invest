@@ -429,32 +429,29 @@ user.saldo =
 Number(user.saldo)
 - paket.modal;
 
+/* SIMPAN PAKET AKTIF */
 user.paketAktif = {
 
-    nama: paket.nama,
+id: Number(paketId),
 
-    modal: paket.modal,
+nama: paket.nama,
 
-    profit: paket.profit,
+modal: paket.modal,
 
-    durasi: 14,
+saldoPaket: paket.modal,
 
-    gambar: paket.gambar,
+profit: paket.profit,
 
-    tanggalBeli:
-    Date.now(),
+gambar: paket.gambar,
 
-    hariBerjalan: 0,
+durasi: 14,
 
-    terakhirUpdate:
-    new Date().toDateString()
+hariBerjalan: 0,
+
+terakhirUpdate:
+new Date().toDateString()
 
 };
-
-localStorage.setItem(
-    currentUser,
-    JSON.stringify(user)
-);
 
 localStorage.setItem(
 currentUser,
