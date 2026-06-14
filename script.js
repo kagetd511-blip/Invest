@@ -138,8 +138,7 @@ function updatePaket(user){
     user.paketAktif.forEach((paket) => {
 
         if(
-            paket.terakhirUpdate !== hariIni &&
-            sekarang.getHours() >= 7
+            paket.terakhirUpdate !== hariIni
         ){
 
             paket.hariBerjalan++;
