@@ -95,20 +95,21 @@ function tambahSaldoTest(){
 }
 
 // ========================
-// UPDATE PAKET (SIMULASI CEPAT)
+// UPDATE PAKET (FIX FINAL)
 // ========================
 function updatePaket(){
 
     loadUser();
     if(!user || !Array.isArray(user.paketAktif)) return;
 
+    const now = Date.now();
+
     user.paketAktif.forEach(p => {
 
-        if(!p.lastTick) p.lastTick = Date.now();
+        // init timer
+        if(!p.lastTick) p.lastTick = now;
 
-        const now = Date.now();
-
-        // 🔥 5 detik = 1 hari simulasi
+        // 🔥 SIMULASI: tiap 5 detik = 1 hari
         if(now - p.lastTick >= 5000){
 
             p.hariBerjalan++;
@@ -135,7 +136,7 @@ function updatePaket(){
 }
 
 // ========================
-// TAMPILKAN PAKET AKTIF
+// TAMPILKAN PAKET AKTIF (FIX %)
 // ========================
 function tampilkanPaketAktif(){
 
@@ -152,30 +153,41 @@ function tampilkanPaketAktif(){
 
         const persenHari = (p.hariBerjalan / 14) * 100;
 
-        const profitAngka = parseInt(p.profit.replace(/[^0-9]/g,""));
-        const persenProfit = ((profitAngka / p.modal) * 100).toFixed(1);
+        const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
+
+        // 💥 TOTAL + PERSEN PROFIT
+        const total = p.saldoPaket;
+        const persenProfit = (((total - p.modal) / p.modal) * 100).toFixed(1);
 
         box.insertAdjacentHTML("beforeend", `
             <div class="status-aktif">
+
                 <div class="badge">AKTIF</div>
 
-                <p>Saldo Paket</p>
-                <h4>Rp ${Number(p.saldoPaket).toLocaleString("id-ID")}</h4>
+                <p>Modal: Rp ${Number(p.modal).toLocaleString("id-ID")}</p>
 
-                <p>Profit: ${p.profit} (+${persenProfit}%)</p>
+                <h4>
+                    Rp ${Number(total).toLocaleString("id-ID")}
+                    <span style="color:#00ff88;font-size:12px">
+                        (${persenProfit}%)
+                    </span>
+                </h4>
+
+                <p>Keuntungan Harian: Rp ${profit.toLocaleString("id-ID")}</p>
 
                 <p>Sisa Hari: ${p.durasi}</p>
 
                 <div class="progress">
                     <div class="progress-fill" style="width:${persenHari}%"></div>
                 </div>
+
             </div>
         `);
     });
 }
 
 // ========================
-// TEST PROFIT MANUAL
+// TEST PROFIT (WAJIB BUTTON)
 // ========================
 function testProfit(){
 
