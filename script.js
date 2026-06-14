@@ -137,7 +137,7 @@ function updatePaket(user){
 
     user.paketAktif.forEach(paket => {
 
-        if(paket.terakhirUpdate !== hariIni && sekarang.getHours() >= 7){
+        if(paket.terakhirUpdate !== hariIni && sekarang.getHours() >= 0){
 
             paket.hariBerjalan++;
             paket.durasi--;
@@ -201,20 +201,3 @@ function tampilkanPaketAktif(user){
         `);
     });
 }
-
-setInterval(() => {
-
-    const key = localStorage.getItem("currentUser");
-    if(!key) return;
-
-    const userData = localStorage.getItem(key);
-    if(!userData) return;
-
-    const user = JSON.parse(userData);
-
-    updatePaket(user);
-    tampilkanPaketAktif(user);
-
-    localStorage.setItem(key, JSON.stringify(user));
-
-}, 5000);
