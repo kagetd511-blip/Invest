@@ -95,3 +95,30 @@ function pilihPaket(id){
     "paket.html";
 
 }
+
+function tambahSaldoTest(){
+
+    const currentUser =
+    localStorage.getItem("currentUser");
+
+    if(!currentUser) return;
+
+    let user =
+    JSON.parse(
+        localStorage.getItem(currentUser)
+    );
+
+    user.saldo += 10000000;
+
+    localStorage.setItem(
+        currentUser,
+        JSON.stringify(user)
+    );
+
+    alert(
+        "Saldo berhasil ditambah Rp10.000.000"
+    );
+
+    location.reload();
+
+}
