@@ -224,6 +224,76 @@ body{
 
 }
 
+.paket-aktif{
+
+    margin:15px;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #0f2145,
+    #163b7a
+    );
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.3);
+
+}
+
+.paket-aktif img{
+
+    width:100%;
+
+    height:180px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+
+    margin:10px 0;
+
+}
+
+.paket-aktif p{
+
+    margin-top:8px;
+
+}
+
+.progress{
+
+    width:100%;
+
+    height:10px;
+
+    background:
+    rgba(255,255,255,.15);
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    margin-top:15px;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    background:
+    linear-gradient(
+    90deg,
+    #00ff88,
+    #00c95f
+    );
+
+}
+
 .paket-container{
 
     padding:15px;
