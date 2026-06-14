@@ -1,184 +1,143 @@
+// ========================
+// MENU DRAWER
+// ========================
 const menuBtn = document.getElementById("menuBtn");
 const drawer = document.getElementById("drawer");
 const overlay = document.getElementById("overlay");
 
-menuBtn.addEventListener("click", () => {
-    drawer.classList.add("active");
-    overlay.classList.add("active");
-});
+if(menuBtn){
+    menuBtn.addEventListener("click", () => {
+        drawer.classList.add("active");
+        overlay.classList.add("active");
+    });
+}
 
-overlay.addEventListener("click", () => {
-    drawer.classList.remove("active");
-    overlay.classList.remove("active");
-});
+if(overlay){
+    overlay.addEventListener("click", () => {
+        drawer.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+}
 
+// ========================
+// SLIDER
+// ========================
 const slides = document.querySelectorAll(".slide");
-
 let currentSlide = 0;
 
-setInterval(() => {
-    slides[currentSlide].classList.remove("active");
+if(slides.length > 0){
+    setInterval(() => {
+        slides[currentSlide].classList.remove("active");
 
-    currentSlide++;
+        currentSlide++;
+        if(currentSlide >= slides.length){
+            currentSlide = 0;
+        }
 
-    if(currentSlide >= slides.length){
-        currentSlide = 0;
-    }
-
-    slides[currentSlide].classList.add("active");
-
-}, 9000);
-
-const currentUser =
-localStorage.getItem("currentUser");
-
-if(currentUser){
-
-    const user =
-    JSON.parse(
-        localStorage.getItem(currentUser)
-    );
-
-    document.getElementById(
-"namaUser"
-).textContent =
-user.username;
-
-    document.getElementById(
-        "saldoHeader"
-    ).textContent =
-    "Rp " +
-    Number(user.saldo)
-    .toLocaleString("id-ID");
-
-    document.getElementById(
-        "saldoDrawer"
-    ).textContent =
-    "Rp " +
-    Number(user.saldo)
-    .toLocaleString("id-ID");
-
-    document.getElementById(
-        "memberId"
-    ).textContent =
-    "ID Member : " +
-    user.memberId;
-
-    document.getElementById(
-        "userPhone"
-    ).textContent =
-    "Nomor HP : " +
-    user.phone;
-
-    document.getElementById(
-        "userLevel"
-    ).textContent =
-    "Level : " +
-    user.level;
-
-    document.getElementById(
-        "userReferral"
-    ).textContent =
-    "Referral : " +
-    (user.referral || "-");
-
-    updatePaket(user);
-tampilkanPaketAktif(user);
-
+        slides[currentSlide].classList.add("active");
+    }, 5000);
 }
 
+// ========================
+// GET USER
+// ========================
+let currentUserKey = localStorage.getItem("currentUser");
+let user = currentUserKey ? JSON.parse(localStorage.getItem(currentUserKey)) : null;
+
+// ========================
+// RENDER USER
+// ========================
+function renderUser(){
+
+    if(!user) return;
+
+    document.getElementById("namaUser").innerText = user.username;
+    document.getElementById("saldoHeader").innerText =
+        "Rp " + Number(user.saldo).toLocaleString("id-ID");
+
+    document.getElementById("saldoDrawer").innerText =
+        "Rp " + Number(user.saldo).toLocaleString("id-ID");
+
+    document.getElementById("memberId").innerText = "ID Member : " + user.memberId;
+    document.getElementById("userPhone").innerText = "Nomor HP : " + user.phone;
+    document.getElementById("userLevel").innerText = "Level : " + user.level;
+    document.getElementById("userReferral").innerText = "Referral : " + (user.referral || "-");
+}
+
+// ========================
+// PILIH PAKET
+// ========================
 function pilihPaket(id){
-
-    localStorage.setItem(
-        "selectedPaket",
-        id
-    );
-
-    window.location.href =
-    "paket.html";
-
+    localStorage.setItem("selectedPaket", id);
+    window.location.href = "paket.html";
 }
 
+// ========================
+// TEST SALDO
+// ========================
 function tambahSaldoTest(){
 
-    const currentUser =
-    localStorage.getItem("currentUser");
-
-    if(!currentUser) return;
-
-    let user =
-    JSON.parse(
-        localStorage.getItem(currentUser)
-    );
+    if(!user) return;
 
     user.saldo += 10000000;
 
-    localStorage.setItem(
-        currentUser,
-        JSON.stringify(user)
-    );
+    localStorage.setItem(currentUserKey, JSON.stringify(user));
 
-    alert(
-        "Saldo berhasil ditambah Rp10.000.000"
-    );
+    alert("TEST: Saldo +10.000.000");
 
-    location.reload();
-
+    renderUser();
 }
 
-function updatePaket(user){
+// ========================
+// UPDATE PAKET (PROFIT)
+// ========================
+function updatePaket(){
 
-    if(!user.paketAktif || user.paketAktif.length === 0){
-        return;
-    }
+    if(!user || !Array.isArray(user.paketAktif)) return;
 
     const sekarang = new Date();
     const hariIni = sekarang.toDateString();
 
     user.paketAktif.forEach(paket => {
 
-        if(paket.terakhirUpdate !== hariIni && sekarang.getHours() >= 0){
+        if(paket.terakhirUpdate !== hariIni){
 
             paket.hariBerjalan++;
             paket.durasi--;
 
-            const profitHarian =
-                parseInt(paket.profit.replace(/[^0-9]/g,""));
+            let profit = parseInt(paket.profit.replace(/[^0-9]/g,""));
 
-            paket.saldoPaket += profitHarian;
+            paket.saldoPaket += profit;
 
             paket.terakhirUpdate = hariIni;
         }
-
     });
 
-    // hapus paket selesai + kembalikan modal
-    user.paketAktif = user.paketAktif.filter(paket => {
+    // selesai paket
+    user.paketAktif = user.paketAktif.filter(p => {
 
-        if(paket.durasi <= 0){
-            user.saldo += paket.modal;
+        if(p.durasi <= 0){
+            user.saldo += p.modal;
             return false;
         }
         return true;
     });
 
-    const key = localStorage.getItem("currentUser");
-    localStorage.setItem(key, JSON.stringify(user));
+    localStorage.setItem(currentUserKey, JSON.stringify(user));
 }
 
-function tampilkanPaketAktif(user){
+// ========================
+// TAMPILKAN PAKET AKTIF
+// ========================
+function tampilkanPaketAktif(){
 
-    if(!user.paketAktif || user.paketAktif.length === 0){
-        return;
-    }
+    if(!user || !Array.isArray(user.paketAktif)) return;
 
     user.paketAktif.forEach(paket => {
 
         let box = document.getElementById("paket" + paket.id);
-
         if(!box) return;
 
-        // HAPUS status lama biar tidak numpuk
         let old = box.querySelector(".status-aktif");
         if(old) old.remove();
 
@@ -192,7 +151,7 @@ function tampilkanPaketAktif(user){
                 <h4>Rp ${Number(paket.saldoPaket).toLocaleString("id-ID")}</h4>
 
                 <p>${paket.profit}</p>
-                <p>${paket.durasi} Hari</p>
+                <p>Sisa: ${paket.durasi} Hari</p>
 
                 <div class="progress">
                     <div class="progress-fill" style="width:${persen}%"></div>
@@ -201,3 +160,54 @@ function tampilkanPaketAktif(user){
         `);
     });
 }
+
+// ========================
+// TEST LIVE (INI BIAR KELIHATAN JALAN)
+// ========================
+function testProfit(){
+
+    if(!user) return;
+
+    if(!Array.isArray(user.paketAktif)) return alert("Tidak ada paket");
+
+    user.paketAktif.forEach(p => {
+        p.saldoPaket += 50000;
+    });
+
+    localStorage.setItem(currentUserKey, JSON.stringify(user));
+
+    alert("TEST: Profit +50.000 ditambahkan");
+
+    renderAll();
+}
+
+// ========================
+// RENDER ALL
+// ========================
+function renderAll(){
+
+    renderUser();
+    updatePaket();
+    tampilkanPaketAktif();
+}
+
+// ========================
+// AUTO UPDATE TIAP 5 DETIK
+// ========================
+setInterval(() => {
+
+    if(!user) return;
+
+    updatePaket();
+    localStorage.setItem(currentUserKey, JSON.stringify(user));
+
+    renderAll();
+
+    console.log("AUTO UPDATE BERJALAN");
+
+}, 5000);
+
+// ========================
+// START
+// ========================
+renderAll();
