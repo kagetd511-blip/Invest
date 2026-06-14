@@ -10,22 +10,22 @@ function loadUser(){
 }
 
 // ========================
-// DRAWER
+// DRAWER MENU
 // ========================
 const menuBtn = document.getElementById("menuBtn");
 const drawer = document.getElementById("drawer");
 const overlay = document.getElementById("overlay");
 
 if(menuBtn && drawer && overlay){
-    menuBtn.onclick = () => {
+    menuBtn.addEventListener("click", () => {
         drawer.classList.add("active");
         overlay.classList.add("active");
-    };
+    });
 
-    overlay.onclick = () => {
+    overlay.addEventListener("click", () => {
         drawer.classList.remove("active");
         overlay.classList.remove("active");
-    };
+    });
 }
 
 // ========================
@@ -34,10 +34,15 @@ if(menuBtn && drawer && overlay){
 const slides = document.querySelectorAll(".slide");
 let currentSlide = 0;
 
-if(slides.length){
+if(slides.length > 0){
     setInterval(() => {
         slides[currentSlide].classList.remove("active");
-        currentSlide = (currentSlide + 1) % slides.length;
+
+        currentSlide++;
+        if(currentSlide >= slides.length){
+            currentSlide = 0;
+        }
+
         slides[currentSlide].classList.add("active");
     }, 5000);
 }
@@ -50,7 +55,7 @@ function renderUser(){
     loadUser();
     if(!user) return;
 
-    const set = (id,val) => {
+    const set = (id, val) => {
         const el = document.getElementById(id);
         if(el) el.innerText = val;
     };
@@ -86,22 +91,25 @@ function tambahSaldoTest(){
 
     alert("TEST SALDO +10.000.000");
 
-    renderAll();
+    renderUser();
 }
 
 // ========================
-// UPDATE PAKET + PROFIT
+// UPDATE PAKET (SIMULASI CEPAT)
 // ========================
 function updatePaket(){
 
     loadUser();
     if(!user || !Array.isArray(user.paketAktif)) return;
 
-    const today = new Date().toDateString();
-
     user.paketAktif.forEach(p => {
 
-        if(p.terakhirUpdate !== today){
+        if(!p.lastTick) p.lastTick = Date.now();
+
+        const now = Date.now();
+
+        // 🔥 5 detik = 1 hari simulasi
+        if(now - p.lastTick >= 5000){
 
             p.hariBerjalan++;
             p.durasi--;
@@ -109,7 +117,7 @@ function updatePaket(){
             const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
             p.saldoPaket += profit;
 
-            p.terakhirUpdate = today;
+            p.lastTick = now;
         }
     });
 
@@ -127,7 +135,7 @@ function updatePaket(){
 }
 
 // ========================
-// TAMPILKAN PAKET + PROFIT % FIX
+// TAMPILKAN PAKET AKTIF
 // ========================
 function tampilkanPaketAktif(){
 
@@ -144,8 +152,8 @@ function tampilkanPaketAktif(){
 
         const persenHari = (p.hariBerjalan / 14) * 100;
 
-        // PROFIT %
-        const profitPercent = ((p.saldoPaket - p.modal) / p.modal) * 100;
+        const profitAngka = parseInt(p.profit.replace(/[^0-9]/g,""));
+        const persenProfit = ((profitAngka / p.modal) * 100).toFixed(1);
 
         box.insertAdjacentHTML("beforeend", `
             <div class="status-aktif">
@@ -154,7 +162,7 @@ function tampilkanPaketAktif(){
                 <p>Saldo Paket</p>
                 <h4>Rp ${Number(p.saldoPaket).toLocaleString("id-ID")}</h4>
 
-                <p>Profit: ${profitPercent.toFixed(2)}%</p>
+                <p>Profit: ${p.profit} (+${persenProfit}%)</p>
 
                 <p>Sisa Hari: ${p.durasi}</p>
 
@@ -211,6 +219,8 @@ setInterval(() => {
     localStorage.setItem(currentUserKey, JSON.stringify(user));
 
     renderAll();
+
+    console.log("AUTO UPDATE OK");
 
 }, 5000);
 
