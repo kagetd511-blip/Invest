@@ -224,73 +224,74 @@ body{
 
 }
 
-.paket-aktif{
+.status-aktif{
 
-    margin:15px;
+margin-top:10px;
 
-    padding:20px;
+padding:10px;
 
-    border-radius:20px;
+border-radius:12px;
 
-    background:
-    linear-gradient(
-    135deg,
-    #0f2145,
-    #163b7a
-    );
+background:
+rgba(0,255,136,.12);
 
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.3);
+border:
+1px solid rgba(0,255,136,.3);
+
+text-align:center;
 
 }
 
-.paket-aktif img{
+.badge{
 
-    width:100%;
+background:#00ff88;
 
-    height:180px;
+color:#03233e;
 
-    object-fit:cover;
+font-weight:bold;
 
-    border-radius:15px;
+padding:5px 12px;
 
-    margin:10px 0;
+border-radius:999px;
+
+display:inline-block;
+
+margin-bottom:8px;
 
 }
 
-.paket-aktif p{
+.status-aktif h4{
 
-    margin-top:8px;
+font-size:18px;
+
+margin:5px 0;
+
+color:#00ff88;
 
 }
 
 .progress{
 
-    width:100%;
+width:100%;
 
-    height:10px;
+height:8px;
 
-    background:
-    rgba(255,255,255,.15);
+background:
+rgba(255,255,255,.15);
 
-    border-radius:999px;
+border-radius:999px;
 
-    overflow:hidden;
+overflow:hidden;
 
-    margin-top:15px;
+margin-top:8px;
 
 }
 
 .progress-fill{
 
-    height:100%;
+height:100%;
 
-    background:
-    linear-gradient(
-    90deg,
-    #00ff88,
-    #00c95f
-    );
+background:#00ff88;
 
 }
 
