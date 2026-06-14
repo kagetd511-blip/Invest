@@ -47,14 +47,14 @@ user.username;
     document.getElementById(
         "saldoHeader"
     ).textContent =
-    "Rp " +
+    "Rp " 1000000
     Number(user.saldo)
     .toLocaleString("id-ID");
 
     document.getElementById(
         "saldoDrawer"
     ).textContent =
-    "Rp " +
+    "Rp " 1000000
     Number(user.saldo)
     .toLocaleString("id-ID");
 
