@@ -138,8 +138,11 @@ function updatePaket(user){
     user.paketAktif.forEach((paket) => {
 
         if(
-            paket.terakhirUpdate !== hariIni
-        ){
+            paket.terakhirUpdate !== hariIni &&
+            sekarang.getHours() >= 7
+        )
+        
+        {
 
             paket.hariBerjalan++;
             paket.durasi--;
@@ -208,3 +211,15 @@ function tampilkanPaketAktif(user){
         `);
     });
 }
+
+setInterval(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    const user = JSON.parse(localStorage.getItem(currentUser));
+
+    updatePaket(user);
+    tampilkanPaketAktif(user);
+
+    localStorage.setItem(currentUser, JSON.stringify(user));
+
+    console.log("UPDATE PROFIT BERJALAN");
+}, 5000);
