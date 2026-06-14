@@ -188,66 +188,68 @@ profitHarian;
 
 function tampilkanPaketAktif(user){
 
-    if(!user.paketAktif){
+    if(
+        !user.paketAktif ||
+        user.paketAktif.length === 0
+    ){
         return;
     }
 
-    let paket = user.paketAktif;
+    user.paketAktif.forEach(paket => {
 
-    let persen =
-    (paket.hariBerjalan / 14) * 100;
+        let box =
+        document.getElementById(
+            "paket" + paket.id
+        );
 
-    let box =
-    document.getElementById(
-        "paket" + paket.id
-    );
+        if(!box) return;
 
-    if(!box) return;
+        let persen =
+        (paket.hariBerjalan / 14) * 100;
 
-    box.innerHTML += `
+        box.insertAdjacentHTML(
+        "beforeend",
 
-    <div class="status-aktif">
+        `
+        <div class="status-aktif">
 
-        <div class="badge">
+            <div class="badge">
             AKTIF
-        </div>
+            </div>
 
-        <p>
-        Saldo Paket
-        </p>
+            <p>
+            Saldo Paket
+            </p>
 
-        <h4>
-        Rp ${Number(
-        paket.saldoPaket
-        ).toLocaleString("id-ID")}
-        </h4>
+            <h4>
+            Rp ${Number(
+            paket.saldoPaket
+            ).toLocaleString("id-ID")}
+            </h4>
 
-        <p>
-        Keuntungan :
-        ${paket.profit}
-        </p>
+            <p>
+            ${paket.profit}
+            </p>
 
-        <p>
-        Sisa Hari :
-        ${paket.durasi}
-        </p>
+            <p>
+            ${paket.durasi} Hari
+            </p>
 
-        <div class="progress">
+            <div class="progress">
 
-            <div
-            class="progress-fill"
-            style="
-            width:${persen}%;
-            ">
+                <div
+                class="progress-fill"
+                style="
+                width:${persen}%
+                ">
+                </div>
+
             </div>
 
         </div>
+        `
+        );
 
-        <small>
-        ${persen.toFixed(0)}%
-        </small>
+    });
 
-    </div>
-
-    `;
 }
