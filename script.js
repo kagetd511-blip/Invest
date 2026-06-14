@@ -149,6 +149,15 @@ function updatePaket(user){
 
         paket.hariBerjalan++;
 
+        let profitHarian =
+parseInt(
+paket.profit
+.replace(/[^0-9]/g,"")
+);
+
+paket.saldoPaket +=
+profitHarian;
+
         paket.durasi--;
 
         paket.terakhirUpdate =
@@ -179,42 +188,39 @@ function updatePaket(user){
 
 function tampilkanPaketAktif(user){
 
-    const box =
+    if(!user.paketAktif){
+        return;
+    }
+
+    let paket = user.paketAktif;
+
+    let persen =
+    (paket.hariBerjalan / 14) * 100;
+
+    let box =
     document.getElementById(
-    "paketAktifBox"
+        "paket" + paket.id
     );
 
     if(!box) return;
 
-    if(!user.paketAktif){
+    box.innerHTML += `
 
-        box.innerHTML = "";
+    <div class="status-aktif">
 
-        return;
-
-    }
-
-    let paket =
-    user.paketAktif;
-
-    let persen =
-    (
-        paket.hariBerjalan / 14
-    ) * 100;
-
-    box.innerHTML = `
-
-    <div class="paket-aktif">
-
-        <h3>${paket.nama}</h3>
-
-        <img src="${paket.gambar}">
+        <div class="badge">
+            AKTIF
+        </div>
 
         <p>
-        Modal :
-        Rp ${Number(paket.modal)
-        .toLocaleString("id-ID")}
+        Saldo Paket
         </p>
+
+        <h4>
+        Rp ${Number(
+        paket.saldoPaket
+        ).toLocaleString("id-ID")}
+        </h4>
 
         <p>
         Keuntungan :
@@ -223,7 +229,7 @@ function tampilkanPaketAktif(user){
 
         <p>
         Sisa Hari :
-        ${paket.durasi} Hari
+        ${paket.durasi}
         </p>
 
         <div class="progress">
@@ -231,18 +237,17 @@ function tampilkanPaketAktif(user){
             <div
             class="progress-fill"
             style="
-            width:${persen}%
+            width:${persen}%;
             ">
             </div>
 
         </div>
 
-        <p>
+        <small>
         ${persen.toFixed(0)}%
-        </p>
+        </small>
 
     </div>
 
     `;
-
 }
