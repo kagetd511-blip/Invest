@@ -128,128 +128,84 @@ function tambahSaldoTest(){
 
 function updatePaket(user){
 
-    if(!user.paketAktif){
+    if(!user.paketAktif || user.paketAktif.length === 0){
         return;
     }
 
-    let paket =
-    user.paketAktif;
+    let sekarang = new Date();
+    let hariIni = sekarang.toDateString();
 
-    let sekarang =
-    new Date();
+    user.paketAktif.forEach((paket) => {
 
-    let hariIni =
-    sekarang.toDateString();
+        if(
+            paket.terakhirUpdate !== hariIni &&
+            sekarang.getHours() >= 7
+        ){
 
-    if(
-        paket.terakhirUpdate !== hariIni
-        &&
-        sekarang.getHours() >= 7
-    ){
+            paket.hariBerjalan++;
+            paket.durasi--;
 
-        paket.hariBerjalan++;
+            let profitHarian =
+            parseInt(paket.profit.replace(/[^0-9]/g,""));
 
-        let profitHarian =
-parseInt(
-paket.profit
-.replace(/[^0-9]/g,"")
-);
+            paket.saldoPaket += profitHarian;
 
-paket.saldoPaket +=
-profitHarian;
+            paket.terakhirUpdate = hariIni;
 
-        paket.durasi--;
+        }
+    });
 
-        paket.terakhirUpdate =
-        hariIni;
+    // cek paket selesai
+    user.paketAktif = user.paketAktif.filter(paket => {
 
         if(paket.durasi <= 0){
 
-            user.saldo =
-            Number(user.saldo)
-            + Number(paket.modal);
+            user.saldo += paket.modal;
 
-            delete user.paketAktif;
-
-            alert(
-            "Paket selesai, modal telah dikembalikan"
-            );
-
+            return false; // hapus paket
         }
 
-        localStorage.setItem(
-            currentUser,
-            JSON.stringify(user)
-        );
+        return true;
+    });
 
-    }
-
+    localStorage.setItem(
+        localStorage.getItem("currentUser"),
+        JSON.stringify(user)
+    );
 }
 
 function tampilkanPaketAktif(user){
 
-    if(
-        !user.paketAktif ||
-        user.paketAktif.length === 0
-    ){
+    if(!user.paketAktif || user.paketAktif.length === 0){
         return;
     }
 
     user.paketAktif.forEach(paket => {
 
-        let box =
-        document.getElementById(
-            "paket" + paket.id
-        );
+        let box = document.getElementById("paket" + paket.id);
 
         if(!box) return;
 
-        let persen =
-        (paket.hariBerjalan / 14) * 100;
+        // HAPUS status lama biar tidak numpuk
+        let old = box.querySelector(".status-aktif");
+        if(old) old.remove();
 
-        box.insertAdjacentHTML(
-        "beforeend",
+        let persen = (paket.hariBerjalan / 14) * 100;
 
-        `
-        <div class="status-aktif">
+        box.insertAdjacentHTML("beforeend", `
+            <div class="status-aktif">
+                <div class="badge">AKTIF</div>
 
-            <div class="badge">
-            AKTIF
-            </div>
+                <p>Saldo Paket</p>
+                <h4>Rp ${Number(paket.saldoPaket).toLocaleString("id-ID")}</h4>
 
-            <p>
-            Saldo Paket
-            </p>
+                <p>${paket.profit}</p>
+                <p>${paket.durasi} Hari</p>
 
-            <h4>
-            Rp ${Number(
-            paket.saldoPaket
-            ).toLocaleString("id-ID")}
-            </h4>
-
-            <p>
-            ${paket.profit}
-            </p>
-
-            <p>
-            ${paket.durasi} Hari
-            </p>
-
-            <div class="progress">
-
-                <div
-                class="progress-fill"
-                style="
-                width:${persen}%
-                ">
+                <div class="progress">
+                    <div class="progress-fill" style="width:${persen}%"></div>
                 </div>
-
             </div>
-
-        </div>
-        `
-        );
-
+        `);
     });
-
 }
