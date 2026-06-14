@@ -132,48 +132,38 @@ function updatePaket(user){
         return;
     }
 
-    let sekarang = new Date();
-    let hariIni = sekarang.toDateString();
+    const sekarang = new Date();
+    const hariIni = sekarang.toDateString();
 
-    user.paketAktif.forEach((paket) => {
+    user.paketAktif.forEach(paket => {
 
-        if(
-            paket.terakhirUpdate !== hariIni &&
-            sekarang.getHours() >= 7
-        )
-        
-        {
+        if(paket.terakhirUpdate !== hariIni && sekarang.getHours() >= 7){
 
             paket.hariBerjalan++;
             paket.durasi--;
 
-            let profitHarian =
-            parseInt(paket.profit.replace(/[^0-9]/g,""));
+            const profitHarian =
+                parseInt(paket.profit.replace(/[^0-9]/g,""));
 
             paket.saldoPaket += profitHarian;
 
             paket.terakhirUpdate = hariIni;
-
         }
+
     });
 
-    // cek paket selesai
+    // hapus paket selesai + kembalikan modal
     user.paketAktif = user.paketAktif.filter(paket => {
 
         if(paket.durasi <= 0){
-
             user.saldo += paket.modal;
-
-            return false; // hapus paket
+            return false;
         }
-
         return true;
     });
 
-    localStorage.setItem(
-        localStorage.getItem("currentUser"),
-        JSON.stringify(user)
-    );
+    const key = localStorage.getItem("currentUser");
+    localStorage.setItem(key, JSON.stringify(user));
 }
 
 function tampilkanPaketAktif(user){
@@ -213,13 +203,18 @@ function tampilkanPaketAktif(user){
 }
 
 setInterval(() => {
-    const currentUser = localStorage.getItem("currentUser");
-    const user = JSON.parse(localStorage.getItem(currentUser));
+
+    const key = localStorage.getItem("currentUser");
+    if(!key) return;
+
+    const userData = localStorage.getItem(key);
+    if(!userData) return;
+
+    const user = JSON.parse(userData);
 
     updatePaket(user);
     tampilkanPaketAktif(user);
 
-    localStorage.setItem(currentUser, JSON.stringify(user));
+    localStorage.setItem(key, JSON.stringify(user));
 
-    console.log("UPDATE PROFIT BERJALAN");
 }, 5000);
