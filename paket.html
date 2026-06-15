@@ -228,6 +228,116 @@ cursor:pointer;
 
 }
 
+    .popup-bg{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.7);
+
+display:none;
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+}
+
+.popup-bg.active{
+display:flex;
+}
+
+.popup-box{
+
+width:92%;
+max-width:420px;
+
+background:#0d3270;
+
+border-radius:20px;
+
+padding:20px;
+
+border:1px solid rgba(255,255,255,.15);
+
+}
+
+.popup-box h2{
+
+text-align:center;
+margin-bottom:15px;
+
+}
+
+.popup-row{
+
+display:flex;
+justify-content:space-between;
+
+padding:12px;
+
+margin-bottom:10px;
+
+background:rgba(255,255,255,.05);
+
+border-radius:10px;
+
+}
+
+.popup-row b{
+color:#00ff88;
+}
+
+.popup-btn{
+
+width:100%;
+height:55px;
+
+border:none;
+
+border-radius:14px;
+
+font-size:16px;
+font-weight:bold;
+
+background:#00ff88;
+
+color:#03233e;
+
+cursor:pointer;
+
+margin-top:10px;
+
+}
+
+.success-icon{
+
+width:90px;
+height:90px;
+
+border-radius:50%;
+
+background:#00ff88;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:50px;
+font-weight:bold;
+
+margin:auto;
+margin-bottom:15px;
+
+color:white;
+
+}
+
 </style>
 </head>
 <body>
@@ -292,6 +402,88 @@ Kembali
 
 </div>
 
+    <!-- POPUP KONFIRMASI -->
+<div id="popupConfirm" class="popup-bg">
+
+<div class="popup-box">
+
+<h2 id="popupTitle">
+Konfirmasi Pembelian
+</h2>
+
+<div class="popup-row">
+<span>Modal</span>
+<b id="popupModal"></b>
+</div>
+
+<div class="popup-row">
+<span>Keuntungan</span>
+<b id="popupProfit"></b>
+</div>
+
+<div class="popup-row">
+<span>Pencairan</span>
+<b id="popupDurasi"></b>
+</div>
+
+<div class="popup-row">
+<span>Saldo Tersedia</span>
+<b id="popupSaldo"></b>
+</div>
+
+<button
+id="btnKonfirmasi"
+class="popup-btn">
+Konfirmasi Pembelian
+</button>
+
+</div>
+
+</div>
+
+
+<!-- POPUP BERHASIL -->
+<div id="popupSuccess" class="popup-bg">
+
+<div class="popup-box">
+
+<div class="success-icon">
+✓
+</div>
+
+<h2 style="color:#00ff88">
+Pembelian Berhasil!
+</h2>
+
+<p id="successText">
+Paket telah aktif
+</p>
+
+<div class="popup-row">
+<span>Modal</span>
+<b id="successModal"></b>
+</div>
+
+<div class="popup-row">
+<span>Keuntungan</span>
+<b id="successProfit"></b>
+</div>
+
+<div class="popup-row">
+<span>Pencairan</span>
+<b id="successDurasi"></b>
+</div>
+
+<button
+id="btnSelesai"
+class="popup-btn">
+Selesai
+</button>
+
+</div>
+
+</div>
+
 <script>
 
 const paketData = {
@@ -341,35 +533,85 @@ if(user.saldo < paket.modal){
 
 }else{
 
-    buyBtn.onclick = () => {
+   buyBtn.onclick = () => {
 
-        if(confirm("Beli paket ini?")){
+    document.getElementById("popupTitle").innerText =
+    "Konfirmasi Pembelian " + paket.nama;
 
-            user.saldo -= paket.modal;
+    document.getElementById("popupModal").innerText =
+    "Rp " + paket.modal.toLocaleString("id-ID");
 
-            if(!user.paketAktif){
-                user.paketAktif = [];
-            }
+    document.getElementById("popupProfit").innerText =
+    paket.profit;
 
-            user.paketAktif.push({
-                id:Number(paketId),
-                nama:paket.nama,
-                modal:paket.modal,
-                saldoPaket:paket.modal,
-                profit:paket.profit,
-                gambar:paket.gambar,
-                durasi:14,
-                hariBerjalan:0,
-                terakhirUpdate:new Date().toDateString()
-            });
+    document.getElementById("popupDurasi").innerText =
+    paket.durasi;
 
-            localStorage.setItem(currentUser, JSON.stringify(user));
+    document.getElementById("popupSaldo").innerText =
+    "Rp " + Number(user.saldo).toLocaleString("id-ID");
 
-            alert("Pembelian berhasil");
+    document.getElementById("popupConfirm")
+    .classList.add("active");
 
-            window.location.href = "dashboard.html";
-        }
-    };
+};
+
+    document.getElementById("btnKonfirmasi")
+.onclick = () => {
+
+    user.saldo -= paket.modal;
+
+    if(!user.paketAktif){
+        user.paketAktif = [];
+    }
+
+    user.paketAktif.push({
+        id:Number(paketId),
+        nama:paket.nama,
+        modal:paket.modal,
+        saldoPaket:paket.modal,
+        profit:paket.profit,
+        gambar:paket.gambar,
+        durasi:14,
+        hariBerjalan:0,
+        terakhirUpdate:new Date().toDateString()
+    });
+
+    localStorage.setItem(
+        currentUser,
+        JSON.stringify(user)
+    );
+
+    document.getElementById("popupConfirm")
+    .classList.remove("active");
+
+    document.getElementById("successText")
+    .innerText =
+    paket.nama + " telah aktif.";
+
+    document.getElementById("successModal")
+    .innerText =
+    "Rp " + paket.modal.toLocaleString("id-ID");
+
+    document.getElementById("successProfit")
+    .innerText =
+    paket.profit;
+
+    document.getElementById("successDurasi")
+    .innerText =
+    paket.durasi;
+
+    document.getElementById("popupSuccess")
+    .classList.add("active");
+};
+
+document.getElementById("btnSelesai")
+.onclick = () => {
+
+    window.location.href =
+    "dashboard.html";
+
+};
+
 }
 
 </script>
