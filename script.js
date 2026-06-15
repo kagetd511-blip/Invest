@@ -154,6 +154,16 @@ function updatePaket(){
 
         if(item){
             item.status = "KADALUWARSA";
+
+            // simpan total hasil akhir
+        item.totalCair = p.saldoPaket;
+
+        item.profit =
+        p.saldoPaket - p.modal;
+
+        item.tanggalSelesai =
+        new Date().toLocaleString("id-ID");
+            
         }
     }
 
