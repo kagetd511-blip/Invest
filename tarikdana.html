@@ -750,15 +750,21 @@ Number(angka)
 function kirimWithdraw(){
 
     const nominal =
-    Number(
-        document.getElementById("nominal").value
-    );
+Number(
+document
+.getElementById("nominal")
+.value
+.replace(/[^0-9]/g,'')
+);
 
     const rekening =
     document.getElementById("rekening").value;
 
     const namaRek =
     document.getElementById("namaRek").value;
+
+    const bankTerpilih =
+    document.getElementById("bankTerpilih").value;
 
     // cek data kosong
     if(
