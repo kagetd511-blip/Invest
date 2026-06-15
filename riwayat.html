@@ -317,24 +317,6 @@ list.innerHTML = "";
 
 let dataPaket = [];
 
-// paket aktif
-if(user.paketAktif){
-
-user.paketAktif.forEach(p => {
-
-dataPaket.push({
-
-nama:p.nama,
-modal:p.modal,
-saldo:p.saldoPaket,
-durasi:p.durasi,
-status:"AKTIF"
-
-});
-
-});
-
-}
 
 // paket selesai
 if(user.riwayatPaket){
@@ -345,9 +327,13 @@ dataPaket.push({
 
 nama:p.nama,
 modal:p.modal,
-saldo:p.totalCair || p.saldoPaket,
-durasi:0,
-status:"KADALUWARSA"
+saldo:p.totalCair || p.modal,
+
+durasi:p.status === "AKTIF"
+? 14
+: 0,
+
+status:p.status || "AKTIF"
 
 });
 
