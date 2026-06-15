@@ -327,7 +327,7 @@ dataPaket.push({
 
 nama:p.nama,
 modal:p.modal,
-saldo:p.totalCair || p.modal,
+saldo:p.totalCair || p.saldoPaket || p.modal,
 
 durasi:p.status === "AKTIF"
 ? 14
