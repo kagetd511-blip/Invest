@@ -581,6 +581,136 @@ box-shadow:
 
 }
 
+    .mini-loader{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.55);
+
+backdrop-filter:blur(8px);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+z-index:99999;
+
+opacity:0;
+visibility:hidden;
+
+transition:.3s;
+
+}
+
+.mini-loader.active{
+
+opacity:1;
+visibility:visible;
+
+}
+
+.mini-loader-box{
+
+width:220px;
+
+padding:25px;
+
+border-radius:25px;
+
+background:
+rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+border:
+1px solid rgba(255,255,255,.1);
+
+text-align:center;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.3);
+
+}
+
+.mini-logo{
+
+width:70px;
+height:70px;
+
+margin:auto;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.08);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+box-shadow:
+0 0 25px rgba(0,255,136,.35);
+
+animation:pulseLogo 1.5s infinite;
+
+}
+
+.mini-logo img{
+
+width:80%;
+height:80%;
+
+object-fit:contain;
+
+}
+
+.mini-spinner{
+
+width:35px;
+height:35px;
+
+margin:18px auto;
+
+border-radius:50%;
+
+border:3px solid
+rgba(255,255,255,.15);
+
+border-top:
+3px solid #00ff88;
+
+animation:spin .8s linear infinite;
+
+}
+
+.mini-loader p{
+
+color:white;
+font-size:14px;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+@keyframes pulseLogo{
+
+50%{
+transform:scale(1.08);
+}
+
+}
+
 </style>
 
 </head>
@@ -631,7 +761,7 @@ Login
 
 <p class="register">
 Belum punya akun?
-<a href="register.html">
+<a href="#" onclick="goRegister()">
 Daftar Sekarang
 </a>
 </p></div>
@@ -649,6 +779,22 @@ Daftar Sekarang
         <h3>Memverifikasi Akun</h3>
 
         <p>Mohon tunggu sebentar...</p>
+
+    </div>
+
+</div>
+
+    <div id="miniLoader" class="mini-loader">
+
+    <div class="mini-loader-box">
+
+        <div class="mini-logo">
+            <img src="assets/logo.png">
+        </div>
+
+        <div class="mini-spinner"></div>
+
+        <p>Membuka Halaman...</p>
 
     </div>
 
