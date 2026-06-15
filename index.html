@@ -581,134 +581,122 @@ box-shadow:
 
 }
 
-    .mini-loader{
+/* MINI LOADER PREMIUM */
 
-position:fixed;
-top:0;
-left:0;
+.mini-loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
 
-width:100%;
-height:100%;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(8px);
 
-background:rgba(0,0,0,.55);
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-backdrop-filter:blur(8px);
+    z-index:99999;
 
-display:flex;
-justify-content:center;
-align-items:center;
-
-z-index:99999;
-
-opacity:0;
-visibility:hidden;
-
-transition:.3s;
-
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
 }
 
 .mini-loader.active{
-
-opacity:1;
-visibility:visible;
-
+    opacity:1;
+    visibility:visible;
 }
 
 .mini-loader-box{
+    text-align:center;
+}
 
-width:220px;
+.loader-circle{
+    position:relative;
+    width:90px;
+    height:90px;
+    margin:auto;
+}
 
-padding:25px;
+.loader-circle::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:3px solid rgba(255,255,255,.12);
+}
 
-border-radius:25px;
-
-background:
-rgba(255,255,255,.08);
-
-backdrop-filter:blur(20px);
-
-border:
-1px solid rgba(255,255,255,.1);
-
-text-align:center;
-
-box-shadow:
-0 20px 50px rgba(0,0,0,.3);
-
+.loader-circle::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:3px solid transparent;
+    border-top:3px solid #00ff88;
+    border-right:3px solid #00ff88;
+    animation:rotateLoader .8s linear infinite;
 }
 
 .mini-logo{
+    position:absolute;
+    top:50%;
+    left:50%;
 
-width:70px;
-height:70px;
+    transform:translate(-50%,-50%);
 
-margin:auto;
+    width:58px;
+    height:58px;
 
-border-radius:18px;
+    border-radius:50%;
 
-background:
-rgba(255,255,255,.08);
+    background:
+    linear-gradient(
+    135deg,
+    rgba(255,255,255,.12),
+    rgba(255,255,255,.05)
+    );
 
-display:flex;
-align-items:center;
-justify-content:center;
+    backdrop-filter:blur(10px);
 
-box-shadow:
-0 0 25px rgba(0,255,136,.35);
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-animation:pulseLogo 1.5s infinite;
+    box-shadow:
+    0 0 20px rgba(0,255,136,.25);
 
+    animation:pulseLogo 1.5s ease-in-out infinite;
 }
 
 .mini-logo img{
-
-width:80%;
-height:80%;
-
-object-fit:contain;
-
-}
-
-.mini-spinner{
-
-width:35px;
-height:35px;
-
-margin:18px auto;
-
-border-radius:50%;
-
-border:3px solid
-rgba(255,255,255,.15);
-
-border-top:
-3px solid #00ff88;
-
-animation:spin .8s linear infinite;
-
+    width:70%;
+    height:70%;
+    object-fit:contain;
 }
 
 .mini-loader p{
-
-color:white;
-font-size:14px;
-
+    margin-top:18px;
+    color:white;
+    font-size:14px;
+    letter-spacing:.5px;
 }
 
-@keyframes spin{
-
-100%{
-transform:rotate(360deg);
-}
-
+@keyframes rotateLoader{
+    100%{
+        transform:rotate(360deg);
+    }
 }
 
 @keyframes pulseLogo{
+    0%,100%{
+        transform:translate(-50%,-50%) scale(1);
+    }
 
-50%{
-transform:scale(1.08);
-}
-
+    50%{
+        transform:translate(-50%,-50%) scale(1.08);
+    }
 }
 
 </style>
@@ -789,11 +777,13 @@ Belum punya akun?
 
     <div class="mini-loader-box">
 
-        <div class="mini-logo">
-            <img src="assets/logo.png">
-        </div>
+        <div class="loader-circle">
 
-        <div class="mini-spinner"></div>
+            <div class="mini-logo">
+                <img src="assets/logo.png">
+            </div>
+
+        </div>
 
         <p>Membuka Halaman...</p>
 
