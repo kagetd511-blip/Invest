@@ -564,6 +564,18 @@ if(user.saldo < paket.modal){
         user.paketAktif = [];
     }
 
+    if(!user.riwayatPaket){
+    user.riwayatPaket = [];
+}
+
+user.riwayatPaket.unshift({
+    nama: paket.nama,
+    modal: paket.modal,
+    profit: paket.profit,
+    tanggal: new Date().toLocaleString("id-ID"),
+    status: "AKTIF"
+});
+
     user.paketAktif.push({
         id:Number(paketId),
         nama:paket.nama,
