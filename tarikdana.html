@@ -379,19 +379,17 @@ opacity:1;
 
 }
 
-.warning-min{
-
-margin-top:-8px;
-margin-bottom:15px;
-
-font-size:12px;
-
+.warning{
+padding:12px;
+border-radius:12px;
+background:rgba(255,193,7,.12);
+border:1px solid rgba(255,193,7,.25);
 color:#ffd54f;
-
+font-size:12px;
+margin-bottom:15px;
 display:flex;
 align-items:center;
-gap:6px;
-
+gap:8px;
 }
 
 .custom-alert{
@@ -516,9 +514,11 @@ Nominal Tarik Dana
 type="number"
 id="nominal"
 class="input"
-placeholder="Masukkan nominal">
+placeholder="Rp 0"
+oninput="formatNominal(this)"
+>
 
-<div class="warning-min">
+<div class="warning">
 <i class="fas fa-circle-info"></i>
 Minimal tarik dana Rp 2.000.000
 </div>
@@ -725,6 +725,25 @@ document
 document
 .getElementById("bankList")
 .classList.remove("active");
+
+}
+
+    /* FORMAT RP */
+
+function formatNominal(input){
+
+let angka =
+input.value.replace(/\D/g,'');
+
+if(!angka){
+input.value="";
+return;
+}
+
+input.value =
+"Rp " +
+Number(angka)
+.toLocaleString("id-ID");
 
 }
 
