@@ -57,7 +57,7 @@ setTimeout(()=>{
     window.location.href =
     "register.html";
 
-},2000);
+},3000);
 
 }
 
@@ -163,7 +163,7 @@ if(user.password === password){
         window.location.href =
         "dashboard.html";
 
-    },3000);
+    },5000);
 
 }else{
 
