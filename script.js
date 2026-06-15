@@ -281,3 +281,30 @@ function adminWhatsapp(){
     );
 
 }
+
+function logout(){
+
+    document
+    .getElementById("logoutPopup")
+    .classList.add("active");
+
+}
+
+function tutupLogout(){
+
+    document
+    .getElementById("logoutPopup")
+    .classList.remove("active");
+
+}
+
+function prosesLogout(){
+
+    localStorage.removeItem("isLogin");
+
+    localStorage.removeItem("currentUser");
+
+    window.location.href =
+    "index.html";
+
+}
