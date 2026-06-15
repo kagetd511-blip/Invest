@@ -83,17 +83,30 @@ function login(){
         phone
         );
 
-        showAlert(
-        "Berhasil",
-        "Login berhasil"
-        );
+        function showLoading(){
 
-        setTimeout(() => {
+document
+.getElementById("loadingScreen")
+.classList.add("active");
 
-            window.location.href =
-            "dashboard.html";
+}
 
-        }, 1000);
+function hideLoading(){
+
+document
+.getElementById("loadingScreen")
+.classList.remove("active");
+
+}
+
+       showLoading();
+
+setTimeout(() => {
+
+window.location.href =
+"dashboard.html";
+
+}, 2000);
 
     }else{
 
