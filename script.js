@@ -87,7 +87,19 @@ function tambahSaldoTest(){
 
     user.saldo += 10000000;
 
-    localStorage.setItem(currentUserKey, JSON.stringify(user));
+    if(!user.riwayatDeposit){
+        user.riwayatDeposit = [];
+    }
+
+    user.riwayatDeposit.unshift({
+        nominal:10000000,
+        tanggal:new Date().toLocaleString("id-ID")
+    });
+
+    localStorage.setItem(
+        currentUserKey,
+        JSON.stringify(user)
+    );
 
     alert("TEST SALDO +10.000.000");
 
@@ -247,3 +259,12 @@ setInterval(() => {
 // START
 // ========================
 renderAll();
+
+function adminWhatsapp(){
+
+    window.open(
+        "https://wa.me/6281234567890",
+        "_blank"
+    );
+
+}
