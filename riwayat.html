@@ -249,14 +249,20 @@ btn.classList.add("active");
 
 list.innerHTML = "";
 
+const deposit =
+user.riwayatDeposit || [];
+
+const withdraw =
+user.riwayatWithdraw || [];
+
 if(
-!user.riwayatDeposit ||
-user.riwayatDeposit.length === 0
+deposit.length === 0 &&
+withdraw.length === 0
 ){
 
 list.innerHTML = `
 <div class="kosong">
-Belum ada riwayat deposit
+Belum ada riwayat deposit / withdraw
 </div>
 `;
 
@@ -264,18 +270,34 @@ return;
 
 }
 
-user.riwayatDeposit
-.slice()
-.reverse()
-.forEach(item => {
+const semuaRiwayat = [
+
+...(user.riwayatDeposit || []).map(item => ({
+    ...item,
+    tipe:"DEPOSIT"
+})),
+
+...(user.riwayatWithdraw || []).map(item => ({
+    ...item,
+    tipe:"WITHDRAW"
+}))
+
+];
+
+semuaRiwayat.reverse().forEach(item => {
 
 list.innerHTML += `
 
 <div class="card">
 
 <h3>
-<i class="fas fa-wallet"></i>
-Deposit
+${
+item.tipe === "DEPOSIT"
+?
+'<i class="fas fa-wallet"></i> Deposit'
+:
+'<i class="fas fa-money-bill-wave"></i> Withdraw'
+}
 </h3>
 
 <p>
@@ -284,13 +306,24 @@ Rp ${Number(item.nominal)
 .toLocaleString("id-ID")}
 </p>
 
+${
+item.tipe === "WITHDRAW"
+?
+`
+<p>Bank : ${item.bank}</p>
+<p>Rekening : ${item.rekening}</p>
+`
+:
+''
+}
+
 <p>
 Tanggal :
 ${item.tanggal}
 </p>
 
 <span class="status berhasil">
-BERHASIL
+${item.status || "BERHASIL"}
 </span>
 
 </div>
