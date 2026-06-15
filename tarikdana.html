@@ -394,6 +394,25 @@ gap:6px;
 
 }
 
+    .show-alert{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+background:#ff4d4f;
+color:white;
+padding:14px 20px;
+border-radius:14px;
+font-weight:bold;
+z-index:99999;
+opacity:0;
+transition:.3s;
+}
+
+.show-alert.active{
+opacity:1;
+}
+
 </style>
 </head>
 <body>
@@ -578,6 +597,8 @@ Selesai
 
 </div>
 
+    <div id="showAlert" class="show-alert"></div>
+
 <script>
 
 const currentUser =
@@ -723,6 +744,23 @@ document
 document
 .getElementById("popupSukses")
 .classList.add("active");
+
+}
+
+    function showAlert(text){
+
+    let alertBox =
+    document.getElementById("showAlert");
+
+    alertBox.innerText = text;
+
+    alertBox.classList.add("active");
+
+    setTimeout(() => {
+
+        alertBox.classList.remove("active");
+
+    },2500);
 
 }
 
