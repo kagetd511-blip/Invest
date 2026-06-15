@@ -141,11 +141,24 @@ function updatePaket(){
 
         if(p.durasi <= 0){
 
-            // 🔥 INI FIX: modal + semua profit
-            user.saldo += p.saldoPaket;
+    user.saldo += p.saldoPaket;
 
-            return false;
+    if(user.riwayatPaket){
+
+        const item =
+        user.riwayatPaket.find(
+            x =>
+            x.nama === p.nama &&
+            x.status === "AKTIF"
+        );
+
+        if(item){
+            item.status = "KADALUWARSA";
         }
+    }
+
+    return false;
+}
 
         return true;
     });
