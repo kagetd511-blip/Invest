@@ -108,6 +108,21 @@ window.location.href =
 
 }, 5000);
 
+        function goRegister(){
+
+document
+.getElementById("miniLoader")
+.classList.add("active");
+
+setTimeout(()=>{
+
+window.location.href =
+"register.html";
+
+},3000);
+
+}
+
     }else{
 
         showAlert(
