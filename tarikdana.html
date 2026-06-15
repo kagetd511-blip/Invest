@@ -815,10 +815,14 @@ function prosesWithdraw(){
 
 const nominal =
 Number(
-document.getElementById("nominal").value
+document
+.getElementById("nominal")
+.value
+.replace(/[^0-9]/g,'')
 );
 
-user.saldo -= nominal;
+user.saldo =
+Number(user.saldo) - nominal;
 
 if(!user.riwayatWithdraw){
 user.riwayatWithdraw = [];
@@ -826,9 +830,9 @@ user.riwayatWithdraw = [];
 
 user.riwayatWithdraw.unshift({
 
-nominal:nominal,
+nominal: nominal,
 
-bank:bankTerpilih,
+bank: bankTerpilih,
 
 rekening:
 document.getElementById("rekening").value,
@@ -847,6 +851,13 @@ localStorage.setItem(
 currentUser,
 JSON.stringify(user)
 );
+
+document
+.getElementById("saldoUser")
+.innerText =
+"Rp " +
+Number(user.saldo)
+.toLocaleString("id-ID");
 
 document
 .getElementById("popupKonfirmasi")
