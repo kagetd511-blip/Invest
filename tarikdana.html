@@ -394,23 +394,98 @@ gap:6px;
 
 }
 
-    .show-alert{
+.custom-alert{
+
 position:fixed;
 top:20px;
 left:50%;
-transform:translateX(-50%);
-background:#ff4d4f;
-color:white;
-padding:14px 20px;
-border-radius:14px;
-font-weight:bold;
+
+transform:
+translateX(-50%)
+translateY(-100px);
+
+width:90%;
+max-width:360px;
+
+background:
+rgba(255,255,255,.12);
+
+backdrop-filter:blur(20px);
+
+border:
+1px solid rgba(255,255,255,.15);
+
+border-radius:18px;
+
+padding:14px;
+
+display:flex;
+align-items:center;
+gap:12px;
+
 z-index:99999;
+
 opacity:0;
-transition:.3s;
+
+transition:.35s;
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.25);
+
 }
 
-.show-alert.active{
+.custom-alert.active{
+
 opacity:1;
+
+transform:
+translateX(-50%)
+translateY(0);
+
+}
+
+.alert-icon{
+
+width:48px;
+height:48px;
+
+border-radius:14px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:
+linear-gradient(
+135deg,
+#ff6b6b,
+#ff3b30
+);
+
+color:white;
+font-size:20px;
+
+flex-shrink:0;
+
+}
+
+.alert-title{
+
+font-size:14px;
+font-weight:700;
+color:white;
+
+margin-bottom:3px;
+
+}
+
+.alert-text{
+
+font-size:13px;
+color:#d8e4ff;
+
+line-height:1.4;
+
 }
 
 </style>
@@ -597,7 +672,21 @@ Selesai
 
 </div>
 
-    <div id="showAlert" class="show-alert"></div>
+<div id="showAlert" class="custom-alert">
+    <div class="alert-icon">
+        <i class="fas fa-circle-exclamation"></i>
+    </div>
+
+    <div class="alert-content">
+        <div class="alert-title">
+            Peringatan
+        </div>
+
+        <div id="alertText" class="alert-text">
+            Pesan Alert
+        </div>
+    </div>
+</div>
 
 <script>
 
@@ -747,20 +836,21 @@ document
 
 }
 
-    function showAlert(text){
+function showAlert(text){
 
-    let alertBox =
-    document.getElementById("showAlert");
+const alertBox =
+document.getElementById("showAlert");
 
-    alertBox.innerText = text;
+document.getElementById("alertText")
+.innerText = text;
 
-    alertBox.classList.add("active");
+alertBox.classList.add("active");
 
-    setTimeout(() => {
+setTimeout(()=>{
 
-        alertBox.classList.remove("active");
+alertBox.classList.remove("active");
 
-    },2500);
+},2500);
 
 }
 
