@@ -106,7 +106,7 @@ setTimeout(() => {
 window.location.href =
 "dashboard.html";
 
-}, 2000);
+}, 5000);
 
     }else{
 
