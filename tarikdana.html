@@ -128,53 +128,95 @@ margin-bottom:10px;
 font-size:13px;
 }
 
-.bank-list{
+.bank-select{
 
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+height:55px;
+
+border-radius:15px;
+
+background:
+rgba(255,255,255,.08);
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:0 15px;
+
+cursor:pointer;
+
+margin-bottom:10px;
+
+}
+
+.bank-dropdown{
+
+display:none;
+
+max-height:250px;
+
+overflow-y:auto;
+
+border-radius:15px;
+
+background:
+rgba(255,255,255,.08);
 
 margin-bottom:15px;
 
 }
 
-.bank{
+.bank-dropdown.active{
+
+display:block;
+
+}
+
+.bank-dropdown div{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
 
 padding:14px;
 
-border-radius:14px;
+cursor:pointer;
+
+border-bottom:
+1px solid rgba(255,255,255,.08);
+
+}
+
+.bank-dropdown div:hover{
 
 background:
 rgba(255,255,255,.08);
 
-text-align:center;
+}
 
-cursor:pointer;
+.bank-dropdown img{
 
-border:1px solid transparent;
+width:38px;
+height:38px;
 
-transition:.3s;
+object-fit:contain;
+
+background:white;
+
+border-radius:8px;
+
+padding:4px;
 
 }
 
-.bank.active{
+.bank-dropdown span{
 
-border-color:#00ff88;
-
-background:
-rgba(0,255,136,.15);
-
-}
-
-.bank i{
-
-display:block;
-
-font-size:20px;
-
-margin-bottom:5px;
-
-color:#00ff88;
+color:white;
+font-size:14px;
 
 }
 
@@ -337,6 +379,21 @@ opacity:1;
 
 }
 
+.warning-min{
+
+margin-top:-8px;
+margin-bottom:15px;
+
+font-size:12px;
+
+color:#ffd54f;
+
+display:flex;
+align-items:center;
+gap:6px;
+
+}
+
 </style>
 </head>
 <body>
@@ -367,6 +424,11 @@ id="nominal"
 class="input"
 placeholder="Masukkan nominal">
 
+<div class="warning-min">
+<i class="fas fa-circle-info"></i>
+Minimal tarik dana Rp 2.000.000
+</div>
+
 <label class="label">
 Atas Nama Rekening
 </label>
@@ -377,34 +439,60 @@ id="namaRek"
 class="input"
 placeholder="Nama pemilik rekening">
 
-<div class="bank-title">
+<label class="label">
 Pilih Bank Tujuan
+</label>
+
+<div class="bank-select" onclick="toggleBankList()">
+
+<span id="bankText">
+Pilih Bank Tujuan
+</span>
+
+<i class="fas fa-chevron-down"></i>
+
 </div>
 
-<div class="bank-list">
+<div id="bankList" class="bank-dropdown">
 
-<div class="bank"
-onclick="pilihBank(this,'BCA')">
-<i class="fas fa-university"></i>
-BCA
+<div onclick="pilihBank('BCA')">
+<img src="assets/bca.png">
+<span>Bank Central Asia (BCA)</span>
 </div>
 
-<div class="bank"
-onclick="pilihBank(this,'BRI')">
-<i class="fas fa-university"></i>
-BRI
+<div onclick="pilihBank('BRI')">
+<img src="assets/bri.png">
+<span>Bank Rakyat Indonesia (BRI)</span>
 </div>
 
-<div class="bank"
-onclick="pilihBank(this,'BNI')">
-<i class="fas fa-university"></i>
-BNI
+<div onclick="pilihBank('BNI')">
+<img src="assets/bni.png">
+<span>Bank Negara Indonesia (BNI)</span>
 </div>
 
-<div class="bank"
-onclick="pilihBank(this,'MANDIRI')">
-<i class="fas fa-university"></i>
-MANDIRI
+<div onclick="pilihBank('MANDIRI')">
+<img src="assets/mandiri.png">
+<span>Bank Mandiri</span>
+</div>
+
+<div onclick="pilihBank('CIMB')">
+<img src="assets/cimb.png">
+<span>CIMB Niaga</span>
+</div>
+
+<div onclick="pilihBank('DANAMON')">
+<img src="assets/danamon.png">
+<span>Bank Danamon</span>
+</div>
+
+<div onclick="pilihBank('PERMATA')">
+<img src="assets/permata.png">
+<span>Bank Permata</span>
+</div>
+
+<div onclick="pilihBank('BSI')">
+<img src="assets/bsi.png">
+<span>Bank Syariah Indonesia</span>
 </div>
 
 </div>
@@ -508,50 +596,78 @@ Number(user.saldo)
 
 let bankTerpilih = "";
 
-function pilihBank(el,nama){
+function toggleBankList(){
 
 document
-.querySelectorAll(".bank")
-.forEach(x=>x.classList.remove("active"));
+.getElementById("bankList")
+.classList.toggle("active");
 
-el.classList.add("active");
+}
 
-bankTerpilih = nama;
+function pilihBank(bank){
+
+bankTerpilih = bank;
+
+document
+.getElementById("bankText")
+.innerText = bank;
+
+document
+.getElementById("bankList")
+.classList.remove("active");
 
 }
 
 function kirimWithdraw(){
 
-const nominal =
-Number(
-document.getElementById("nominal").value
-);
+    const nominal =
+    Number(
+        document.getElementById("nominal").value
+    );
 
-const rekening =
-document.getElementById("rekening").value;
+    const rekening =
+    document.getElementById("rekening").value;
 
-const namaRek =
-document.getElementById("namaRek").value;
+    const namaRek =
+    document.getElementById("namaRek").value;
 
-if(
-!nominal ||
-!rekening ||
-!namaRek ||
-!bankTerpilih
-){
-alert("Lengkapi data terlebih dahulu");
-return;
-}
+    // cek data kosong
+    if(
+        !nominal ||
+        !rekening ||
+        !namaRek ||
+        !bankTerpilih
+    ){
+        showAlert(
+            "Lengkapi semua data terlebih dahulu"
+        );
+        return;
+    }
 
-if(nominal > user.saldo){
+    // minimal withdraw
+    if(nominal < 2000000){
 
-alert("Saldo tidak mencukupi");
-return;
-}
+        showAlert(
+            "Minimal tarik dana Rp 2.000.000"
+        );
 
-document
-.getElementById("popupKonfirmasi")
-.classList.add("active");
+        return;
+    }
+
+    // saldo tidak cukup
+    if(nominal > user.saldo){
+
+        showAlert(
+            "Saldo tidak mencukupi"
+        );
+
+        return;
+    }
+
+    // tampil popup konfirmasi
+    document
+    .getElementById("popupKonfirmasi")
+    .classList.add("active");
 
 }
 
