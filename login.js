@@ -83,43 +83,55 @@ function login(){
         phone
         );
 
-        function showLoading(){
-
-document
-.getElementById("loadingScreen")
-.classList.add("active");
-
+function showLoading(){
+    document
+    .getElementById("loadingScreen")
+    .classList.add("active");
 }
 
 function hideLoading(){
+    document
+    .getElementById("loadingScreen")
+    .classList.remove("active");
+}
 
-document
-.getElementById("loadingScreen")
-.classList.remove("active");
+function goRegister(){
+
+    document
+    .getElementById("miniLoader")
+    .classList.add("active");
+
+    setTimeout(()=>{
+        window.location.href =
+        "register.html";
+    },3000);
 
 }
 
-       showLoading();
+function login(){
 
-setTimeout(() => {
+    ...
+    
+    if(user.password === password){
 
-window.location.href =
-"dashboard.html";
+        localStorage.setItem(
+        "isLogin",
+        "true"
+        );
 
-}, 5000);
+        localStorage.setItem(
+        "currentUser",
+        phone
+        );
 
-        function goRegister(){
+        showLoading();
 
-document
-.getElementById("miniLoader")
-.classList.add("active");
+        setTimeout(()=>{
+            window.location.href =
+            "dashboard.html";
+        },5000);
 
-setTimeout(()=>{
-
-window.location.href =
-"register.html";
-
-},3000);
+    }
 
 }
 
