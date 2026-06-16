@@ -104,36 +104,6 @@ function pilihPaket(id){
 }
 
 // ========================
-// TEST SALDO
-// ========================
-function tambahSaldoTest(){
-
-    withLoader(() => {
-
-        loadUser();
-        if(!user) return;
-
-        user.saldo += 10000000;
-
-        if(!user.riwayatDeposit){
-            user.riwayatDeposit = [];
-        }
-
-        user.riwayatDeposit.unshift({
-            nominal:10000000,
-            tanggal:new Date().toLocaleString("id-ID")
-        });
-
-        localStorage.setItem(currentUserKey, JSON.stringify(user));
-
-        renderUser();
-
-        alert("TEST SALDO +10.000.000");
-
-    }, 1000);
-}
-
-// ========================
 // UPDATE PAKET
 // ========================
 function updatePaket(){
