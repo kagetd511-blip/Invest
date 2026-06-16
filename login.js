@@ -57,7 +57,7 @@ setTimeout(()=>{
     window.location.href =
     "register.html";
 
-},3000);
+},1500);
 
 }
 
