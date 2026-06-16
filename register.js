@@ -45,7 +45,7 @@ function goLogin() {
 
     setTimeout(() => {
         window.location.href = "index.html";
-    }, 3000);
+    }, 1500);
 }
 
 // ======================
