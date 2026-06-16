@@ -588,49 +588,47 @@ document.getElementById("saldoUser").innerText =
 
 const buyBtn = document.getElementById("buyBtn");
 
-if(user.saldo < paket.modal){
+if (user.saldo < paket.modal) {
 
     buyBtn.disabled = true;
     buyBtn.innerText = "Saldo Tidak Cukup";
 
-}else{
+} else {
 
-   buyBtn.onclick = () => {
+    buyBtn.onclick = () => {
 
-    document.getElementById("popupTitle").innerText =
-    "Konfirmasi Pembelian " + paket.nama;
+        document.getElementById("popupTitle").innerText =
+            "Konfirmasi Pembelian " + paket.nama;
 
-    document.getElementById("popupModal").innerText =
-    "Rp " + paket.modal.toLocaleString("id-ID");
+        document.getElementById("popupModal").innerText =
+            "Rp " + paket.modal.toLocaleString("id-ID");
 
-    document.getElementById("popupProfit").innerText =
-    paket.profit;
+        document.getElementById("popupProfit").innerText =
+            paket.profit;
 
-    document.getElementById("popupDurasi").innerText =
-    paket.durasi;
+        document.getElementById("popupDurasi").innerText =
+            paket.durasi;
 
-    document.getElementById("popupSaldo").innerText =
-    "Rp " + Number(user.saldo).toLocaleString("id-ID");
+        document.getElementById("popupSaldo").innerText =
+            "Rp " + Number(user.saldo).toLocaleString("id-ID");
 
-    document.getElementById("popupConfirm")
-    .classList.add("active");
+        document.getElementById("popupConfirm").classList.add("active");
+    };
+}
 
-};
-
+/* =========================
+   KONFIRMASI PEMBELIAN
+========================= */
 document.getElementById("btnKonfirmasi").onclick = () => {
 
-    // tutup popup konfirmasi
     document.getElementById("popupConfirm").classList.remove("active");
 
-    // tampilkan loading kecil (tanpa teks)
     document.getElementById("buyLoading").classList.add("active");
 
     setTimeout(() => {
 
-        // hide loading
         document.getElementById("buyLoading").classList.remove("active");
 
-        // proses saldo & data
         user.saldo -= paket.modal;
 
         if (!user.paketAktif) user.paketAktif = [];
@@ -658,45 +656,22 @@ document.getElementById("btnKonfirmasi").onclick = () => {
 
         localStorage.setItem(currentUser, JSON.stringify(user));
 
-        // tampilkan ALERT sukses
         showAlert("Berhasil", paket.nama + " telah aktif.");
 
-    }, 1000);
+    }, 1200);
 };
 
-    document.getElementById("popupConfirm")
-    .classList.remove("active");
-
-    document.getElementById("successText")
-    .innerText =
-    paket.nama + " telah aktif.";
-
-    document.getElementById("successModal")
-    .innerText =
-    "Rp " + paket.modal.toLocaleString("id-ID");
-
-    document.getElementById("successProfit")
-    .innerText =
-    paket.profit;
-
-    document.getElementById("successDurasi")
-    .innerText =
-    paket.durasi;
-
-    document.getElementById("popupSuccess")
-    .classList.add("active");
-};
-
+/* =========================
+   SELESAI BUTTON
+========================= */
 document.getElementById("btnSelesai").onclick = () => {
 
-    // tampilkan mini loading
     document.getElementById("buyLoading").classList.add("active");
 
     setTimeout(() => {
         window.location.href = "dashboard.html";
     }, 1200);
 };
-
 }
 
 </script>
