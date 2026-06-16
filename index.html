@@ -195,28 +195,29 @@ body::after{
     display:flex;
     justify-content:center;
     align-items:center;
-
-    gap:25px;
-
-    margin-bottom:12px;
+    gap:12px;
 }
 
-.footer-logo img{
-    height:34px;
-    width:auto;
-    object-fit:contain;
+.footer-item{
+    width:90px;
+    height:28px;
 
-    filter:
-    drop-shadow(
-    0 0 15px rgba(255,255,255,.2)
-    );
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.footer-item img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
 }
 
 .footer-text{
     font-size:12px;
     letter-spacing:.5px;
     line-height:1.7;
-    margin-bottom:40px;
+    margin-bottom:45px;
 }
 
 /* ========================= */
@@ -362,11 +363,15 @@ Memuat Sistem...
 
         <div class="footer-logo">
 
-            <img src="assets/danantara.png">
+    <div class="footer-item">
+        <img src="assets/danantara.png">
+    </div>
 
-            <img src="assets/bumn.png">
+    <div class="footer-item">
+        <img src="assets/bumn.png">
+    </div>
 
-        </div>
+</div>
 
         <div class="footer-text">
             PT Pertamina (Persero)<br>
