@@ -558,16 +558,19 @@ const paketData = {
 7:{nama:"Paket 7",modal:85600000,profit:"Rp24.000.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett7.jpg"}
 };
 
+/* =========================
+   DATA USER
+========================= */
 const paketId = localStorage.getItem("selectedPaket");
 const paket = paketData[paketId];
+
+const currentUser = localStorage.getItem("currentUser");
+const userData = localStorage.getItem(currentUser);
 
 if(!paket){
     alert("Paket tidak ditemukan!");
     throw new Error("paket undefined");
 }
-
-const currentUser = localStorage.getItem("currentUser");
-const userData = localStorage.getItem(currentUser);
 
 if(!currentUser || !userData){
     alert("User tidak ditemukan!");
@@ -576,7 +579,9 @@ if(!currentUser || !userData){
 
 const user = JSON.parse(userData);
 
-/* tampilkan data */
+/* =========================
+   TAMPIL DATA
+========================= */
 document.getElementById("namaPaket").innerText = paket.nama;
 document.getElementById("fotoPaket").src = paket.gambar;
 document.getElementById("modalPaket").innerText = "Rp " + paket.modal.toLocaleString("id-ID");
@@ -586,15 +591,15 @@ document.getElementById("durasiPaket").innerText = paket.durasi;
 document.getElementById("saldoUser").innerText =
 "Rp " + Number(user.saldo).toLocaleString("id-ID");
 
+/* =========================
+   BUTTON BELI
+========================= */
 const buyBtn = document.getElementById("buyBtn");
 
-if (user.saldo < paket.modal) {
-
+if(user.saldo < paket.modal){
     buyBtn.disabled = true;
     buyBtn.innerText = "Saldo Tidak Cukup";
-
 } else {
-
     buyBtn.onclick = () => {
 
         document.getElementById("popupTitle").innerText =
@@ -617,22 +622,24 @@ if (user.saldo < paket.modal) {
 }
 
 /* =========================
-   KONFIRMASI PEMBELIAN
+   KONFIRMASI BELI
 ========================= */
 document.getElementById("btnKonfirmasi").onclick = () => {
 
     document.getElementById("popupConfirm").classList.remove("active");
 
+    // loading logo only
     document.getElementById("buyLoading").classList.add("active");
 
     setTimeout(() => {
 
         document.getElementById("buyLoading").classList.remove("active");
 
+        // proses saldo
         user.saldo -= paket.modal;
 
-        if (!user.paketAktif) user.paketAktif = [];
-        if (!user.riwayatPaket) user.riwayatPaket = [];
+        if(!user.paketAktif) user.paketAktif = [];
+        if(!user.riwayatPaket) user.riwayatPaket = [];
 
         user.riwayatPaket.unshift({
             nama: paket.nama,
@@ -656,15 +663,18 @@ document.getElementById("btnKonfirmasi").onclick = () => {
 
         localStorage.setItem(currentUser, JSON.stringify(user));
 
-        showAlert("Berhasil", paket.nama + " telah aktif.");
+        // tampil success popup kamu (BUKAN ALERT BAWAAN)
+        document.getElementById("popupSuccess").classList.add("active");
 
     }, 1200);
 };
 
 /* =========================
-   SELESAI BUTTON
+   SELESAI → LOADING → DASHBOARD
 ========================= */
 document.getElementById("btnSelesai").onclick = () => {
+
+    document.getElementById("popupSuccess").classList.remove("active");
 
     document.getElementById("buyLoading").classList.add("active");
 
@@ -672,8 +682,7 @@ document.getElementById("btnSelesai").onclick = () => {
         window.location.href = "dashboard.html";
     }, 1200);
 };
-}
-
+    
 </script>
 
 </body>
