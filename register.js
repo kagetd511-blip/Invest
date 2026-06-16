@@ -45,8 +45,39 @@ function goLogin() {
 
     setTimeout(() => {
         window.location.href = "index.html";
-    }, 1200);
+    }, 3000);
 }
+
+// ======================
+// SHOW PASSWORD
+// ======================
+
+function togglePassword(){
+
+let password =
+document.getElementById("password");
+
+let eye =
+document.getElementById("eyeIcon");
+
+if(password.type === "password"){
+
+    password.type = "text";
+
+    eye.innerHTML =
+    '<i class="fa-solid fa-eye-slash"></i>';
+
+}else{
+
+    password.type = "password";
+
+    eye.innerHTML =
+    '<i class="fa-solid fa-eye"></i>';
+
+}
+
+}
+
 
 /* =========================
    REGISTER
@@ -86,10 +117,15 @@ function register() {
 
     localStorage.setItem(phone, JSON.stringify(userData));
 
-    showLoading();
+    showLoading(
+"Pendaftaran Berhasil",
+"Mengalihkan ke halaman login..."
+);
 
-    setTimeout(() => {
-        hideLoading();
-        window.location.href = "index.html";
-    }, 2000);
+setTimeout(() => {
+
+    window.location.href =
+    "index.html";
+
+},5000);
 }
