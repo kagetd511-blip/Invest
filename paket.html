@@ -338,14 +338,19 @@ color:white;
 
 }
 
+/* =========================
+   BUY LOADING PREMIUM MINI
+========================= */
+
 #buyLoading{
     position:fixed;
     top:0;
     left:0;
     width:100%;
     height:100%;
+
     background:rgba(0,0,0,.55);
-    backdrop-filter:blur(8px);
+    backdrop-filter:blur(10px);
 
     display:flex;
     justify-content:center;
@@ -353,7 +358,8 @@ color:white;
 
     opacity:0;
     visibility:hidden;
-    transition:.3s;
+
+    transition:.25s ease;
     z-index:999999;
 }
 
@@ -362,57 +368,72 @@ color:white;
     visibility:visible;
 }
 
-/* circle spinner */
-.loader-circle{
-    position:relative;
-    width:90px;
-    height:90px;
+/* BOX CENTER */
+.loader-box{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* ring background */
+/* OUTER CIRCLE */
+.loader-circle{
+    width:80px;
+    height:80px;
+    position:relative;
+}
+
+/* RING BASE */
 .loader-circle::before{
     content:"";
     position:absolute;
     inset:0;
     border-radius:50%;
-    border:3px solid rgba(255,255,255,.12);
+    border:2px solid rgba(255,255,255,.15);
 }
 
-/* spinning ring */
+/* SPINNING RING */
 .loader-circle::after{
     content:"";
     position:absolute;
     inset:0;
     border-radius:50%;
-    border:3px solid transparent;
-    border-top:3px solid #00ff88;
-    border-right:3px solid #00ff88;
-    animation:spin 0.8s linear infinite;
+    border:2px solid transparent;
+    border-top:2px solid #00ff88;
+    border-right:2px solid #00ff88;
+    animation:spin .7s linear infinite;
 }
 
-/* logo tengah */
-.mini-logo{
+/* LOGO DI DALAM CIRCLE */
+.loader-logo{
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
 
-    width:60px;
-    height:60px;
+    width:45px;
+    height:45px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-.mini-logo img{
-    width:70%;
-    height:70%;
+.loader-logo img{
+    width:100%;
+    height:100%;
     object-fit:contain;
+
+    animation:pulseLogo 1.2s ease-in-out infinite;
 }
 
+/* ANIMASI */
 @keyframes spin{
-    100%{transform:rotate(360deg);}
+    100%{ transform:rotate(360deg); }
+}
+
+@keyframes pulseLogo{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.08); }
 }
 
 </style>
@@ -519,13 +540,14 @@ Konfirmasi Pembelian
 </div>
 
 <div id="buyLoading">
-    <div class="loader-circle">
-        <div class="mini-logo">
-            <img src="assets/logo.png">
+    <div class="loader-box">
+        <div class="loader-circle">
+            <div class="loader-logo">
+                <img src="assets/logo.png">
+            </div>
         </div>
     </div>
 </div>
-
 
 <!-- POPUP BERHASIL -->
 <div id="popupSuccess" class="popup-bg">
