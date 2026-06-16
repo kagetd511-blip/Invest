@@ -706,9 +706,16 @@ document.getElementById("btnKonfirmasi").onclick = () => {
             terakhirUpdate: new Date().toDateString()
         });
 
-        localStorage.setItem(currentUser, JSON.stringify(user));
+        // ===== isi popup success (INI YANG KURANG DI KAMU) =====
+        document.getElementById("successModal").innerText =
+            "Rp " + paket.modal.toLocaleString("id-ID");
 
-        // tampil success popup kamu (BUKAN ALERT BAWAAN)
+        document.getElementById("successProfit").innerText =
+            paket.profit;
+
+        document.getElementById("successDurasi").innerText =
+            paket.durasi;
+
         document.getElementById("popupSuccess").classList.add("active");
 
     }, 1500);
