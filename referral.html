@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referral</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(135deg,#0f172a,#020617);
+    color:white;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 20px;
+    background:#0b1220;
+    border-bottom:1px solid #1e293b;
+}
+
+.header img{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+}
+
+.header h2{
+    font-size:18px;
+    margin:0;
+}
+
+/* CONTAINER */
+.container{
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    background:rgba(30,41,59,0.8);
+    backdrop-filter:blur(10px);
+    padding:18px;
+    border-radius:16px;
+    margin-bottom:15px;
+    border:1px solid #1e293b;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.ref-code{
+    font-size:22px;
+    font-weight:bold;
+    color:#00ff88;
+    letter-spacing:3px;
+    margin:10px 0;
+}
+
+.btn{
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#00ff88,#00c853);
+    font-weight:bold;
+    cursor:pointer;
+    color:#000;
+    width:100%;
+    margin-top:10px;
+}
+
+/* PROGRESS */
+.progress{
+    background:#334155;
+    height:12px;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00ff88,#22c55e);
+}
+
+/* BADGE */
+.badge{
+    display:inline-block;
+    padding:6px 10px;
+    background:#f59e0b;
+    border-radius:10px;
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* LIST */
+ul{
+    padding-left:18px;
+    color:#cbd5e1;
+}
+
+small{
+    color:#94a3b8;
+}
+
+.title{
+    font-size:16px;
+    margin-bottom:8px;
+    color:#fff;
+}
+
+/* ICON BOX */
+.icon-box{
+    width:45px;
+    height:45px;
+    background:#00ff88;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    color:#000;
+    font-size:20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="icon-box">
+        <i class="fas fa-users"></i>
+    </div>
+
+    <div>
+        <h2>Referral Program</h2>
+        <small>Undang teman & dapatkan reward</small>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- CARD REF -->
+    <div class="card">
+        <div class="title">Referral Kamu</div>
+
+        <p>Kode Referral:</p>
+        <div class="ref-code" id="refCode">-</div>
+
+        <button class="btn" onclick="copyRef()">
+            <i class="fas fa-copy"></i> Copy Link Referral
+        </button>
+
+        <p style="margin-top:12px">
+            Link Referral:
+        </p>
+        <small id="refLink">-</small>
+    </div>
+
+    <!-- INFO -->
+    <div class="card">
+        <div class="title">Aktivitas Referral</div>
+
+        <div class="badge">🔥 Tugas Promosi 24 Jam</div>
+        <div class="badge">⚡ Peningkatan Cepat</div>
+
+        <ul>
+            <li>Undang 3 teman baru</li>
+            <li>Deposit minimal Rp 350.000</li>
+            <li>Hadiah instan Rp 65.000</li>
+        </ul>
+
+        <p>Bonus Sistem:</p>
+
+        <ul>
+            <li>10% referral langsung</li>
+            <li>3% level 2</li>
+            <li>1% level berikutnya</li>
+        </ul>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="card">
+        <div class="title">Progress Undangan</div>
+
+        <p id="progressText">0 / 3 undangan</p>
+
+        <div class="progress">
+            <div class="progress-bar" id="bar"></div>
+        </div>
+
+        <p style="margin-top:10px">
+            🎁 Bonus target: <b style="color:#00ff88">Rp 65.000</b>
+        </p>
+    </div>
+
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem(localStorage.getItem("currentUser")));
+
+function generateRef(){
+    if(!user.referralCode){
+        user.referralCode = "REF" + Math.floor(100000 + Math.random() * 900000);
+        localStorage.setItem(localStorage.getItem("currentUser"), JSON.stringify(user));
+    }
+}
+
+function render(){
+
+    generateRef();
+
+    document.getElementById("refCode").innerText = user.referralCode;
+
+    const link = window.location.origin + "/register.html?ref=" + user.referralCode;
+
+    document.getElementById("refLink").innerText = link;
+
+    const count = user.referralCount || 0;
+
+    document.getElementById("progressText").innerText =
+        count + " / 3 undangan";
+
+    document.getElementById("bar").style.width =
+        (count / 3 * 100) + "%";
+}
+
+function copyRef(){
+    navigator.clipboard.writeText(document.getElementById("refLink").innerText);
+    alert("Link referral disalin!");
+}
+
+render();
+</script>
+
+</body>
+</html>
