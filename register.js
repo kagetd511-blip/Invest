@@ -177,16 +177,32 @@ function register(){
         JSON.stringify(userData)
     );
 
-    showAlert(
-    "Berhasil",
-    "Pendaftaran berhasil"
-    );
+    function showLoading(title,text){
 
-    setTimeout(() => {
+    document
+    .getElementById("loadingTitle")
+    .innerText = title;
 
-        window.location.href =
-        "index.html";
+    document
+    .getElementById("loadingText")
+    .innerText = text;
 
-    }, 1500);
+    document
+    .getElementById("loadingScreen")
+    .classList.add("active");
+
+}
+
+    showLoading(
+"Pendaftaran Berhasil",
+"Mengalihkan ke halaman login..."
+);
+
+setTimeout(() => {
+
+    window.location.href =
+    "index.html";
+
+},2500);
 
 }
