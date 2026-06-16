@@ -592,7 +592,12 @@ oninput="formatNominal(this)"
 
 <div class="warning">
 <i class="fas fa-circle-info"></i>
-Minimal tarik dana Rp 2.000.000
+Minimal tarik dana Rp 1.000.000
+</div>
+
+<div class="warning">
+<i class="fas fa-circle-info"></i>
+Maksimal tarik dana Rp 100.000.000
 </div>
 
 <label class="label">
@@ -874,8 +879,13 @@ if(!nominal || !rekening || !namaRek || !bankTerpilih){
 }
 
 // minimal
-if(nominal < 2000000){
-    showAlert("Minimal tarik dana Rp 2.000.000");
+if(nominal < 1000000){
+    showAlert("Minimal tarik dana Rp 1.000.000");
+    return;
+}
+
+    if(nominal > 100000000){
+    showAlert("Maksimal tarik dana Rp 100.000.000");
     return;
 }
 
