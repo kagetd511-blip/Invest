@@ -163,7 +163,7 @@ if(user.password === password){
         window.location.href =
         "dashboard.html";
 
-    },5000);
+    },4000);
 
 }else{
 
