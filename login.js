@@ -121,10 +121,10 @@ function resetPassword(){
         return;
     }
 
-    if(newPass.length < 4){
+    if(newPass.length < 5){
         showAlert(
         "Peringatan",
-        "Sandi minimal 4 karakter"
+        "Sandi minimal 5 karakter"
         );
         return;
     }
