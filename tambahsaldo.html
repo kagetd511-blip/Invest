@@ -408,9 +408,15 @@ input{
     </div>
 
     <div class="alert">
-        ⚠ Minimal deposit Rp15.000
+        ⚠ Minimal tambah saldo Rp15.000
     </div>
 </div>
+
+    <div class="alert">
+        ⚠ Maksimal tambah saldo Rp70.000.000
+    </div>
+</div>
+
 
 <div class="card">
     <h4>Metode Pembayaran</h4>
@@ -557,6 +563,11 @@ function submit(){
 
     if(!nominal || nominal < 15000){
         showAlert("Minimal deposit Rp15.000");
+        return;
+    }
+
+    if(!nominal || nominal > 70000000){
+        showAlert("Maksimal deposit Rp70.000.000");
         return;
     }
 
