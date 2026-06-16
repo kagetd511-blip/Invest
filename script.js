@@ -316,3 +316,13 @@ function prosesLogout(){
         window.location.href = "index.html";
     }, 1000);
 }
+
+function goWithLoading(url){
+    withLoader(() => {
+        window.location.href = url;
+    }, 1000);
+}
+
+function hubungiAdmin(){
+    adminWhatsapp();
+}
