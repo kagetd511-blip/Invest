@@ -21,6 +21,8 @@ body{
     justify-content:center;
     gap:10px;
     padding:18px;
+    background:#0f172a;
+    border-bottom:1px solid #1f2a44;
 }
 
 .header img{
@@ -30,10 +32,11 @@ body{
 /* CARD */
 .card{
     margin:15px;
-    background:#111b2e;
+    background:linear-gradient(135deg,#111b2e,#0f172a);
     padding:18px;
     border-radius:16px;
     border:1px solid #1f2a44;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
 /* TIMER */
@@ -41,23 +44,80 @@ body{
     font-size:18px;
     font-weight:bold;
     color:#fbbf24;
+    margin-bottom:8px;
+}
+
+/* STATUS */
+.status{
+    font-size:14px;
+    color:#94a3b8;
     margin-bottom:10px;
 }
 
-/* BOX INFO */
+/* NOMINAL */
+.amount{
+    font-size:22px;
+    font-weight:bold;
+    color:#00ff88;
+    margin:10px 0;
+}
+
+/* BOX */
 .box{
     background:#0f172a;
     padding:12px;
     border-radius:12px;
-    margin-top:10px;
+    margin-top:12px;
     font-size:14px;
     border:1px solid #24324d;
+    text-align:left;
 }
 
+/* QR */
 .qr img{
     width:180px;
     margin-top:10px;
-    border-radius:10px;
+    border-radius:12px;
+    box-shadow:0 10px 20px rgba(0,255,136,0.15);
+}
+
+/* BANK */
+.bank-title{
+    color:#00ff88;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.bank-item{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid #1f2a44;
+    font-size:14px;
+}
+
+.bank-item:last-child{
+    border-bottom:none;
+}
+
+.bank-label{
+    color:#94a3b8;
+}
+
+.bank-value{
+    font-weight:bold;
+}
+
+/* BADGE */
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    font-size:12px;
+    background:#00ff88;
+    color:#0b1220;
+    border-radius:8px;
+    margin-bottom:10px;
+    font-weight:bold;
 }
 
 /* BUTTON */
@@ -70,11 +130,17 @@ body{
     border-radius:12px;
     font-weight:bold;
     cursor:pointer;
+    transition:0.2s;
+}
+
+.btn:hover{
+    transform:scale(1.03);
 }
 
 .btn-check{
     background:#00ff88;
     color:#0b1220;
+    box-shadow:0 0 15px rgba(0,255,136,0.2);
 }
 
 .btn-cancel{
@@ -82,11 +148,19 @@ body{
     color:white;
 }
 
-/* STATUS */
-.status{
-    margin-top:10px;
-    font-size:14px;
-    color:#94a3b8;
+/* TOAST */
+.toast{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#00ff88;
+    color:#0b1220;
+    padding:10px 16px;
+    border-radius:10px;
+    font-weight:bold;
+    z-index:9999;
+    box-shadow:0 10px 20px rgba(0,0,0,0.3);
 }
 </style>
 </head>
@@ -101,12 +175,19 @@ body{
 <div class="card">
 
     <div class="timer" id="timer">04:00:00</div>
-
     <div class="status" id="status">Menunggu pembayaran...</div>
 
-    <h2 id="nominal">Rp 0</h2>
+    <div class="amount" id="nominal">Rp 0</div>
 
-    <div class="box" id="info"></div>
+    <div id="info"></div>
+
+</div>
+
+<div class="card">
+
+    <div class="box">
+        ⚠️ Silakan transfer sesuai nominal yang tertera
+    </div>
 
     <button class="btn btn-check" onclick="cekPembayaran()">
         Cek Pembayaran
@@ -122,33 +203,44 @@ body{
 let data = JSON.parse(localStorage.getItem("topupData"));
 
 if(!data){
-    alert("Data tidak ditemukan");
-    window.location.href = "topup.html";
+    window.location.href = "tambahsaldo.html";
 }
 
+/* NOMINAL */
 document.getElementById("nominal").innerText =
 "Rp " + data.nominal.toLocaleString("id-ID");
 
+/* METHOD DISPLAY */
 let info = document.getElementById("info");
 
 if(data.method === "QRIS"){
     info.innerHTML = `
-        <b>QRIS Payment</b>
+        <div class="badge">QRIS PAYMENT</div>
         <div class="qr">
             <img src="assets/qris.png">
         </div>
     `;
-}else if(data.method === "BRI"){
-    info.innerHTML = `
-        <b>Bank BRI</b><br>
-        1234567890<br>
-        a.n PT Digital Indo
-    `;
 }else{
+
+    let bankName = data.method === "BRI" ? "BRI" : "BCA";
+    let rek = data.method === "BRI" ? "1234567890" : "0987654321";
+
     info.innerHTML = `
-        <b>Bank BCA</b><br>
-        0987654321<br>
-        a.n PT Digital Indo
+        <div class="badge">TRANSFER BANK</div>
+
+        <div class="box">
+            <div class="bank-title">${bankName}</div>
+
+            <div class="bank-item">
+                <span class="bank-label">No Rekening</span>
+                <span class="bank-value">${rek}</span>
+            </div>
+
+            <div class="bank-item">
+                <span class="bank-label">Atas Nama</span>
+                <span class="bank-value">PT Digital Indo</span>
+            </div>
+        </div>
     `;
 }
 
@@ -164,33 +256,33 @@ function update(){
     `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
 
     timeLeft--;
-
-    if(timeLeft < 0){
-        clearInterval(x);
-        document.getElementById("timer").innerText = "EXPIRED";
-    }
 }
 
-let x = setInterval(update,1000);
+setInterval(update,1000);
 update();
 
-/* =========================
-   CEK PEMBAYARAN (SIMULASI)
-   ========================= */
+/* TOAST */
+function toast(msg){
+    let t = document.createElement("div");
+    t.className = "toast";
+    t.innerText = msg;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),2000);
+}
+
+/* CEK PEMBAYARAN */
 function cekPembayaran(){
 
-    document.getElementById("status").innerText =
-    "Mengecek pembayaran...";
+    document.getElementById("status").innerText = "Mengecek pembayaran...";
 
     setTimeout(() => {
 
-        // SIMULASI SUKSES 80%
-        let success = Math.random() > 0.2;
+        let success = Math.random() > 0.3;
 
         if(success){
 
-            let userKey = localStorage.getItem("currentUser");
-            let user = JSON.parse(localStorage.getItem(userKey));
+            let key = localStorage.getItem("currentUser");
+            let user = JSON.parse(localStorage.getItem(key));
 
             user.saldo += data.nominal;
 
@@ -204,10 +296,12 @@ function cekPembayaran(){
                 tanggal:new Date().toLocaleString("id-ID")
             });
 
-            localStorage.setItem(userKey, JSON.stringify(user));
+            localStorage.setItem(key, JSON.stringify(user));
 
             document.getElementById("status").innerText =
             "Pembayaran berhasil ✔";
+
+            toast("Saldo masuk +Rp " + data.nominal.toLocaleString("id-ID"));
 
             setTimeout(() => {
                 window.location.href = "dashboard.html";
@@ -216,12 +310,13 @@ function cekPembayaran(){
         }else{
             document.getElementById("status").innerText =
             "Pembayaran belum ditemukan ❌";
+            toast("Pembayaran belum terdeteksi");
         }
 
     }, 1500);
 }
 
-/* CANCEL */
+/* BATAL */
 function batal(){
     localStorage.removeItem("topupData");
     window.location.href = "tambahsaldo.html";
