@@ -687,12 +687,14 @@ document.getElementById("btnKonfirmasi").onclick = () => {
     .classList.add("active");
 };
 
-document.getElementById("btnSelesai")
-.onclick = () => {
+document.getElementById("btnSelesai").onclick = () => {
 
-    window.location.href =
-    "dashboard.html";
+    // tampilkan mini loading
+    document.getElementById("buyLoading").classList.add("active");
 
+    setTimeout(() => {
+        window.location.href = "dashboard.html";
+    }, 1200);
 };
 
 }
