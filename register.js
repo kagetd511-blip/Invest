@@ -93,7 +93,27 @@ function register() {
 
     if (!username) return showAlert("Peringatan", "Username wajib diisi");
     if (!phone) return showAlert("Peringatan", "Nomor HP wajib diisi");
+   if (!/^0\d{9,}$/.test(phone)) {
+    return showAlert(
+        "Peringatan",
+        "Nomor HP harus diawali angka 0 dan minimal 10 digit"
+    );
+}
+   let uniqueDigits = [...new Set(phone)];
+
+if(uniqueDigits.length === 1){
+    return showAlert(
+        "Peringatan",
+        "Nomor HP tidak valid"
+    );
+}
     if (!password) return showAlert("Peringatan", "Sandi wajib diisi");
+   if(password.length < 5){
+    return showAlert(
+        "Peringatan",
+        "Sandi minimal 5 karakter"
+    );
+}
     if (!confirmPassword) return showAlert("Peringatan", "Ulangi sandi wajib diisi");
 
     if (password !== confirmPassword) {
