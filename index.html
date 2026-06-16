@@ -20,12 +20,36 @@ body{
     overflow:hidden;
 
     background:
-    radial-gradient(
-        circle at top,
-        #0d6fd3 0%,
-        #005BAC 45%,
-        #003d73 100%
-    );
+    radial-gradient(circle at top,
+    #1e90ff 0%,
+    #005BAC 35%,
+    #00386d 70%,
+    #001d3d 100%);
+}
+
+body::before,
+body::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    z-index:0;
+}
+
+body::before{
+    width:250px;
+    height:250px;
+    background:rgba(0,255,255,.25);
+    top:-50px;
+    left:-50px;
+}
+
+body::after{
+    width:300px;
+    height:300px;
+    background:rgba(255,255,255,.15);
+    bottom:-100px;
+    right:-100px;
 }
 
 .splash{
@@ -88,16 +112,16 @@ body{
 }
 
 .logo-icon{
-    width:90px;
-    opacity:1;
+    width:100px;
 
     filter:
-    drop-shadow(0 0 20px rgba(255,255,255,.25))
-    drop-shadow(0 0 40px rgba(255,255,255,.15));
+    drop-shadow(0 0 20px rgba(255,255,255,.3))
+    drop-shadow(0 0 40px rgba(0,229,255,.5))
+    drop-shadow(0 0 80px rgba(0,229,255,.35));
 }
 
 .logo-text{
-    width:260px;
+    width:280px;
     opacity:0;
 
     filter:
@@ -110,18 +134,19 @@ body{
 /* ========================= */
 
 .loading{
-    width:240px;
-    height:6px;
-
-    margin-top:15px;
+    width:260px;
+    height:8px;
 
     border-radius:50px;
     overflow:hidden;
 
-    background:rgba(255,255,255,.15);
+    background:
+    rgba(255,255,255,.12);
 
-    box-shadow:
-    inset 0 0 10px rgba(255,255,255,.1);
+    backdrop-filter:blur(10px);
+
+    border:
+    1px solid rgba(255,255,255,.1);
 }
 
 .loading-bar{
@@ -130,14 +155,27 @@ body{
 
     background:
     linear-gradient(
-        90deg,
-        #00e5ff,
-        #ffffff,
-        #00ff88
+    90deg,
+    #00e5ff,
+    #ffffff,
+    #00ff88,
+    #00e5ff
     );
 
-    box-shadow:
-    0 0 20px rgba(255,255,255,.5);
+    background-size:300%;
+
+    animation:
+    loadBar 4s linear forwards,
+    shine 1.5s linear infinite;
+}
+
+@keyframes shine{
+    from{
+        background-position:0%;
+    }
+    to{
+        background-position:300%;
+    }
 }
 
 /* ========================= */
@@ -146,18 +184,11 @@ body{
 
 .footer{
     position:absolute;
-
-    bottom:max(
-        25px,
-        env(safe-area-inset-bottom)
-    );
-
-    left:0;
-
+    bottom:30px;
     width:100%;
-
     text-align:center;
-    color:#fff;
+
+    color:rgba(255,255,255,.85);
 }
 
 .footer-logo{
@@ -171,22 +202,19 @@ body{
 }
 
 .footer-logo img{
-    max-height:32px;
-    max-width:120px;
-    object-fit:contain;
+    max-height:34px;
 
     filter:
     drop-shadow(
-        0 0 10px
-        rgba(255,255,255,.15)
+    0 0 15px rgba(255,255,255,.2)
     );
 }
 
 .footer-text{
     font-size:12px;
-    opacity:.8;
-    line-height:1.6;
-    letter-spacing:.3px;
+    letter-spacing:.5px;
+    line-height:1.7;
+    margin-bottom:40px;
 }
 
 /* ========================= */
@@ -265,12 +293,45 @@ body{
 
 }
 
+.ring{
+    position:absolute;
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    border:2px solid
+    rgba(255,255,255,.12);
+
+    border-top:
+    2px solid rgba(255,255,255,.6);
+
+    animation:ringSpin 6s linear infinite;
+}
+
+@keyframes ringSpin{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.loading-text{
+    margin-top:12px;
+    color:white;
+    font-size:14px;
+    opacity:.85;
+    letter-spacing:1px;
+}
+
 </style>
 </head>
 <body>
 
 <div class="splash">
-
+<div class="ring"></div>
     <div class="logo-container">
 
         <!-- Logo Pertamina Icon -->
@@ -290,6 +351,10 @@ body{
     <div class="loading">
         <div class="loading-bar" id="loadingBar"></div>
     </div>
+
+    <div class="loading-text" id="loadingText">
+Memuat Sistem...
+</div>
 
     <div class="footer">
 
@@ -331,12 +396,33 @@ setTimeout(()=>{
 
 },1500);
 
+const text =
+document.getElementById("loadingText");
+
+setTimeout(()=>{
+text.innerText =
+"Memverifikasi Server...";
+},2000);
+
+setTimeout(()=>{
+text.innerText =
+"Menyiapkan Dashboard...";
+},4000);
+
 /* Redirect */
 setTimeout(()=>{
 
-    window.location.href="login.html";
+document.body.style.transition =
+"opacity .8s";
 
-},6000);
+document.body.style.opacity = "0";
+
+setTimeout(()=>{
+window.location.href =
+"login.html";
+},800);
+
+},5200);
 
 </script>
 
