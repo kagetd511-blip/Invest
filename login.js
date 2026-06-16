@@ -91,6 +91,76 @@ if(password.type === "password"){
 
 }
 
+function openForgotPassword(){
+    document
+    .getElementById("forgotPopup")
+    .classList.add("show");
+}
+
+function closeForgotPassword(){
+    document
+    .getElementById("forgotPopup")
+    .classList.remove("show");
+}
+
+function resetPassword(){
+
+    let phone =
+    document.getElementById("resetPhone")
+    .value.trim();
+
+    let newPass =
+    document.getElementById("newPassword")
+    .value.trim();
+
+    if(phone === ""){
+        showAlert(
+        "Peringatan",
+        "Masukkan nomor HP"
+        );
+        return;
+    }
+
+    if(newPass.length < 4){
+        showAlert(
+        "Peringatan",
+        "Sandi minimal 4 karakter"
+        );
+        return;
+    }
+
+    let data =
+    localStorage.getItem(phone);
+
+    if(!data){
+
+        showAlert(
+        "Gagal",
+        "Nomor HP tidak terdaftar"
+        );
+        return;
+    }
+
+    let user =
+    JSON.parse(data);
+
+    user.password = newPass;
+
+    localStorage.setItem(
+    phone,
+    JSON.stringify(user)
+    );
+
+    document
+    .getElementById("forgotPopup")
+    .classList.remove("show");
+
+    showAlert(
+    "Berhasil",
+    "Sandi berhasil diubah"
+    );
+}
+
 // ======================
 // LOGIN
 // ======================
