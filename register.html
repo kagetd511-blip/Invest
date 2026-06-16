@@ -423,7 +423,274 @@ font-weight:bold;
 
 }
 
-</style></head>
+      /* LOADING PREMIUM */
+
+.loading-screen{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:
+linear-gradient(
+180deg,
+rgba(3,19,43,.95),
+rgba(6,34,74,.97),
+rgba(11,63,141,.98)
+);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+z-index:999999;
+
+opacity:0;
+visibility:hidden;
+
+transition:.35s;
+}
+
+.loading-screen.active{
+
+opacity:1;
+visibility:visible;
+
+}
+
+.loading-content{
+
+text-align:center;
+
+}
+
+.loading-logo{
+
+width:120px;
+height:120px;
+
+margin:auto;
+
+border-radius:30px;
+
+background:
+rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+border:
+1px solid rgba(255,255,255,.1);
+
+box-shadow:
+0 0 40px rgba(0,255,136,.35);
+
+animation:pulse 1.8s infinite;
+
+}
+
+.loading-logo img{
+
+width:85%;
+height:85%;
+
+object-fit:contain;
+
+}
+
+.loading-spinner{
+
+width:60px;
+height:60px;
+
+margin:25px auto;
+
+border-radius:50%;
+
+border:4px solid
+rgba(255,255,255,.15);
+
+border-top:
+4px solid #00ff88;
+
+animation:spin 1s linear infinite;
+
+}
+
+.loading-content h3{
+
+color:white;
+font-size:20px;
+
+margin-bottom:8px;
+
+}
+
+.loading-content p{
+
+color:rgba(255,255,255,.7);
+
+font-size:14px;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+box-shadow:
+0 0 20px rgba(0,255,136,.25);
+}
+
+50%{
+transform:scale(1.05);
+box-shadow:
+0 0 50px rgba(0,255,136,.6);
+}
+
+100%{
+transform:scale(1);
+box-shadow:
+0 0 20px rgba(0,255,136,.25);
+}
+
+}
+
+/* MINI LOADER PREMIUM */
+
+.mini-loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(8px);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:99999;
+
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+}
+
+.mini-loader.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.mini-loader-box{
+    text-align:center;
+}
+
+.loader-circle{
+    position:relative;
+    width:90px;
+    height:90px;
+    margin:auto;
+}
+
+.loader-circle::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:3px solid rgba(255,255,255,.12);
+}
+
+.loader-circle::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:3px solid transparent;
+    border-top:3px solid #00ff88;
+    border-right:3px solid #00ff88;
+    animation:rotateLoader .8s linear infinite;
+}
+
+.mini-logo{
+    position:absolute;
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:58px;
+    height:58px;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(255,255,255,.12),
+    rgba(255,255,255,.05)
+    );
+
+    backdrop-filter:blur(10px);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-shadow:
+    0 0 20px rgba(0,255,136,.25);
+
+    animation:pulseLogo 1.5s ease-in-out infinite;
+}
+
+.mini-logo img{
+    width:70%;
+    height:70%;
+    object-fit:contain;
+}
+
+.mini-loader p{
+    margin-top:18px;
+    color:white;
+    font-size:14px;
+    letter-spacing:.5px;
+}
+
+@keyframes rotateLoader{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes pulseLogo{
+    0%,100%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    50%{
+        transform:translate(-50%,-50%) scale(1.08);
+    }
+}
+
+</style>
+
+</head>
 <body><div class="register-card"><div class="logo-box">
 <img src="assets/logo.png" alt="Logo">
 </div><h2>Daftar Akun</h2><p class="subtitle">
@@ -501,10 +768,49 @@ Buat Akun
 
 <p class="login-link">
 Sudah punya akun?
-<a href="index.html">
+<a href="#"
+onclick="goLogin();return false;">
 Login
 </a>
-</p></div><script>
+</p></div>
+
+   <div id="loadingScreen" class="loading-screen">
+
+    <div class="loading-content">
+
+        <div class="loading-logo">
+            <img src="assets/logo.png">
+        </div>
+
+        <div class="loading-spinner"></div>
+
+        <h3>Memproses Pendaftaran</h3>
+
+        <p>Mohon tunggu sebentar...</p>
+
+    </div>
+
+</div>
+
+    <div id="miniLoader" class="mini-loader">
+
+    <div class="mini-loader-box">
+
+        <div class="loader-circle">
+
+            <div class="mini-logo">
+                <img src="assets/logo.png">
+            </div>
+
+        </div>
+
+        <p>Memuat...</p>
+
+    </div>
+
+</div>
+  
+  <script>
 
 function togglePassword(id){
 
