@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Up Saldo</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0b1220;
+    color:white;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:18px;
+}
+
+.header img{
+    width:40px;
+}
+
+/* CARD */
+.card{
+    margin:12px;
+    padding:14px;
+    background:#111b2e;
+    border-radius:14px;
+    border:1px solid #1f2a44;
+}
+
+/* SALDO */
+.saldo{
+    font-size:20px;
+    font-weight:bold;
+    color:#00ff88;
+}
+
+/* INPUT BOX */
+.input-wrap{
+    display:flex;
+    align-items:center;
+    margin-top:10px;
+    border:1px solid #24324d;
+    border-radius:12px;
+    overflow:hidden;
+    background:#0f172a;
+}
+
+.input-wrap span{
+    padding:12px;
+    color:#94a3b8;
+    background:#0c1526;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:white;
+    font-size:16px;
+}
+
+/* QUICK BUTTON */
+.quick{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.quick button{
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #24324d;
+    background:#0f172a;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.quick button.active{
+    border:2px solid #00ff88;
+    color:#00ff88;
+}
+
+/* ALERT */
+.alert{
+    margin-top:10px;
+    padding:10px;
+    font-size:12px;
+    border-radius:10px;
+    background:#1f2937;
+    color:#fbbf24;
+    border-left:3px solid #fbbf24;
+}
+
+/* METHOD */
+.method button{
+    width:100%;
+    margin-top:8px;
+    padding:12px;
+    border-radius:12px;
+    background:#0f172a;
+    border:1px solid #24324d;
+    color:white;
+    cursor:pointer;
+}
+
+.method button.active{
+    border:2px solid #00ff88;
+}
+
+/* BUTTON */
+.btn{
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#00ff88,#00c26a);
+    color:#0b1220;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* LOADER */
+.loading{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.loading-box{
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:10px;
+}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-box{
+    width:80%;
+    max-width:280px;
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.modal-box button{
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    background:#00ff88;
+    border-radius:10px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <img src="assets/logo.png">
+    <h3>Top Up Saldo</h3>
+</div>
+
+<div class="card">
+    <small>Saldo Anda</small>
+    <div class="saldo" id="saldoUser">Rp 0</div>
+</div>
+
+<div class="card">
+    <h4>Nominal Top Up</h4>
+
+    <div class="input-wrap">
+        <span>Rp</span>
+        <input type="text" id="nominal" placeholder="15.000">
+    </div>
+
+    <div class="quick">
+        <button onclick="setNominal(15000)">15K</button>
+        <button onclick="setNominal(50000)">50K</button>
+        <button onclick="setNominal(100000)">100K</button>
+    </div>
+
+    <div class="alert">
+        ⚠ Minimal deposit Rp15.000
+    </div>
+</div>
+
+<div class="card">
+    <h4>Metode Pembayaran</h4>
+
+    <div class="method">
+        <button onclick="select(this,'QRIS')">QRIS (Rekomendasi)</button>
+        <button onclick="select(this,'BRI')">BRI</button>
+        <button onclick="select(this,'BCA')">BCA</button>
+    </div>
+
+    <button class="btn" onclick="submit()">Konfirmasi Top Up</button>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+    <div class="loading-box">Memproses...</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <div id="modalText"></div>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
+
+<script>
+let method = "";
+
+let user = JSON.parse(localStorage.getItem(localStorage.getItem("currentUser")));
+
+document.getElementById("saldoUser").innerText =
+"Rp " + Number(user.saldo).toLocaleString("id-ID");
+
+/* FORMAT RP */
+const input = document.getElementById("nominal");
+
+input.addEventListener("input", () => {
+    let val = input.value.replace(/[^0-9]/g,"");
+    input.value = val ? new Intl.NumberFormat("id-ID").format(val) : "";
+});
+
+/* QUICK NOMINAL */
+function setNominal(val){
+    input.value = new Intl.NumberFormat("id-ID").format(val);
+}
+
+/* METHOD */
+function select(btn,m){
+    method = m;
+    document.querySelectorAll(".method button")
+    .forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+}
+
+/* MODAL */
+function show(text){
+    document.getElementById("modalText").innerText = text;
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal(){
+    document.getElementById("modal").style.display = "none";
+}
+
+/* SUBMIT (FIX FULL) */
+function submit(){
+
+    let nominal = parseInt(input.value.replace(/[^0-9]/g,""));
+
+    if(!nominal || nominal < 15000){
+        show("Minimal deposit Rp15.000");
+        return;
+    }
+
+    if(!method){
+        show("Pilih metode pembayaran");
+        return;
+    }
+
+    document.getElementById("loading").style.display = "flex";
+
+    setTimeout(() => {
+
+        localStorage.setItem("topupData", JSON.stringify({
+            nominal,
+            method,
+            time: Date.now()
+        }));
+
+        window.location.href = "topup-process.html";
+
+    }, 900);
+}
+</script>
+
+</body>
+</html>
