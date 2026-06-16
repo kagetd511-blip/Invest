@@ -316,8 +316,9 @@ input{
 
     <div class="method">
         <button onclick="select(this,'QRIS')">QRIS (Rekomendasi)</button>
-        <button onclick="select(this,'BRI')">BRI</button>
-        <button onclick="select(this,'BCA')">BCA</button>
+
+<button onclick="blockedMethod(this)">BRI</button>
+<button onclick="blockedMethod(this)">BCA</button>
     </div>
 
     <button class="btn" onclick="submit()">Konfirmasi Top Up</button>
@@ -405,6 +406,16 @@ function select(btn, m){
     btn.classList.add("active");
 }
 
+    function blockedMethod(btn){
+    showAlert("⚠ Metode Pembayaran ini sedang maintenance. Silahkan gunakan Metode Pembayaran yang lain");
+
+    document.querySelectorAll(".method button")
+    .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+    method = "";
+}
+
 // =========================
 // MODAL ALERT
 // =========================
@@ -426,6 +437,11 @@ function showLoader(){
 
 function hideLoader(){
     document.getElementById("miniLoader").classList.remove("active");
+}
+
+    function showAlert(text){
+    document.getElementById("modalText").innerText = text;
+    document.getElementById("modal").style.display = "flex";
 }
 
 // =========================
