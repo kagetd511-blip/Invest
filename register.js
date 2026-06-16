@@ -44,7 +44,7 @@ function goLogin() {
     showMiniLoader();
 
     setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     }, 1500);
 }
 
@@ -132,7 +132,7 @@ function register() {
         setTimeout(() => {
 
             // 5. pindah halaman
-            window.location.href = "index.html";
+            window.location.href = "login.html";
 
         }, 4000);
 
