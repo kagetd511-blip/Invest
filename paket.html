@@ -703,8 +703,13 @@ document.getElementById("btnKonfirmasi").onclick = () => {
             gambar: paket.gambar,
             durasi: 14,
             hariBerjalan: 0,
-            terakhirUpdate: new Date().toDateString()
+            lastTick: new Date().toDateString()
         });
+
+        localStorage.setItem(
+    currentUser,
+    JSON.stringify(user)
+);
 
         // ===== isi popup success (INI YANG KURANG DI KAMU) =====
         document.getElementById("successModal").innerText =
