@@ -344,6 +344,40 @@ input{
     from{transform:scale(.85);opacity:0;}
     to{transform:scale(1);opacity:1;}
 }
+
+    .modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    backdrop-filter:blur(8px);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:999999;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:85%;
+    max-width:320px;
+    background:linear-gradient(135deg,#0f172a,#111b2e);
+    border-radius:18px;
+    padding:20px;
+    text-align:center;
+    color:white;
+
+    animation:pop .2s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(.85);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
 </style>
 </head>
 
@@ -413,7 +447,6 @@ input{
 <div class="modal" id="modal">
     <div class="modal-box">
         <div id="modalText"></div>
-        <button onclick="closeModal()">OK</button>
     </div>
 </div>
 
@@ -486,18 +519,22 @@ function select(btn, m){
 // =========================
 // MODAL ALERT
 // =========================
-function showAlert(text){
+function showAlert(text, time = 800){
 
-    document.getElementById("modalText").innerText = text;
-
-    // reset style animasi biar bisa replay
     const modal = document.getElementById("modal");
-    modal.style.display = "flex";
-    modal.style.opacity = "0";
+    const box = document.getElementById("modalText");
 
-    setTimeout(() => {
-        modal.style.opacity = "1";
-    }, 10);
+    box.innerText = text;
+
+    modal.classList.add("show");
+    modal.style.display = "flex";
+
+    clearTimeout(window.alertTimer);
+
+    window.alertTimer = setTimeout(() => {
+        modal.classList.remove("show");
+        modal.style.display = "none";
+    }, time);
 }
 
 // =========================
