@@ -256,7 +256,7 @@ function prosesLogout(){
     withLoader(() => {
         localStorage.removeItem("isLogin");
         localStorage.removeItem("currentUser");
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     }, 1000);
 }
 
