@@ -154,7 +154,7 @@ if(uniqueDigits.length === 1){
             // 5. pindah halaman
             window.location.href = "login.html";
 
-        }, 4000);
+        }, 600);
 
-    }, 600);
+    }, 4000);
 }
