@@ -235,33 +235,6 @@ function tampilkanPaketAktif(){
 }
 
 // ========================
-// TEST PROFIT
-// ========================
-function testProfit(){
-
-    withLoader(() => {
-
-        loadUser();
-
-        if(!user || !Array.isArray(user.paketAktif)){
-            alert("Tidak ada paket aktif");
-            return;
-        }
-
-        user.paketAktif.forEach(p => {
-            p.saldoPaket += 50000;
-        });
-
-        localStorage.setItem(currentUserKey, JSON.stringify(user));
-
-        alert("TEST PROFIT +50.000");
-
-        renderAll();
-
-    }, 800);
-}
-
-// ========================
 // RENDER ALL
 // ========================
 function renderAll(){
