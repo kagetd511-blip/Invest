@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pertamina</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+    background:#005BAC;
+}
+
+.splash{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    position:relative;
+}
+
+/* ========================= */
+/* LOGO */
+/* ========================= */
+
+.logo-container{
+    position:relative;
+    width:300px;
+    height:140px;
+}
+
+.logo{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.logo-icon{
+    width:90px;
+    opacity:1;
+}
+
+.logo-text{
+    width:260px;
+    opacity:0;
+}
+
+/* ========================= */
+/* LOADING */
+/* ========================= */
+
+.loading{
+    width:220px;
+    height:4px;
+    margin-top:25px;
+    border-radius:50px;
+    overflow:hidden;
+    background:rgba(255,255,255,.2);
+}
+
+.loading-bar{
+    width:0;
+    height:100%;
+    background:#fff;
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+.footer{
+    position:absolute;
+    bottom:35px;
+    left:0;
+    width:100%;
+    text-align:center;
+    color:#fff;
+}
+
+.footer-logo{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    margin-bottom:10px;
+}
+
+.footer-logo img{
+    height:32px;
+}
+
+.footer-text{
+    font-size:13px;
+    opacity:.9;
+    line-height:1.5;
+}
+
+/* ========================= */
+/* ANIMATION */
+/* ========================= */
+
+.show-text{
+    animation:textShow .8s forwards;
+}
+
+.hide-icon{
+    animation:iconHide .8s forwards;
+}
+
+.load{
+    animation:loadBar 4s linear forwards;
+}
+
+@keyframes iconHide{
+    from{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1);
+    }
+    to{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(1.8);
+    }
+}
+
+@keyframes textShow{
+    from{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(.7);
+    }
+    to{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1);
+    }
+}
+
+@keyframes loadBar{
+    from{
+        width:0%;
+    }
+    to{
+        width:100%;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="splash">
+
+    <div class="logo-container">
+
+        <!-- Logo Pertamina Icon -->
+        <img
+        src="pertamina-icon.png"
+        class="logo logo-icon"
+        id="logoIcon">
+
+        <!-- Logo Tulisan Pertamina -->
+        <img
+        src="pertamina-text.png"
+        class="logo logo-text"
+        id="logoText">
+
+    </div>
+
+    <div class="loading">
+        <div class="loading-bar" id="loadingBar"></div>
+    </div>
+
+    <div class="footer">
+
+        <div class="footer-logo">
+
+            <img src="danantara.png">
+
+            <img src="bumn.png">
+
+        </div>
+
+        <div class="footer-text">
+            PT Pertamina (Persero)<br>
+            Bagian dari Danantara Indonesia dan BUMN Untuk Indonesia
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const logoIcon = document.getElementById("logoIcon");
+const logoText = document.getElementById("logoText");
+const loadingBar = document.getElementById("loadingBar");
+
+/* Logo Icon tampil 1.5 detik */
+setTimeout(()=>{
+
+    logoIcon.classList.add("hide-icon");
+
+    setTimeout(()=>{
+
+        logoText.classList.add("show-text");
+
+        loadingBar.classList.add("load");
+
+    },400);
+
+},1500);
+
+/* Redirect */
+setTimeout(()=>{
+
+    window.location.href="login.html";
+
+},6000);
+
+</script>
+
+</body>
+</html>
