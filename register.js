@@ -1,208 +1,95 @@
-function showAlert(title, message){
-
-    document.getElementById(
-    "alertTitle"
-    ).innerText = title;
-
-    document.getElementById(
-    "alertMessage"
-    ).innerText = message;
-
-    document.getElementById(
-    "customAlert"
-    ).classList.add("show");
-
+/* =========================
+   ALERT
+========================= */
+function showAlert(title, message) {
+    document.getElementById("alertTitle").innerText = title;
+    document.getElementById("alertMessage").innerText = message;
+    document.getElementById("customAlert").classList.add("show");
 }
 
-function closeAlert(){
-
-    document.getElementById(
-    "customAlert"
-    ).classList.remove("show");
-
+function closeAlert() {
+    document.getElementById("customAlert").classList.remove("show");
 }
 
-function togglePassword(){
-
-    let password =
-    document.getElementById("password");
-
-    if(password.type === "password"){
-
-        password.type = "text";
-
-    }else{
-
-        password.type = "password";
-
-    }
-
+/* =========================
+   LOADING REGISTER (FIX ERROR)
+========================= */
+function showLoading() {
+    const el = document.getElementById("loadingScreen");
+    if (el) el.classList.add("active");
 }
 
-function toggleConfirmPassword(){
-
-    let confirmPassword =
-    document.getElementById(
-    "confirmPassword"
-    );
-
-    if(confirmPassword.type === "password"){
-
-        confirmPassword.type = "text";
-
-    }else{
-
-        confirmPassword.type = "password";
-
-    }
-
+function hideLoading() {
+    const el = document.getElementById("loadingScreen");
+    if (el) el.classList.remove("active");
 }
 
-function register(){
+/* =========================
+   MINI LOADER (LOGIN)
+========================= */
+function showMiniLoader() {
+    const el = document.getElementById("miniLoader");
+    if (el) el.classList.add("active");
+}
 
-    let username =
-    document.getElementById("username")
-    .value.trim();
+function hideMiniLoader() {
+    const el = document.getElementById("miniLoader");
+    if (el) el.classList.remove("active");
+}
 
-    let phone =
-    document.getElementById("phone")
-    .value.trim();
+/* =========================
+   LOGIN BUTTON
+========================= */
+function goLogin() {
+    showMiniLoader();
 
-    let email =
-    document.getElementById("email")
-    .value.trim();
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 1200);
+}
 
-    let password =
-    document.getElementById("password")
-    .value;
+/* =========================
+   REGISTER
+========================= */
+function register() {
 
-    let confirmPassword =
-    document.getElementById(
-    "confirmPassword"
-    ).value;
+    let username = document.getElementById("username").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+    let referral = document.getElementById("referral").value.trim();
 
-    let referral =
-    document.getElementById("referral")
-    .value.trim();
+    if (!username) return showAlert("Peringatan", "Username wajib diisi");
+    if (!phone) return showAlert("Peringatan", "Nomor HP wajib diisi");
+    if (!password) return showAlert("Peringatan", "Sandi wajib diisi");
+    if (!confirmPassword) return showAlert("Peringatan", "Ulangi sandi wajib diisi");
 
-    if(username === ""){
-
-        showAlert(
-        "Peringatan",
-        "Username wajib diisi"
-        );
-
-        return;
-
+    if (password !== confirmPassword) {
+        return showAlert("Peringatan", "Password tidak cocok");
     }
 
-    if(phone === ""){
-
-        showAlert(
-        "Peringatan",
-        "Nomor HP wajib diisi"
-        );
-
-        return;
-
-    }
-
-    if(password === ""){
-
-        showAlert(
-        "Peringatan",
-        "Sandi wajib diisi"
-        );
-
-        return;
-
-    }
-
-    if(confirmPassword === ""){
-
-        showAlert(
-        "Peringatan",
-        "Ulangi sandi wajib diisi"
-        );
-
-        return;
-
-    }
-
-    if(password !== confirmPassword){
-
-        showAlert(
-        "Peringatan",
-        "Ulangi sandi tidak cocok"
-        );
-
-        return;
-
-    }
-
-    if(localStorage.getItem(phone)){
-
-        showAlert(
-        "Pendaftaran Gagal",
-        "Nomor HP sudah terdaftar"
-        );
-
-        return;
-
+    if (localStorage.getItem(phone)) {
+        return showAlert("Gagal", "Nomor HP sudah terdaftar");
     }
 
     let userData = {
-
-        username: username,
-
-        phone: phone,
-
-        email: email,
-
-        password: password,
-
-        referral: referral,
-
+        username,
+        phone,
+        email,
+        password,
+        referral,
         saldo: 0,
-
         level: "Member",
-
-        registerDate:
-        new Date().toLocaleDateString("id-ID")
-
+        registerDate: new Date().toLocaleDateString("id-ID")
     };
 
-    localStorage.setItem(
-        phone,
-        JSON.stringify(userData)
-    );
+    localStorage.setItem(phone, JSON.stringify(userData));
 
-    function showLoading(title,text){
+    showLoading();
 
-    document
-    .getElementById("loadingTitle")
-    .innerText = title;
-
-    document
-    .getElementById("loadingText")
-    .innerText = text;
-
-    document
-    .getElementById("loadingScreen")
-    .classList.add("active");
-
-}
-
-    showLoading(
-"Pendaftaran Berhasil",
-"Mengalihkan ke halaman login..."
-);
-
-setTimeout(() => {
-
-    window.location.href =
-    "index.html";
-
-},2500);
-
+    setTimeout(() => {
+        hideLoading();
+        window.location.href = "index.html";
+    }, 2000);
 }
