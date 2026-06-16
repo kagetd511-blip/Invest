@@ -352,12 +352,33 @@ input{
 <script>
 let method = "";
 
-let user = JSON.parse(localStorage.getItem(localStorage.getItem("currentUser")));
+// =========================
+// LOAD USER (SAFE)
+// =========================
+function getUser(){
+    let key = localStorage.getItem("currentUser");
+    if(!key) return null;
 
-document.getElementById("saldoUser").innerText =
-"Rp " + Number(user.saldo).toLocaleString("id-ID");
+    let data = localStorage.getItem(key);
+    if(!data) return null;
 
-/* FORMAT RP */
+    try{
+        return JSON.parse(data);
+    }catch(e){
+        return null;
+    }
+}
+
+let user = getUser();
+
+if(user){
+    document.getElementById("saldoUser").innerText =
+    "Rp " + Number(user.saldo).toLocaleString("id-ID");
+}
+
+// =========================
+// FORMAT INPUT RP
+// =========================
 const input = document.getElementById("nominal");
 
 input.addEventListener("input", () => {
@@ -365,20 +386,28 @@ input.addEventListener("input", () => {
     input.value = val ? new Intl.NumberFormat("id-ID").format(val) : "";
 });
 
-/* QUICK NOMINAL */
+// =========================
+// QUICK NOMINAL
+// =========================
 function setNominal(val){
     input.value = new Intl.NumberFormat("id-ID").format(val);
 }
 
-/* METHOD */
-function select(btn,m){
+// =========================
+// METHOD SELECT
+// =========================
+function select(btn, m){
     method = m;
+
     document.querySelectorAll(".method button")
-    .forEach(b=>b.classList.remove("active"));
+    .forEach(b => b.classList.remove("active"));
+
     btn.classList.add("active");
 }
 
-/* MODAL */
+// =========================
+// MODAL ALERT
+// =========================
 function show(text){
     document.getElementById("modalText").innerText = text;
     document.getElementById("modal").style.display = "flex";
@@ -388,7 +417,20 @@ function closeModal(){
     document.getElementById("modal").style.display = "none";
 }
 
-/* SUBMIT (FIX FULL) */
+// =========================
+// LOADER FIX (INI YANG PENTING)
+// =========================
+function showLoader(){
+    document.getElementById("miniLoader").classList.add("active");
+}
+
+function hideLoader(){
+    document.getElementById("miniLoader").classList.remove("active");
+}
+
+// =========================
+// SUBMIT TOPUP (FIX FULL)
+// =========================
 function submit(){
 
     let nominal = parseInt(input.value.replace(/[^0-9]/g,""));
@@ -403,9 +445,19 @@ function submit(){
         return;
     }
 
-    document.getElementById("miniLoader").style.display = "flex";
+    showLoader();
 
     setTimeout(() => {
+
+        hideLoader();
+
+        let key = localStorage.getItem("currentUser");
+        let user = JSON.parse(localStorage.getItem(key));
+
+        if(!user){
+            show("User tidak ditemukan");
+            return;
+        }
 
         localStorage.setItem("topupData", JSON.stringify({
             nominal,
