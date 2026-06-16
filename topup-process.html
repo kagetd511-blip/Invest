@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proses Pembayaran</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0b1220;
+    color:white;
+    text-align:center;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:18px;
+}
+
+.header img{
+    width:40px;
+}
+
+/* CARD */
+.card{
+    margin:15px;
+    background:#111b2e;
+    padding:18px;
+    border-radius:16px;
+    border:1px solid #1f2a44;
+}
+
+/* TIMER */
+.timer{
+    font-size:18px;
+    font-weight:bold;
+    color:#fbbf24;
+    margin-bottom:10px;
+}
+
+/* BOX INFO */
+.box{
+    background:#0f172a;
+    padding:12px;
+    border-radius:12px;
+    margin-top:10px;
+    font-size:14px;
+    border:1px solid #24324d;
+}
+
+.qr img{
+    width:180px;
+    margin-top:10px;
+    border-radius:10px;
+}
+
+/* BUTTON */
+.btn{
+    width:90%;
+    max-width:300px;
+    padding:12px;
+    margin-top:12px;
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-check{
+    background:#00ff88;
+    color:#0b1220;
+}
+
+.btn-cancel{
+    background:#334155;
+    color:white;
+}
+
+/* STATUS */
+.status{
+    margin-top:10px;
+    font-size:14px;
+    color:#94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <img src="assets/logo.png">
+    <h3>Konfirmasi Pembayaran</h3>
+</div>
+
+<div class="card">
+
+    <div class="timer" id="timer">04:00:00</div>
+
+    <div class="status" id="status">Menunggu pembayaran...</div>
+
+    <h2 id="nominal">Rp 0</h2>
+
+    <div class="box" id="info"></div>
+
+    <button class="btn btn-check" onclick="cekPembayaran()">
+        Cek Pembayaran
+    </button>
+
+    <button class="btn btn-cancel" onclick="batal()">
+        Batalkan
+    </button>
+
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("topupData"));
+
+if(!data){
+    alert("Data tidak ditemukan");
+    window.location.href = "topup.html";
+}
+
+document.getElementById("nominal").innerText =
+"Rp " + data.nominal.toLocaleString("id-ID");
+
+let info = document.getElementById("info");
+
+if(data.method === "QRIS"){
+    info.innerHTML = `
+        <b>QRIS Payment</b>
+        <div class="qr">
+            <img src="assets/qris.png">
+        </div>
+    `;
+}else if(data.method === "BRI"){
+    info.innerHTML = `
+        <b>Bank BRI</b><br>
+        1234567890<br>
+        a.n PT Digital Indo
+    `;
+}else{
+    info.innerHTML = `
+        <b>Bank BCA</b><br>
+        0987654321<br>
+        a.n PT Digital Indo
+    `;
+}
+
+/* TIMER 4 JAM */
+let timeLeft = 4 * 60 * 60;
+
+function update(){
+    let h = Math.floor(timeLeft/3600);
+    let m = Math.floor((timeLeft%3600)/60);
+    let s = timeLeft%60;
+
+    document.getElementById("timer").innerText =
+    `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+
+    timeLeft--;
+
+    if(timeLeft < 0){
+        clearInterval(x);
+        document.getElementById("timer").innerText = "EXPIRED";
+    }
+}
+
+let x = setInterval(update,1000);
+update();
+
+/* =========================
+   CEK PEMBAYARAN (SIMULASI)
+   ========================= */
+function cekPembayaran(){
+
+    document.getElementById("status").innerText =
+    "Mengecek pembayaran...";
+
+    setTimeout(() => {
+
+        // SIMULASI SUKSES 80%
+        let success = Math.random() > 0.2;
+
+        if(success){
+
+            let userKey = localStorage.getItem("currentUser");
+            let user = JSON.parse(localStorage.getItem(userKey));
+
+            user.saldo += data.nominal;
+
+            if(!user.riwayatDeposit){
+                user.riwayatDeposit = [];
+            }
+
+            user.riwayatDeposit.unshift({
+                nominal:data.nominal,
+                metode:data.method,
+                tanggal:new Date().toLocaleString("id-ID")
+            });
+
+            localStorage.setItem(userKey, JSON.stringify(user));
+
+            document.getElementById("status").innerText =
+            "Pembayaran berhasil ✔";
+
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 1500);
+
+        }else{
+            document.getElementById("status").innerText =
+            "Pembayaran belum ditemukan ❌";
+        }
+
+    }, 1500);
+}
+
+/* CANCEL */
+function batal(){
+    localStorage.removeItem("topupData");
+    window.location.href = "topup.html";
+}
+</script>
+
+</body>
+</html>
