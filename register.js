@@ -117,15 +117,24 @@ function register() {
 
     localStorage.setItem(phone, JSON.stringify(userData));
 
-    showLoading(
-"Pendaftaran Berhasil",
-"Mengalihkan ke halaman login..."
-);
+   // 1. tampilkan loading
+    showLoading();
 
-setTimeout(() => {
+    // 2. tunggu loading
+    setTimeout(() => {
 
-    window.location.href =
-    "index.html";
+        hideLoading();
 
-},5000);
+        // 3. tampilkan alert sukses
+        showAlert("Pendaftaran Berhasil", "Mengalihkan ke halaman login...");
+
+        // 4. tunggu user lihat alert
+        setTimeout(() => {
+
+            // 5. pindah halaman
+            window.location.href = "index.html";
+
+        }, 4000);
+
+    }, 2000);
 }
