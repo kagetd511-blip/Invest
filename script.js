@@ -10,6 +10,29 @@ function loadUser(){
 }
 
 // ========================
+// GLOBAL LOADER SYSTEM (TAMBAHAN BARU)
+// ========================
+function showLoader(){
+    const el = document.getElementById("miniLoader");
+    if(el) el.classList.add("active");
+}
+
+function hideLoader(){
+    const el = document.getElementById("miniLoader");
+    if(el) el.classList.remove("active");
+}
+
+// wrapper aman (biar gampang pakai loader)
+function withLoader(callback, delay = 800){
+    showLoader();
+
+    setTimeout(() => {
+        callback();
+        hideLoader();
+    }, delay);
+}
+
+// ========================
 // DRAWER MENU
 // ========================
 const menuBtn = document.getElementById("menuBtn");
@@ -70,11 +93,14 @@ function renderUser(){
 }
 
 // ========================
-// PILIH PAKET
+// PILIH PAKET (SUDAH DILINDUNGI LOADER)
 // ========================
 function pilihPaket(id){
-    localStorage.setItem("selectedPaket", id);
-    window.location.href = "paket.html";
+
+    withLoader(() => {
+        localStorage.setItem("selectedPaket", id);
+        window.location.href = "paket.html";
+    }, 1000);
 }
 
 // ========================
@@ -82,32 +108,33 @@ function pilihPaket(id){
 // ========================
 function tambahSaldoTest(){
 
-    loadUser();
-    if(!user) return;
+    withLoader(() => {
 
-    user.saldo += 10000000;
+        loadUser();
+        if(!user) return;
 
-    if(!user.riwayatDeposit){
-        user.riwayatDeposit = [];
-    }
+        user.saldo += 10000000;
 
-    user.riwayatDeposit.unshift({
-        nominal:10000000,
-        tanggal:new Date().toLocaleString("id-ID")
-    });
+        if(!user.riwayatDeposit){
+            user.riwayatDeposit = [];
+        }
 
-    localStorage.setItem(
-        currentUserKey,
-        JSON.stringify(user)
-    );
+        user.riwayatDeposit.unshift({
+            nominal:10000000,
+            tanggal:new Date().toLocaleString("id-ID")
+        });
 
-    alert("TEST SALDO +10.000.000");
+        localStorage.setItem(currentUserKey, JSON.stringify(user));
 
-    renderUser();
+        renderUser();
+
+        alert("TEST SALDO +10.000.000");
+
+    }, 1000);
 }
 
 // ========================
-// UPDATE PAKET (FIX FINAL STABLE)
+// UPDATE PAKET
 // ========================
 function updatePaket(){
 
@@ -120,55 +147,40 @@ function updatePaket(){
 
         if(!p.lastTick) p.lastTick = now;
 
-        // 5 detik = 1 hari simulasi
         if(now - p.lastTick >= 5000){
 
             p.hariBerjalan++;
             p.durasi--;
 
             const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
-
             p.saldoPaket += profit;
 
             p.lastTick = now;
         }
     });
 
-    // ========================
-    // CAIR FINAL (FIX UTAMA)
-    // ========================
     user.paketAktif = user.paketAktif.filter(p => {
 
         if(p.durasi <= 0){
 
-    user.saldo += p.saldoPaket;
+            user.saldo += p.saldoPaket;
 
-    if(user.riwayatPaket){
+            if(user.riwayatPaket){
 
-        const item =
-        user.riwayatPaket.find(
-            x =>
-            x.nama === p.nama &&
-            x.status === "AKTIF"
-        );
+                const item = user.riwayatPaket.find(
+                    x => x.nama === p.nama && x.status === "AKTIF"
+                );
 
-        if(item){
-            item.status = "KADALUWARSA";
+                if(item){
+                    item.status = "KADALUWARSA";
+                    item.totalCair = p.saldoPaket;
+                    item.profit = p.saldoPaket - p.modal;
+                    item.tanggalSelesai = new Date().toLocaleString("id-ID");
+                }
+            }
 
-            // simpan total hasil akhir
-        item.totalCair = p.saldoPaket;
-
-        item.profit =
-        p.saldoPaket - p.modal;
-
-        item.tanggalSelesai =
-        new Date().toLocaleString("id-ID");
-            
+            return false;
         }
-    }
-
-    return false;
-}
 
         return true;
     });
@@ -177,7 +189,7 @@ function updatePaket(){
 }
 
 // ========================
-// TAMPILKAN PAKET AKTIF (FIX UI)
+// TAMPILKAN PAKET AKTIF
 // ========================
 function tampilkanPaketAktif(){
 
@@ -193,17 +205,13 @@ function tampilkanPaketAktif(){
         if(old) old.remove();
 
         const persenHari = (p.hariBerjalan / 14) * 100;
-
         const profit = parseInt(p.profit.replace(/[^0-9]/g,""));
-
         const total = p.saldoPaket;
 
-        // 💥 persen profit REAL
         const persenProfit = (((total - p.modal) / p.modal) * 100).toFixed(1);
 
         box.insertAdjacentHTML("beforeend", `
             <div class="status-aktif">
-
                 <div class="badge">AKTIF</div>
 
                 <p>Modal: Rp ${Number(p.modal).toLocaleString("id-ID")}</p>
@@ -216,13 +224,11 @@ function tampilkanPaketAktif(){
                 </h4>
 
                 <p>+Rp ${profit.toLocaleString("id-ID")} / hari</p>
-
                 <p>Sisa Hari: ${p.durasi}</p>
 
                 <div class="progress">
                     <div class="progress-fill" style="width:${persenHari}%"></div>
                 </div>
-
             </div>
         `);
     });
@@ -233,22 +239,26 @@ function tampilkanPaketAktif(){
 // ========================
 function testProfit(){
 
-    loadUser();
+    withLoader(() => {
 
-    if(!user || !Array.isArray(user.paketAktif)){
-        alert("Tidak ada paket aktif");
-        return;
-    }
+        loadUser();
 
-    user.paketAktif.forEach(p => {
-        p.saldoPaket += 50000;
-    });
+        if(!user || !Array.isArray(user.paketAktif)){
+            alert("Tidak ada paket aktif");
+            return;
+        }
 
-    localStorage.setItem(currentUserKey, JSON.stringify(user));
+        user.paketAktif.forEach(p => {
+            p.saldoPaket += 50000;
+        });
 
-    alert("TEST PROFIT +50.000");
+        localStorage.setItem(currentUserKey, JSON.stringify(user));
 
-    renderAll();
+        alert("TEST PROFIT +50.000");
+
+        renderAll();
+
+    }, 800);
 }
 
 // ========================
@@ -269,12 +279,9 @@ setInterval(() => {
     if(!user) return;
 
     updatePaket();
-
     localStorage.setItem(currentUserKey, JSON.stringify(user));
 
     renderAll();
-
-    console.log("AUTO UPDATE OK");
 
 }, 5000);
 
@@ -283,38 +290,29 @@ setInterval(() => {
 // ========================
 renderAll();
 
+// ========================
+// ADMIN
+// ========================
 function adminWhatsapp(){
-
-    window.open(
-        "https://wa.me/6281234567890",
-        "_blank"
-    );
-
+    window.open("https://wa.me/6281234567890", "_blank");
 }
 
+// ========================
+// LOGOUT (SUDAH LOADER)
+// ========================
 function logout(){
-
-    document
-    .getElementById("logoutPopup")
-    .classList.add("active");
-
+    document.getElementById("logoutPopup").classList.add("active");
 }
 
 function tutupLogout(){
-
-    document
-    .getElementById("logoutPopup")
-    .classList.remove("active");
-
+    document.getElementById("logoutPopup").classList.remove("active");
 }
 
 function prosesLogout(){
 
-    localStorage.removeItem("isLogin");
-
-    localStorage.removeItem("currentUser");
-
-    window.location.href =
-    "index.html";
-
+    withLoader(() => {
+        localStorage.removeItem("isLogin");
+        localStorage.removeItem("currentUser");
+        window.location.href = "index.html";
+    }, 1000);
 }
