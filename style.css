@@ -1832,8 +1832,8 @@ opacity:1;
 
 /* CARD */
 .announcement-card{
-    width:88%;
-    max-width:250px;
+    width:95%;
+    max-width:320px;
 
     border-radius:20px;
 
