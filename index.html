@@ -14,47 +14,249 @@
     font-family:Arial,sans-serif;
 }
 
+/* =========================
+   BODY ROYAL PREMIUM
+========================= */
 body{
     width:100%;
-    height:100vh;
+    min-height:100vh;
     overflow:hidden;
+    position:relative;
 
     background:
-    radial-gradient(circle at top,
-    #1e90ff 0%,
-    #005BAC 35%,
-    #00386d 70%,
-    #001d3d 100%);
+    radial-gradient(
+        circle at top center,
+        #1a4f9d 0%,
+        #103c7d 20%,
+        #0a2f66 40%,
+        #071f47 65%,
+        #04152f 85%,
+        #020b1d 100%
+    );
+
+    animation:bgBreath 12s ease-in-out infinite;
 }
 
-body::before,
+/* =========================
+   GREEN AURORA
+========================= */
+body::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+    radial-gradient(
+        circle at center,
+        transparent 35%,
+        rgba(0,0,0,.18) 100%
+    );
+
+    pointer-events:none;
+}
+
+@keyframes bgBreath{
+    0%,100%{
+        filter:saturate(1) brightness(1);
+    }
+
+    50%{
+        filter:saturate(1.08) brightness(1.03);
+    }
+}
+
+/* =========================
+   BLUE AURORA
+========================= */
 body::after{
     content:"";
     position:absolute;
+
+    width:650px;
+    height:650px;
+
+    bottom:-280px;
+    right:-220px;
+
     border-radius:50%;
-    filter:blur(100px);
-    z-index:0;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(0,170,255,.35),
+        rgba(0,170,255,.08),
+        transparent 75%
+    );
+
+    filter:blur(120px);
+
+    animation:auroraBlue 15s ease-in-out infinite;
+
+    pointer-events:none;
 }
 
-body::before{
-    width:250px;
-    height:250px;
-    background:rgba(0,255,255,.25);
-    top:-50px;
-    left:-50px;
+/* =========================
+   LUXURY LIGHT OVERLAY
+========================= */
+.bg-light{
+    position:absolute;
+    inset:0;
+
+    background:
+    radial-gradient(
+        circle at 50% 35%,
+        rgba(255,255,255,.08),
+        transparent 55%
+    );
+
+    pointer-events:none;
+
+    animation:luxLight 10s ease-in-out infinite;
 }
 
-body::after{
-    width:300px;
-    height:300px;
-    background:rgba(255,255,255,.15);
-    bottom:-100px;
-    right:-100px;
+/* =========================
+   AURORA EFFECT
+========================= */
+.bg-light::before{
+    content:"";
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    top:-180px;
+    left:-120px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(0,255,136,.08),
+        transparent 70%
+    );
+
+    filter:blur(70px);
+
+    animation:auroraGreen 14s ease-in-out infinite;
 }
 
+.bg-light::after{
+    content:"";
+    position:absolute;
+
+    width:750px;
+    height:750px;
+
+    bottom:-250px;
+    right:-180px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(0,140,255,.08),
+        transparent 70%
+    );
+
+    filter:blur(90px);
+
+    animation:auroraBlue 16s ease-in-out infinite;
+}
+
+/* =========================
+   PREMIUM FLOATING DUST
+========================= */
+.bg-particles{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.bg-particles::before,
+.bg-particles::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background-image:
+    radial-gradient(circle, rgba(255,255,255,.22) 1px, transparent 1px);
+
+    background-size:180px 180px;
+
+    animation:dustMove 30s linear infinite;
+}
+
+.bg-particles::after{
+    opacity:.4;
+    transform:scale(1.4);
+    animation-duration:45s;
+}
+
+/* =========================
+   CINEMATIC VIGNETTE
+========================= */
+.bg-vignette{
+    position:absolute;
+    inset:0;
+
+    background:
+    radial-gradient(
+        circle at center,
+        transparent 45%,
+        rgba(0,0,0,.35) 100%
+    );
+
+    pointer-events:none;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes auroraGreen{
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
+    50%{
+        transform:translate(90px,50px) scale(1.2);
+    }
+}
+
+@keyframes auroraBlue{
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
+    50%{
+        transform:translate(-120px,-60px) scale(1.25);
+    }
+}
+
+@keyframes luxLight{
+    0%,100%{
+        opacity:.7;
+    }
+    50%{
+        opacity:1;
+    }
+}
+
+@keyframes dustMove{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(-300px);
+    }
+}
+
+/* =========================
+   SPLASH ULTRA LUXURY
+========================= */
 .splash{
     width:100%;
-    height:100vh;
+    min-height:100vh;
 
     display:flex;
     justify-content:center;
@@ -62,34 +264,247 @@ body::after{
     flex-direction:column;
 
     position:relative;
+    z-index:2;
+
     padding-bottom:60px;
+
+    overflow:hidden;
 }
 
-/* CAHAYA BELAKANG LOGO */
-
+/* =========================
+   MAIN AURA BACKGROUND
+========================= */
 .splash::before{
     content:"";
     position:absolute;
 
-    width:320px;
-    height:320px;
+    width:600px;
+    height:600px;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-55%);
 
     border-radius:50%;
 
     background:
     radial-gradient(
         circle,
-        rgba(255,255,255,.12),
-        transparent 70%
+        rgba(0,255,136,.18) 0%,
+        rgba(0,255,136,.08) 22%,
+        rgba(0,140,255,.06) 45%,
+        rgba(255,255,255,.03) 60%,
+        transparent 80%
     );
+
+    filter:blur(90px);
+
+    animation:luxAura 10s ease-in-out infinite;
+
+    pointer-events:none;
+    z-index:-3;
+}
+
+/* =========================
+   INNER CORE GLOW
+========================= */
+.splash::after{
+    content:"";
+    position:absolute;
+
+    width:320px;
+    height:320px;
 
     top:50%;
     left:50%;
 
-    transform:
-    translate(-50%,-55%);
+    transform:translate(-50%,-55%);
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(255,255,255,.18) 0%,
+        rgba(255,255,255,.08) 30%,
+        rgba(255,255,255,.03) 50%,
+        transparent 75%
+    );
+
+    filter:blur(40px);
+
+    animation:corePulse 5s ease-in-out infinite;
 
     pointer-events:none;
+    z-index:-2;
+}
+
+/* =========================
+   LUXURY RING 1
+========================= */
+.lux-ring{
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-55%);
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.05);
+
+    box-shadow:
+        inset 0 0 40px rgba(255,255,255,.02),
+        0 0 60px rgba(0,255,136,.08);
+
+    animation:ringRotate 20s linear infinite;
+
+    pointer-events:none;
+}
+
+/* =========================
+   LUXURY RING 2
+========================= */
+.lux-ring::before{
+    content:"";
+    position:absolute;
+
+    inset:22px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.03);
+
+    animation:ringRotateReverse 16s linear infinite;
+}
+
+/* =========================
+   LUXURY RING 3
+========================= */
+.lux-ring::after{
+    content:"";
+    position:absolute;
+
+    inset:50px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(0,255,136,.06);
+
+    animation:ringRotate 12s linear infinite;
+}
+
+/* =========================
+   FLOATING LIGHT
+========================= */
+.lux-particle{
+    position:absolute;
+
+    width:12px;
+    height:12px;
+
+    border-radius:50%;
+
+    background:#00ff88;
+
+    box-shadow:
+        0 0 25px rgba(0,255,136,.8),
+        0 0 60px rgba(0,255,136,.4);
+
+    top:50%;
+    left:50%;
+
+    margin-left:-6px;
+    margin-top:-6px;
+
+    animation:orbitLight 8s linear infinite;
+
+    pointer-events:none;
+}
+
+/* =========================
+   SECOND PARTICLE
+========================= */
+.lux-particle.second{
+    width:8px;
+    height:8px;
+
+    background:#00cfff;
+
+    box-shadow:
+        0 0 20px rgba(0,140,255,.7),
+        0 0 50px rgba(0,140,255,.4);
+
+    animation-duration:12s;
+    animation-direction:reverse;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes luxAura{
+    0%,100%{
+        transform:translate(-50%,-55%) scale(1);
+        opacity:.7;
+    }
+
+    50%{
+        transform:translate(-50%,-55%) scale(1.18);
+        opacity:1;
+    }
+}
+
+@keyframes corePulse{
+    0%,100%{
+        transform:translate(-50%,-55%) scale(1);
+        opacity:.6;
+    }
+
+    50%{
+        transform:translate(-50%,-55%) scale(1.25);
+        opacity:1;
+    }
+}
+
+@keyframes ringRotate{
+    from{
+        transform:translate(-50%,-55%) rotate(0deg);
+    }
+
+    to{
+        transform:translate(-50%,-55%) rotate(360deg);
+    }
+}
+
+@keyframes ringRotateReverse{
+    from{
+        transform:rotate(360deg);
+    }
+
+    to{
+        transform:rotate(0deg);
+    }
+}
+
+@keyframes orbitLight{
+    0%{
+        transform:
+        rotate(0deg)
+        translateX(210px)
+        rotate(0deg);
+    }
+
+    100%{
+        transform:
+        rotate(360deg)
+        translateX(210px)
+        rotate(-360deg);
+    }
 }
 
 /* ========================= */
@@ -129,171 +544,455 @@ body::after{
     drop-shadow(0 0 40px rgba(255,255,255,.15));
 }
 
-/* ========================= */
-/* LOADING */
-/* ========================= */
+/* =========================
+   LOADING PREMIUM ELITE
+========================= */
 
 .loading{
-    width:260px;
-    height:8px;
+    position:relative;
 
-    border-radius:50px;
+    width:260px;
+    height:10px;
+
+    border-radius:999px;
     overflow:hidden;
 
     background:
-    rgba(255,255,255,.12);
+    rgba(255,255,255,.06);
 
-    backdrop-filter:blur(10px);
+    backdrop-filter:blur(12px);
 
-    border:
-    1px solid rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.05),
+    0 10px 30px rgba(0,0,0,.25);
 }
 
-.loading-bar{
-    width:0;
-    height:100%;
+/* TRACK GLOW */
+.loading::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    border-radius:999px;
 
     background:
     linear-gradient(
     90deg,
-    #00e5ff,
-    #ffffff,
-    #00ff88,
-    #00e5ff
+    transparent,
+    rgba(255,255,255,.04),
+    transparent
     );
 
-    background-size:300%;
+    animation:trackGlow 3s linear infinite;
+}
+
+/* =========================
+   LOADING BAR
+========================= */
+
+.loading-bar{
+    position:relative;
+
+    width:0;
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #00d977,
+    #00ff88,
+    #4dffb1
+    );
+
+    box-shadow:
+    0 0 15px rgba(0,255,136,.25),
+    0 0 30px rgba(0,255,136,.18);
 
     animation:
-    loadBar 4s linear forwards,
-    shine 1.5s linear infinite;
+    loadBar 4s linear forwards;
 }
 
-@keyframes shine{
+/* MOVING LIGHT */
+.loading-bar::after{
+    content:"";
+    position:absolute;
+
+    top:-2px;
+    right:-20px;
+
+    width:40px;
+    height:14px;
+
+    background:
+    radial-gradient(
+    circle,
+    rgba(255,255,255,.95),
+    rgba(255,255,255,.2),
+    transparent 75%
+    );
+
+    filter:blur(3px);
+
+    animation:headGlow 1.5s ease-in-out infinite;
+}
+
+/* =========================
+   LOADING TEXT
+========================= */
+
+.loading-text{
+    margin-top:18px;
+
+    text-align:center;
+
+    font-size:13px;
+    font-weight:600;
+
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+
+    color:rgba(255,255,255,.82);
+
+    animation:textPulse 2.5s ease-in-out infinite;
+}
+
+/* DOTS */
+.loading-text::after{
+    content:"";
+    animation:dots 1.5s steps(4,end) infinite;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes trackGlow{
     from{
-        background-position:0%;
+        transform:translateX(-100%);
     }
     to{
-        background-position:300%;
+        transform:translateX(100%);
     }
 }
 
-/* ========================= */
-/* FOOTER */
-/* ========================= */
+@keyframes headGlow{
+    0%,100%{
+        opacity:.6;
+        transform:scale(1);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.3);
+    }
+}
+
+@keyframes textPulse{
+    0%,100%{
+        opacity:.65;
+        letter-spacing:1.2px;
+    }
+    50%{
+        opacity:1;
+        letter-spacing:2px;
+    }
+}
+
+@keyframes dots{
+    0%{content:"";}
+    25%{content:".";}
+    50%{content:"..";}
+    75%{content:"...";}
+    100%{content:"";}
+}
+
+/* =========================
+   FOOTER LUXURY PREMIUM
+========================= */
 
 .footer{
     position:absolute;
-    bottom:30px;
+    bottom:28px;
+    left:0;
+
     width:100%;
+
     text-align:center;
 
-    color:rgba(255,255,255,.85);
+    color:rgba(255,255,255,.82);
+
+    z-index:5;
+
+    animation:footerFadeUp 1.2s ease;
 }
 
+/* LOGO WRAPPER */
 .footer-logo{
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:12px;
+    gap:14px;
+
+    margin-bottom:12px;
 }
 
+/* ITEM */
 .footer-item{
-    width:90px;
-    height:28px;
+    width:95px;
+    height:30px;
 
     display:flex;
     justify-content:center;
     align-items:center;
+
+    opacity:.85;
+
+    transition:.4s ease;
 }
 
 .footer-item img{
     max-width:100%;
     max-height:100%;
     object-fit:contain;
+
+    filter:
+    brightness(1.05)
+    drop-shadow(0 0 10px rgba(255,255,255,.08));
+
+    animation:logoFloatFooter 4s ease-in-out infinite;
 }
+
+.footer-item:nth-child(2) img{
+    animation-delay:.8s;
+}
+
+.footer-item:nth-child(3) img{
+    animation-delay:1.6s;
+}
+
+/* =========================
+   FOOTER TEXT LUXURY
+========================= */
 
 .footer-text{
+    position:relative;
+
     font-size:12px;
-    letter-spacing:.5px;
-    line-height:1.7;
+    font-weight:500;
+
+    letter-spacing:1px;
+    line-height:1.9;
+
+    color:rgba(255,255,255,.78);
+
     margin-bottom:45px;
+
+    text-shadow:
+    0 0 12px rgba(255,255,255,.08),
+    0 0 25px rgba(0,255,136,.08);
+
+    animation:
+    textFloat 5s ease-in-out infinite,
+    textGlow 4s ease-in-out infinite;
+
+    overflow:hidden;
 }
 
-/* ========================= */
-/* ANIMATION */
-/* ========================= */
+/* SHIMMER EFFECT */
+.footer-text::after{
+    content:"";
+    position:absolute;
 
-.show-text{
-    animation:textShow .8s forwards;
+    top:0;
+    left:-120%;
+
+    width:70%;
+    height:100%;
+
+    background:
+    linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.18),
+    transparent
+    );
+
+    transform:skewX(-20deg);
+
+    animation:textShine 4s linear infinite;
 }
 
-.hide-icon{
-    animation:iconHide .8s forwards;
-}
+/* =========================
+   ANIMATION
+========================= */
 
-.load{
-    animation:loadBar 4s linear forwards;
-}
-
-@keyframes float{
+@keyframes textFloat{
 
     0%,100%{
         transform:translateY(0);
     }
 
     50%{
-        transform:translateY(-8px);
+        transform:translateY(-3px);
     }
 
 }
 
-@keyframes iconHide{
+@keyframes textGlow{
 
-    from{
+    0%,100%{
+        opacity:.75;
+
+        text-shadow:
+        0 0 12px rgba(255,255,255,.08),
+        0 0 20px rgba(0,255,136,.05);
+    }
+
+    50%{
+        opacity:1;
+
+        text-shadow:
+        0 0 18px rgba(255,255,255,.15),
+        0 0 35px rgba(0,255,136,.12);
+    }
+
+}
+
+@keyframes textShine{
+
+    0%{
+        left:-120%;
+    }
+
+    100%{
+        left:150%;
+    }
+
+}
+
+/* =========================
+   EFFECT CLASS
+========================= */
+
+.show-text{
+    animation:premiumTextShow .9s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.hide-icon{
+    animation:premiumIconHide .9s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.load{
+    animation:loadBar 4s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+}
+
+/* ICON DISAPPEAR */
+@keyframes premiumIconHide{
+
+    0%{
         opacity:1;
         transform:
         translate(-50%,-50%)
         scale(1);
+        filter:blur(0);
     }
 
-    to{
+    100%{
         opacity:0;
         transform:
         translate(-50%,-50%)
-        scale(1.8);
+        scale(2.2);
+        filter:blur(8px);
     }
-
 }
 
-@keyframes textShow{
+/* TEXT APPEAR */
+@keyframes premiumTextShow{
 
-    from{
+    0%{
         opacity:0;
         transform:
         translate(-50%,-50%)
         scale(.7);
+        filter:blur(10px);
     }
 
-    to{
+    100%{
         opacity:1;
         transform:
         translate(-50%,-50%)
         scale(1);
+        filter:blur(0);
     }
-
 }
 
+/* LOADING */
 @keyframes loadBar{
 
-    from{
+    0%{
         width:0%;
+        opacity:.8;
+    }
+
+    100%{
+        width:100%;
+        opacity:1;
+    }
+}
+
+/* FOOTER SHOW */
+@keyframes footerFadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
     }
 
     to{
-        width:100%;
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* FLOAT LOGO */
+@keyframes logoFloatFooter{
+
+    0%,100%{
+        transform:translateY(0);
     }
 
+    50%{
+        transform:translateY(-4px);
+    }
+}
+
+/* BREATH TEXT */
+@keyframes textBreath{
+
+    0%,100%{
+        opacity:.7;
+    }
+
+    50%{
+        opacity:1;
+    }
 }
 
 .loading-text{
@@ -331,7 +1030,7 @@ body::after{
     </div>
 
     <div class="loading-text" id="loadingText">
-Memuat Sistem...
+Memuat Sistem
 </div>
 
     <div class="footer">
@@ -347,6 +1046,13 @@ Memuat Sistem...
     </div>
 
 </div>
+
+     
+<div class="bg-grid"></div>
+<div class="bg-light"></div>
+<div class="bg-particles"></div>
+<div class="lux-ring"></div>
+
 
         <div class="footer-text">
             PT Pertamina (Persero)<br>
@@ -383,12 +1089,12 @@ document.getElementById("loadingText");
 
 setTimeout(()=>{
 text.innerText =
-"Memverifikasi Server...";
+"Memverifikasi Server";
 },2000);
 
 setTimeout(()=>{
 text.innerText =
-"Menyiapkan Dashboard...";
+"Menyiapkan Dashboard";
 },4000);
 
 /* Redirect */
