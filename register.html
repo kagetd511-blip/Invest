@@ -874,16 +874,26 @@ h2{
     position:fixed;
     inset:0;
 
+    background:
+    radial-gradient(circle at top left,
+    rgba(0,255,120,.08),
+    transparent 45%),
+
+    radial-gradient(circle at bottom right,
+    rgba(0,120,255,.10),
+    transparent 50%),
+
+    linear-gradient(
+    180deg,
+    #020817,
+    #06152d,
+    #0a2c5e);
+
     display:flex;
     justify-content:center;
     align-items:center;
 
     z-index:999999;
-
-    background:
-        radial-gradient(circle at 20% 20%, rgba(0,255,136,.10), transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(0,140,255,.12), transparent 50%),
-        linear-gradient(180deg,#020b1a,#061a3a,#0b2f66);
 
     opacity:0;
     visibility:hidden;
@@ -896,120 +906,185 @@ h2{
 }
 
 /* =========================
-   CENTER WRAPPER
+   CONTENT
 ========================= */
 .loading-content{
     text-align:center;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:14px;
 }
 
 /* =========================
-   PREMIUM LOGO FRAME
+   LOGO BOX
 ========================= */
 .loading-logo{
-    width:122px;
-    height:122px;
+    width:125px;
+    height:125px;
 
-    border-radius:26px;
+    margin:auto;
 
     position:relative;
+
+    border-radius:32px;
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(25px);
+
+    border:1px solid rgba(255,255,255,.08);
+
     display:flex;
     align-items:center;
     justify-content:center;
 
-    background:rgba(255,255,255,.05);
-    backdrop-filter:blur(24px);
-
-    border:1px solid rgba(255,255,255,.10);
+    overflow:hidden;
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,.65),
-        inset 0 1px 0 rgba(255,255,255,.06);
+    0 30px 80px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.08);
 
-    overflow:hidden;
+    animation:floatLogo 4s ease-in-out infinite;
 }
 
-/* LOGO */
 .loading-logo img{
-    width:76%;
-    height:76%;
+    width:75%;
+    height:75%;
     object-fit:contain;
     z-index:2;
-
-    filter:drop-shadow(0 8px 18px rgba(0,0,0,.4));
 }
 
 /* =========================
-   LUXURY FRAME RING (FOLLOW SHAPE)
+   PREMIUM LOADING BAR
 ========================= */
 .loading-logo::before{
     content:"";
+
     position:absolute;
-    inset:-3px;
+    left:0;
+    bottom:0;
 
-    border-radius:28px;
+    width:35%;
+    height:3px;
 
-    background:conic-gradient(
-        from 0deg,
-        transparent 0%,
-        #00ff88 15%,
-        transparent 35%,
-        #00cfff 55%,
-        transparent 75%,
-        #00ff88 100%
-    );
+    border-radius:999px;
 
-    animation:luxSpin 1.2s linear infinite;
+    background:linear-gradient(
+    90deg,
+    #00ff88,
+    #7dffcb);
 
-    filter:blur(.3px);
-    opacity:.9;
+    box-shadow:
+    0 0 15px rgba(0,255,136,.7);
+
+    animation:loadingMove 1.6s ease-in-out infinite;
 }
 
-/* INNER SOFT GLOW */
+/* glow */
 .loading-logo::after{
     content:"";
-    position:absolute;
-    inset:6px;
 
-    border-radius:20px;
+    position:absolute;
+    inset:-20px;
+
+    border-radius:40px;
 
     background:
-        radial-gradient(circle at center,
-        rgba(0,255,136,.12),
-        transparent 60%);
+    radial-gradient(
+    circle,
+    rgba(0,255,136,.12),
+    transparent 70%);
 
-    animation:breath 2s ease-in-out infinite;
+    animation:pulseGlow 3s ease-in-out infinite;
 }
 
 /* =========================
-   TEXT
+   TITLE
 ========================= */
 .loading-content h3{
-    color:#ffffff;
-    font-size:18px;
-    font-weight:700;
-    letter-spacing:.4px;
-}
+    margin-top:22px;
 
-.loading-content p{
-    color:rgba(255,255,255,.65);
-    font-size:13px;
+    font-size:19px;
+    font-weight:700;
+
+    color:#fff;
+
+    letter-spacing:.8px;
+
+    opacity:0;
+
+    animation:
+    textReveal .8s ease forwards,
+    titleGlow 3s ease-in-out infinite;
 }
 
 /* =========================
-   ANIMATION
+   SUBTITLE
 ========================= */
-@keyframes luxSpin{
-    0%{ transform:rotate(0deg); }
-    100%{ transform:rotate(360deg); }
+.loading-content p{
+    margin-top:8px;
+
+    font-size:13px;
+
+    color:rgba(255,255,255,.72);
+
+    letter-spacing:.5px;
+
+    opacity:0;
+
+    animation:textReveal .8s ease .2s forwards;
 }
 
-@keyframes breath{
-    0%,100%{ opacity:.6; transform:scale(1); }
-    50%{ opacity:1; transform:scale(1.05); }
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes loadingMove{
+    0%{
+        left:-35%;
+    }
+    100%{
+        left:100%;
+    }
+}
+
+@keyframes pulseGlow{
+    0%,100%{
+        opacity:.5;
+        transform:scale(1);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.08);
+    }
+}
+
+@keyframes floatLogo{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-6px);
+    }
+}
+
+@keyframes textReveal{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes titleGlow{
+    0%,100%{
+        text-shadow:
+        0 0 0 rgba(0,255,136,0);
+    }
+    50%{
+        text-shadow:
+        0 0 15px rgba(0,255,136,.35);
+    }
 }
 
 </style>
