@@ -429,12 +429,120 @@ body{
     box-shadow:0 16px 40px rgba(0,255,136,.3);
 }
 
-/* =========================
-   MINI LOADER PREMIUM (CLEAN)
-========================= */
+.mini-loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(8px);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:99999;
+
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+}
+
+.mini-loader.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.mini-loader-box{
+    text-align:center;
+}
+
+.loader-circle{
+    position:relative;
+    width:90px;
+    height:90px;
+    margin:auto;
+}
+
+.loader-circle::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:3px solid rgba(255,255,255,.12);
+}
+
 .loader-circle::after{
-    border-top:2px solid #00ff88;
-    border-right:2px solid #00ff88;
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:3px solid transparent;
+    border-top:3px solid #00ff88;
+    border-right:3px solid #00ff88;
+    animation:rotateLoader .8s linear infinite;
+}
+
+.mini-logo{
+    position:absolute;
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:58px;
+    height:58px;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(255,255,255,.12),
+    rgba(255,255,255,.05)
+    );
+
+    backdrop-filter:blur(10px);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-shadow:
+    0 0 20px rgba(0,255,136,.25);
+
+    animation:pulseLogo 1.5s ease-in-out infinite;
+}
+
+.mini-logo img{
+    width:70%;
+    height:70%;
+    object-fit:contain;
+}
+
+.mini-loader p{
+    margin-top:18px;
+    color:white;
+    font-size:14px;
+    letter-spacing:.5px;
+}
+
+@keyframes rotateLoader{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes pulseLogo{
+    0%,100%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    50%{
+        transform:translate(-50%,-50%) scale(1.08);
+    }
 }
     
 </style>
