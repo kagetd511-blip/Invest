@@ -463,6 +463,127 @@ to{transform:translateX(-100%);}
 
 }
 
+.status-aktif{
+    margin-top:8px;
+    padding:10px 10px;
+
+    border-radius:14px;
+
+    /* glass premium */
+    background: linear-gradient(
+        135deg,
+        rgba(0,255,136,.10),
+        rgba(255,255,255,.03)
+    );
+
+    border:1px solid rgba(0,255,136,.18);
+
+    backdrop-filter: blur(18px);
+
+    font-size:11px;
+    line-height:1.4;
+
+    position:relative;
+    overflow:hidden;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* soft glow layer */
+.status-aktif::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background: radial-gradient(
+        circle at top left,
+        rgba(0,255,136,.15),
+        transparent 60%
+    );
+
+    opacity:.8;
+    pointer-events:none;
+}
+
+/* =========================
+   BADGE PREMIUM
+========================= */
+.badge{
+    background: linear-gradient(135deg, #00ff88, #00c853);
+    color:#041b10;
+
+    font-weight:700;
+
+    padding:3px 10px;
+    border-radius:999px;
+
+    display:inline-block;
+
+    margin-bottom:6px;
+
+    font-size:10px;
+    letter-spacing:.3px;
+
+    box-shadow:
+        0 6px 15px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+/* =========================
+   TITLE (H4 PREMIUM LOOK)
+========================= */
+.status-aktif h4{
+    font-size:14px;
+    margin:4px 0;
+
+    color:#00ff88;
+
+    text-shadow:0 0 10px rgba(0,255,136,.25);
+}
+
+/* =========================
+   TEXT INFO PREMIUM
+========================= */
+.status-aktif p{
+    margin:2px 0;
+
+    font-size:11px;
+
+    color:rgba(255,255,255,.75);
+}
+
+/* =========================
+   PROGRESS BAR PREMIUM
+========================= */
+.progress{
+    width:100%;
+    height:6px;
+
+    margin-top:6px;
+
+    border-radius:999px;
+
+    background: rgba(255,255,255,.08);
+
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.progress-fill{
+    height:100%;
+
+    background: linear-gradient(90deg, #00ff88, #00c853);
+
+    border-radius:999px;
+
+    box-shadow:0 0 10px rgba(0,255,136,.35);
+
+    transition:width .5s ease;
+}
+
 
 
 /* =========================
