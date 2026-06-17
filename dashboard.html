@@ -299,15 +299,14 @@ localStorage.getItem("isLogin")
       </div>
     </div>
 
-    <!-- POPUP PENGUMUMAN -->
-<div id="announcementPopup" class="popup-overlay">
+  <!-- POPUP PENGUMUMAN -->
+<div id="announcementPopup" class="announcement-popup">
 
-    <div class="popup-box">
+    <div class="announcement-card">
 
-        <!-- HEADER -->
-        <div class="popup-top">
+        <div class="announcement-header">
 
-            <div class="popup-icon">
+            <div class="announcement-icon">
                 <i class="fas fa-bullhorn"></i>
             </div>
 
@@ -319,8 +318,7 @@ localStorage.getItem("isLogin")
 
         </div>
 
-        <!-- CONTENT -->
-        <div class="popup-content">
+        <div class="announcement-content">
 
             <div class="announce-section">
 
@@ -431,20 +429,13 @@ localStorage.getItem("isLogin")
             </div>
 
             <div class="thankyou">
-
                 TERIMA KASIH ATAS KEPERCAYAAN ANDA
-
             </div>
 
         </div>
 
-        <!-- BUTTON -->
-        <button
-        class="popup-button"
-        onclick="closeAnnouncement()">
-
+        <button class="announcement-btn" id="closeAnnouncement">
             Saya Mengerti
-
         </button>
 
     </div>
