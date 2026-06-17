@@ -10,123 +10,423 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+
+/* =========================
+   BODY PREMIUM
+========================= */
 body{
     margin:0;
     font-family:Arial;
-    background:linear-gradient(135deg,#0f172a,#020617);
-    color:white;
+    background:linear-gradient(135deg,#050b18,#0b1220,#020617);
+    color:#f1f5f9;
+    min-height:170vh;
+    overflow-y:auto;
 }
 
-/* HEADER */
+/* =========================
+   HEADER ULTRA PREMIUM
+========================= */
 .header{
     display:flex;
     align-items:center;
-    gap:10px;
-    padding:15px 20px;
-    background:#0b1220;
-    border-bottom:1px solid #1e293b;
+    gap:12px;
+
+    padding:16px 20px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(10,18,32,.92),
+        rgba(5,10,20,.88)
+    );
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.04);
+
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
+/* LOGO */
 .header img{
-    width:40px;
-    height:40px;
-    border-radius:10px;
+    width:44px;
+    height:44px;
+
+    border-radius:14px;
+    object-fit:cover;
+
+    background:rgba(255,255,255,.06);
+    padding:3px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,255,255,.06);
 }
 
+/* TITLE */
 .header h2{
     font-size:18px;
     margin:0;
+    letter-spacing:.5px;
+    font-weight:800;
+
+    background:linear-gradient(90deg,#ffffff,#cbd5e1);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
-/* CONTAINER */
+/* =========================
+   CONTAINER
+========================= */
 .container{
     padding:20px;
 }
 
-/* CARD */
+/* =========================
+   CARD ULTRA PREMIUM + ANIMASI HALUS
+========================= */
 .card{
-    background:rgba(30,41,59,0.8);
-    backdrop-filter:blur(10px);
+    background:linear-gradient(135deg,rgba(30,41,59,.85),rgba(15,23,42,.85));
+    backdrop-filter:blur(14px);
+
     padding:18px;
-    border-radius:16px;
+    border-radius:18px;
+
     margin-bottom:15px;
-    border:1px solid #1e293b;
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.03);
+
+    transition:transform .25s ease, box-shadow .25s ease;
+
+    position:relative;
+    overflow:hidden;
+
+    animation:fadeInUp .45s ease both;
 }
 
+/* glow halus bergerak */
+.card::before{
+    content:"";
+    position:absolute;
+    top:-60%;
+    left:-60%;
+    width:220%;
+    height:220%;
+
+    background:radial-gradient(
+        circle,
+        rgba(0,255,136,.08),
+        transparent 55%
+    );
+
+    transform:rotate(20deg);
+}
+
+/* hover premium */
+.card:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 28px 70px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* =========================
+   REF CODE PREMIUM
+========================= */
 .ref-code{
     font-size:22px;
-    font-weight:bold;
+    font-weight:800;
     color:#00ff88;
-    letter-spacing:3px;
+    letter-spacing:4px;
     margin:10px 0;
+
+    text-shadow:0 0 18px rgba(0,255,136,.25);
+
+    animation:glowText 2.5s ease-in-out infinite;
 }
 
+/* =========================
+   BUTTON PREMIUM
+========================= */
 .btn{
-    padding:10px 15px;
+    padding:12px 15px;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
+
     background:linear-gradient(135deg,#00ff88,#00c853);
-    font-weight:bold;
+    color:#04130c;
+
+    font-weight:800;
     cursor:pointer;
-    color:#000;
+
     width:100%;
-    margin-top:10px;
+
+    box-shadow:
+        0 15px 35px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.35);
+
+    transition:.2s ease;
 }
 
-/* PROGRESS */
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 20px 45px rgba(0,255,136,.35),
+        inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes fadeInUp{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes glowText{
+    0%,100%{
+        text-shadow:0 0 10px rgba(0,255,136,.15);
+    }
+    50%{
+        text-shadow:0 0 22px rgba(0,255,136,.35);
+    }
+}
+
+/* =========================
+   PROGRESS ULTRA PREMIUM
+========================= */
 .progress{
-    background:#334155;
+    background:rgba(255,255,255,.06);
     height:12px;
-    border-radius:20px;
+    border-radius:999px;
     overflow:hidden;
     margin-top:10px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        inset 0 2px 6px rgba(0,0,0,.35);
 }
 
+/* BAR */
 .progress-bar{
     height:100%;
     width:0%;
-    background:linear-gradient(90deg,#00ff88,#22c55e);
+
+    background:linear-gradient(90deg,#00ff88,#22c55e,#00ff88);
+    background-size:200% 100%;
+
+    border-radius:999px;
+
+    box-shadow:
+        0 0 18px rgba(0,255,136,.35),
+        0 0 35px rgba(0,255,136,.15);
+
+    animation:shineBar 2s linear infinite;
 }
 
-/* BADGE */
+/* shimmer effect */
+@keyframes shineBar{
+    0%{
+        background-position:0% 0%;
+    }
+    100%{
+        background-position:200% 0%;
+    }
+}
+
+/* =========================
+   BADGE ULTRA PREMIUM
+========================= */
 .badge{
-    display:inline-block;
-    padding:6px 10px;
-    background:#f59e0b;
-    border-radius:10px;
-    font-size:12px;
-    margin-top:5px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+
+    padding:5px 10px;
+
+    background:linear-gradient(135deg,#f59e0b,#fbbf24,#ffd38a);
+    color:#1a1200;
+
+    border-radius:999px;
+    font-size:11px;
+    font-weight:900;
+
+    box-shadow:
+        0 10px 25px rgba(245,158,11,.25),
+        inset 0 1px 0 rgba(255,255,255,.35);
+
+    position:relative;
+    overflow:hidden;
+
+    animation:badgePulse 2.5s ease-in-out infinite;
 }
 
-/* LIST */
+/* light sweep */
+.badge::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-60%;
+    width:40%;
+    height:200%;
+
+    background:rgba(255,255,255,.35);
+    transform:rotate(25deg);
+
+    animation:sweep 2.8s infinite;
+    opacity:.4;
+}
+
+@keyframes sweep{
+    0%{ left:-60%; }
+    100%{ left:120%; }
+}
+
+/* =========================
+   LIST PREMIUM
+========================= */
 ul{
     padding-left:18px;
+    margin:0;
     color:#cbd5e1;
+
+    line-height:1.6;
 }
 
+ul li{
+    margin-bottom:6px;
+    position:relative;
+    padding-left:6px;
+}
+
+/* bullet lebih premium */
+ul li::marker{
+    color:#00ff88;
+}
+
+/* =========================
+   SMALL TEXT PREMIUM
+========================= */
 small{
     color:#94a3b8;
+    font-size:12px;
+    letter-spacing:.2px;
+    opacity:.9;
 }
 
+/* =========================
+   TITLE PREMIUM
+========================= */
 .title{
     font-size:16px;
-    margin-bottom:8px;
-    color:#fff;
+    margin-bottom:10px;
+
+    color:#ffffff;
+    font-weight:800;
+
+    letter-spacing:.3px;
+
+    position:relative;
+    display:inline-block;
 }
 
-/* ICON BOX */
+/* underline glow */
+.title::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-4px;
+
+    width:100%;
+    height:2px;
+
+    background:linear-gradient(90deg,#00ff88,transparent);
+
+    border-radius:999px;
+
+    box-shadow:0 0 10px rgba(0,255,136,.35);
+}
+
+/* =========================
+   ICON BOX ULTRA PREMIUM
+========================= */
 .icon-box{
-    width:45px;
-    height:45px;
-    background:#00ff88;
+    width:46px;
+    height:46px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    border-radius:12px;
-    color:#000;
+
+    border-radius:14px;
+
+    color:#04130c;
     font-size:20px;
+    font-weight:800;
+
+    background:linear-gradient(135deg,#00ff88,#22c55e);
+
+    position:relative;
+    overflow:hidden;
+
+    box-shadow:
+        0 15px 30px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.35);
 }
+
+/* light sweep effect */
+.icon-box::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-60%;
+    width:40%;
+    height:200%;
+
+    background:rgba(255,255,255,.35);
+    transform:rotate(25deg);
+
+    animation:iconSweep 2.5s infinite;
+    opacity:.35;
+}
+
+/* glow ring */
+.icon-box::after{
+    content:"";
+    position:absolute;
+    inset:-2px;
+
+    border-radius:14px;
+
+    background:radial-gradient(circle,rgba(0,255,136,.25),transparent 60%);
+    opacity:.6;
+}
+
+@keyframes iconSweep{
+    0%{ left:-60%; }
+    100%{ left:120%; }
+}
+
 </style>
 </head>
 
@@ -167,13 +467,13 @@ small{
     <div class="card">
         <div class="title">Aktivitas Referral</div>
 
-        <div class="badge">🔥 Tugas Promosi 24 Jam</div>
-        <div class="badge">⚡ Peningkatan Cepat</div>
+        <div class="badge">🔥 Reward Referral</div>
+        <div class="badge">⚡ Bonus Instan</div>
 
         <ul>
             <li>Undang 3 teman baru</li>
             <li>Deposit minimal Rp 350.000</li>
-            <li>Hadiah instan Rp 65.000</li>
+            <li>Hadiah instan Rp 100.000 / teman</li>
         </ul>
 
         <p>Bonus Sistem:</p>
@@ -196,7 +496,7 @@ small{
         </div>
 
         <p style="margin-top:10px">
-            🎁 Bonus target: <b style="color:#00ff88">Rp 65.000</b>
+            🎁 Bonus target: <b style="color:#00ff88">Rp 300.000</b>
         </p>
     </div>
 
@@ -207,7 +507,7 @@ let user = JSON.parse(localStorage.getItem(localStorage.getItem("currentUser")))
 
 function generateRef(){
     if(!user.referralCode){
-        user.referralCode = "REF" + Math.floor(100000 + Math.random() * 900000);
+        user.referralCode = "PRTMNA" + Math.floor(100000 + Math.random() * 900000);
         localStorage.setItem(localStorage.getItem("currentUser"), JSON.stringify(user));
     }
 }
