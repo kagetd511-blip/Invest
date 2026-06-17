@@ -632,74 +632,222 @@ body{
 }
 
 /* =========================
-   LOADING PREMIUM
+   MINI LOADER ULTRA PREMIUM
 ========================= */
-.loading-circle{
+.mini-loader{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.55);
-    backdrop-filter:blur(10px);
+
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(18px);
 
     display:flex;
     justify-content:center;
     align-items:center;
 
+    z-index:999999;
+
     opacity:0;
     visibility:hidden;
-    transition:.25s;
+    transition:.35s ease;
 }
 
-.loading-circle.active{
+.mini-loader.active{
     opacity:1;
     visibility:visible;
 }
 
-.circle{
-    width:90px;
-    height:90px;
-    border-radius:50%;
+/* CENTER */
+.mini-loader-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+}
+
+/* =========================
+   PREMIUM CLEAN LOADING RING (VISIBLE FIX)
+========================= */
+.loader-circle{
     position:relative;
-    border:2px solid rgba(255,255,255,.12);
-}
-
-.circle::before{
-    content:"";
-    position:absolute;
-    inset:0;
+    width:122px;
+    height:122px;
     border-radius:50%;
-    border:2px solid transparent;
-    border-top:2px solid #00ff88;
-    border-right:2px solid #00ff88;
-    animation:spin .8s linear infinite;
-}
-
-.logo-inner{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-
-    width:50px;
-    height:50px;
-
-    border-radius:12px; /* <- premium box, bukan bulat */
-    background:rgba(255,255,255,.06);
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.7),
+        0 0 25px rgba(0,255,136,.12);
+
+    overflow:hidden;
 }
 
-.logo-inner img{
-    width:70%;
-    height:70%;
+/* RING JELAS & TEBAL */
+.loader-circle::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+
+    border:5px solid rgba(0,255,136,.15);
+}
+
+/* ARC YANG BERPUTAR (INI YANG “KEREN”) */
+.loader-circle::after{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:50%;
+
+    border:5px solid transparent;
+    border-top:5px solid #00ff88;
+    border-right:5px solid #00ff88;
+
+    filter:drop-shadow(0 0 8px rgba(0,255,136,.6));
+
+    animation:spinBig 0.9s cubic-bezier(.4,0,.2,1) infinite;
+}
+
+/* ANIMATION */
+@keyframes spinBig{
+    0%{
+        transform:rotate(0deg) scale(1);
+    }
+    50%{
+        transform:rotate(180deg) scale(1.05);
+    }
+    100%{
+        transform:rotate(360deg) scale(1);
+    }
+}
+
+/* =========================
+   LOGO CENTER
+========================= */
+.mini-logo{
+    position:relative;
+    z-index:2;
+
+    width:64px;
+    height:64px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 25px 60px rgba(0,0,0,.65),
+        0 0 25px rgba(0,255,136,.22);
+
+    animation:logoFloat 1.8s ease-in-out infinite;
+}
+
+.mini-logo img{
+    width:100%;
+    height:100%;
     object-fit:contain;
 }
 
-@keyframes spin{
-    100%{transform:rotate(360deg);}
+/* =========================
+   LUXURY PREMIUM LOADER TEXT
+========================= */
+.mini-loader p{
+    margin:0;
+    font-size:13px;
+    letter-spacing:1px;
+
+    display:inline-block;
+    position:relative;
+
+    /* gradient text mewah */
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,.85),
+        rgba(0,255,140,.9),
+        rgba(255,255,255,.85)
+    );
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    font-weight:500;
+
+    /* glow elegan */
+    filter:drop-shadow(0 0 10px rgba(0,255,140,.15));
+
+    opacity:0;
+    transform:translateY(8px);
+
+    animation:
+        fadeLuxury 0.7s ease forwards,
+        shimmerText 3.5s ease-in-out infinite;
+}
+
+/* masuk halus premium */
+@keyframes fadeLuxury{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* shimmer gradient slow (luxury feel) */
+@keyframes shimmerText{
+    0%{
+        background-position:0% 50%;
+    }
+    50%{
+        background-position:100% 50%;
+    }
+    100%{
+        background-position:0% 50%;
+    }
+}
+
+/* =========================
+   ANIMATION (SMOOTH LUXURY SPIN)
+========================= */
+@keyframes luxSpin{
+    0%{
+        transform:rotate(0deg);
+        filter:blur(.3px) saturate(1.2);
+    }
+    50%{
+        filter:blur(.6px) saturate(1.6);
+    }
+    100%{
+        transform:rotate(360deg);
+        filter:blur(.3px) saturate(1.2);
+    }
+}
+
+@keyframes logoFloat{
+    0%,100%{
+        transform:translateY(0);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.06),
+            0 25px 60px rgba(0,0,0,.65),
+            0 0 20px rgba(0,255,136,.18);
+    }
+    50%{
+        transform:translateY(-3px);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.08),
+            0 35px 80px rgba(0,0,0,.75),
+            0 0 35px rgba(0,255,136,.28);
+    }
 }
 
 </style>
@@ -907,13 +1055,22 @@ Selesai
     </div>
 </div>
 
-    <!-- LOADING CIRCLE (LOGO ONLY) -->
-<div id="loadingCircle" class="loading-circle">
-    <div class="circle">
-        <div class="logo-inner">
-            <img src="assets/logo.png">
+<div id="miniLoader" class="mini-loader">
+
+    <div class="mini-loader-box">
+
+        <div class="loader-circle">
+
+            <div class="mini-logo">
+                <img src="assets/logo.png">
+            </div>
+
         </div>
+
+        <p>Memuat...</p>
+
     </div>
+
 </div>
 
 <script>
@@ -938,11 +1095,11 @@ let bankTerpilih = "";
    LOADING CONTROL
 ========================= */
 function showLoading(){
-    document.getElementById("loadingCircle").classList.add("active");
+    document.getElementById("miniLoader").classList.add("active");
 }
 
 function hideLoading(){
-    document.getElementById("loadingCircle").classList.remove("active");
+    document.getElementById("miniLoader").classList.remove("active");
 }
 
 /* =========================
