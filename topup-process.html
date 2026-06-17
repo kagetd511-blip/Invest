@@ -6,162 +6,242 @@
 <title>Proses Pembayaran</title>
 
 <style>
+
+/* =========================
+   GLOBAL PREMIUM BASE
+========================= */
 body{
     margin:0;
-    font-family:Arial;
-    background:#0b1220;
+    font-family:Arial, sans-serif;
+
+    background:
+    radial-gradient(circle at top, #0b1a33 0%, #070b14 60%, #05070d 100%);
+
     color:white;
     text-align:center;
 }
 
-/* HEADER */
+/* =========================
+   HEADER PREMIUM
+========================= */
 .header{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:10px;
+
     padding:18px;
-    background:#0f172a;
-    border-bottom:1px solid #1f2a44;
+
+    background:rgba(15,23,42,.85);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+    position:sticky;
+    top:0;
+    z-index:10;
 }
 
 .header img{
-    width:40px;
+    width:42px;
+    filter:drop-shadow(0 6px 12px rgba(0,255,136,.15));
 }
 
-/* CARD */
+/* =========================
+   CARD PREMIUM
+========================= */
 .card{
-    margin:15px;
-    background:linear-gradient(135deg,#111b2e,#0f172a);
+    margin:16px;
     padding:18px;
-    border-radius:16px;
-    border:1px solid #1f2a44;
-    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+
+    background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+
+    box-shadow:0 18px 50px rgba(0,0,0,.55);
+
+    backdrop-filter:blur(18px);
 }
 
-/* TIMER */
+/* =========================
+   TIMER PREMIUM
+========================= */
 .timer{
     font-size:18px;
-    font-weight:bold;
+    font-weight:800;
     color:#fbbf24;
     margin-bottom:8px;
+
+    text-shadow:0 0 12px rgba(251,191,36,.15);
 }
 
-/* STATUS */
+/* =========================
+   STATUS PREMIUM
+========================= */
 .status{
-    font-size:14px;
-    color:#94a3b8;
+    font-size:13px;
+    color:rgba(255,255,255,.65);
     margin-bottom:10px;
 }
 
-/* NOMINAL */
+/* =========================
+   AMOUNT PREMIUM
+========================= */
 .amount{
-    font-size:22px;
-    font-weight:bold;
+    font-size:24px;
+    font-weight:900;
     color:#00ff88;
-    margin:10px 0;
+
+    text-shadow:0 0 15px rgba(0,255,136,.25);
 }
 
-/* BOX */
+/* =========================
+   BOX PREMIUM
+========================= */
 .box{
-    background:#0f172a;
-    padding:12px;
-    border-radius:12px;
+    background:rgba(255,255,255,.03);
+    padding:14px;
+
+    border-radius:14px;
     margin-top:12px;
+
     font-size:14px;
-    border:1px solid #24324d;
+
+    border:1px solid rgba(255,255,255,.08);
+
     text-align:left;
+
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 
-/* QR */
+/* =========================
+   QR PREMIUM
+========================= */
 .qr img{
     width:180px;
-    margin-top:10px;
-    border-radius:12px;
-    box-shadow:0 10px 20px rgba(0,255,136,0.15);
+    margin-top:12px;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 15px 35px rgba(0,255,136,.15),
+        0 10px 25px rgba(0,0,0,.4);
 }
 
-/* BANK */
+/* =========================
+   BANK SECTION PREMIUM
+========================= */
 .bank-title{
     color:#00ff88;
-    font-weight:bold;
+    font-weight:800;
     margin-bottom:10px;
+    letter-spacing:.3px;
 }
 
 .bank-item{
     display:flex;
     justify-content:space-between;
-    padding:8px 0;
-    border-bottom:1px solid #1f2a44;
+    padding:10px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+
     font-size:14px;
 }
 
-.bank-item:last-child{
-    border-bottom:none;
-}
-
 .bank-label{
-    color:#94a3b8;
+    color:rgba(255,255,255,.6);
 }
 
 .bank-value{
-    font-weight:bold;
-}
-
-/* BADGE */
-.badge{
-    display:inline-block;
-    padding:4px 10px;
-    font-size:12px;
-    background:#00ff88;
-    color:#0b1220;
-    border-radius:8px;
-    margin-bottom:10px;
-    font-weight:bold;
-}
-
-/* BUTTON */
-.btn{
-    width:90%;
-    max-width:300px;
-    padding:12px;
-    margin-top:12px;
-    border:none;
-    border-radius:12px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.2s;
-}
-
-.btn:hover{
-    transform:scale(1.03);
-}
-
-.btn-check{
-    background:#00ff88;
-    color:#0b1220;
-    box-shadow:0 0 15px rgba(0,255,136,0.2);
-}
-
-.btn-cancel{
-    background:#334155;
+    font-weight:700;
     color:white;
 }
 
-/* TOAST */
+/* =========================
+   BADGE PREMIUM
+========================= */
+.badge{
+    display:inline-block;
+    padding:5px 12px;
+
+    font-size:12px;
+    font-weight:800;
+
+    background:linear-gradient(135deg,#00ff88,#00c26a);
+    color:#04130c;
+
+    border-radius:10px;
+
+    box-shadow:0 10px 20px rgba(0,255,136,.2);
+}
+
+/* =========================
+   BUTTON PREMIUM
+========================= */
+.btn{
+    width:90%;
+    max-width:320px;
+
+    padding:13px;
+    margin-top:12px;
+
+    border:none;
+    border-radius:14px;
+
+    font-weight:800;
+    cursor:pointer;
+
+    transition:.2s ease;
+}
+
+/* CHECK BUTTON */
+.btn-check{
+    background:linear-gradient(135deg,#00ff88,#00c26a);
+    color:#04130c;
+
+    box-shadow:
+        0 12px 30px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+/* CANCEL BUTTON */
+.btn-cancel{
+    background:rgba(255,255,255,.06);
+    color:white;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+/* HOVER EFFECT */
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+   TOAST PREMIUM
+========================= */
 .toast{
     position:fixed;
     top:20px;
     left:50%;
     transform:translateX(-50%);
-    background:#00ff88;
-    color:#0b1220;
+
+    background:rgba(0,255,136,.95);
+    color:#04130c;
+
     padding:10px 16px;
-    border-radius:10px;
-    font-weight:bold;
+
+    border-radius:12px;
+
+    font-weight:800;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
+
     z-index:9999;
-    box-shadow:0 10px 20px rgba(0,0,0,0.3);
 }
+    
 </style>
 </head>
 
