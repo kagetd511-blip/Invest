@@ -429,25 +429,25 @@ body{
     box-shadow:0 16px 40px rgba(0,255,136,.3);
 }
 
+/* =========================
+   MINI LOADER ULTRA PREMIUM
+========================= */
 .mini-loader{
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    inset:0;
 
-    background:rgba(0,0,0,.55);
-    backdrop-filter:blur(8px);
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(18px);
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    z-index:99999;
+    z-index:999999;
 
     opacity:0;
     visibility:hidden;
-    transition:.3s;
+    transition:.35s ease;
 }
 
 .mini-loader.active{
@@ -455,93 +455,196 @@ body{
     visibility:visible;
 }
 
+/* CENTER */
 .mini-loader-box{
-    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
 }
 
+/* =========================
+   PREMIUM CLEAN LOADING RING (VISIBLE FIX)
+========================= */
 .loader-circle{
     position:relative;
-    width:90px;
-    height:90px;
-    margin:auto;
+    width:122px;
+    height:122px;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.7),
+        0 0 25px rgba(0,255,136,.12);
+
+    overflow:hidden;
 }
 
+/* RING JELAS & TEBAL */
 .loader-circle::before{
     content:"";
     position:absolute;
     inset:0;
     border-radius:50%;
-    border:3px solid rgba(255,255,255,.12);
+
+    border:5px solid rgba(0,255,136,.15);
 }
 
+/* ARC YANG BERPUTAR (INI YANG “KEREN”) */
 .loader-circle::after{
     content:"";
     position:absolute;
-    inset:0;
+    inset:-2px;
     border-radius:50%;
-    border:3px solid transparent;
-    border-top:3px solid #00ff88;
-    border-right:3px solid #00ff88;
-    animation:rotateLoader .8s linear infinite;
+
+    border:5px solid transparent;
+    border-top:5px solid #00ff88;
+    border-right:5px solid #00ff88;
+
+    filter:drop-shadow(0 0 8px rgba(0,255,136,.6));
+
+    animation:spinBig 0.9s cubic-bezier(.4,0,.2,1) infinite;
 }
 
+/* ANIMATION */
+@keyframes spinBig{
+    0%{
+        transform:rotate(0deg) scale(1);
+    }
+    50%{
+        transform:rotate(180deg) scale(1.05);
+    }
+    100%{
+        transform:rotate(360deg) scale(1);
+    }
+}
+
+/* =========================
+   LOGO CENTER
+========================= */
 .mini-logo{
-    position:absolute;
-    top:50%;
-    left:50%;
+    position:relative;
+    z-index:2;
 
-    transform:translate(-50%,-50%);
+    width:64px;
+    height:64px;
 
-    width:58px;
-    height:58px;
+    border-radius:18px;
 
-    border-radius:50%;
-
-    background:
-    linear-gradient(
-    135deg,
-    rgba(255,255,255,.12),
-    rgba(255,255,255,.05)
-    );
-
-    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
 
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
 
     box-shadow:
-    0 0 20px rgba(0,255,136,.25);
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 25px 60px rgba(0,0,0,.65),
+        0 0 25px rgba(0,255,136,.22);
 
-    animation:pulseLogo 1.5s ease-in-out infinite;
+    animation:logoFloat 1.8s ease-in-out infinite;
 }
 
 .mini-logo img{
-    width:70%;
-    height:70%;
+    width:100%;
+    height:100%;
     object-fit:contain;
 }
 
+/* =========================
+   LUXURY PREMIUM LOADER TEXT
+========================= */
 .mini-loader p{
-    margin-top:18px;
-    color:white;
-    font-size:14px;
-    letter-spacing:.5px;
+    margin:0;
+    font-size:13px;
+    letter-spacing:1px;
+
+    display:inline-block;
+    position:relative;
+
+    /* gradient text mewah */
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,.85),
+        rgba(0,255,140,.9),
+        rgba(255,255,255,.85)
+    );
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    font-weight:500;
+
+    /* glow elegan */
+    filter:drop-shadow(0 0 10px rgba(0,255,140,.15));
+
+    opacity:0;
+    transform:translateY(8px);
+
+    animation:
+        fadeLuxury 0.7s ease forwards,
+        shimmerText 3.5s ease-in-out infinite;
 }
 
-@keyframes rotateLoader{
+/* masuk halus premium */
+@keyframes fadeLuxury{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* shimmer gradient slow (luxury feel) */
+@keyframes shimmerText{
+    0%{
+        background-position:0% 50%;
+    }
+    50%{
+        background-position:100% 50%;
+    }
+    100%{
+        background-position:0% 50%;
+    }
+}
+
+/* =========================
+   ANIMATION (SMOOTH LUXURY SPIN)
+========================= */
+@keyframes luxSpin{
+    0%{
+        transform:rotate(0deg);
+        filter:blur(.3px) saturate(1.2);
+    }
+    50%{
+        filter:blur(.6px) saturate(1.6);
+    }
     100%{
         transform:rotate(360deg);
+        filter:blur(.3px) saturate(1.2);
     }
 }
 
-@keyframes pulseLogo{
+@keyframes logoFloat{
     0%,100%{
-        transform:translate(-50%,-50%) scale(1);
+        transform:translateY(0);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.06),
+            0 25px 60px rgba(0,0,0,.65),
+            0 0 20px rgba(0,255,136,.18);
     }
-
     50%{
-        transform:translate(-50%,-50%) scale(1.08);
+        transform:translateY(-3px);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.08),
+            0 35px 80px rgba(0,0,0,.75),
+            0 0 35px rgba(0,255,136,.28);
     }
 }
     
