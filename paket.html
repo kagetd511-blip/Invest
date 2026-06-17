@@ -510,72 +510,222 @@ position:relative;
 }
 
 /* =========================
-   LOADING PREMIUM
+   MINI LOADER ULTRA PREMIUM
 ========================= */
-#buyLoading{
+.mini-loader{
     position:fixed;
     inset:0;
 
-    background:rgba(0,0,0,.6);
-    backdrop-filter:blur(12px);
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(18px);
 
     display:flex;
     justify-content:center;
     align-items:center;
 
+    z-index:999999;
+
     opacity:0;
     visibility:hidden;
-
-    transition:.25s;
+    transition:.35s ease;
 }
 
-#buyLoading.active{
+.mini-loader.active{
     opacity:1;
     visibility:visible;
 }
 
-.loader-circle{
-    width:80px;
-    height:80px;
-    position:relative;
+/* CENTER */
+.mini-loader-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
 }
 
+/* =========================
+   PREMIUM CLEAN LOADING RING (VISIBLE FIX)
+========================= */
+.loader-circle{
+    position:relative;
+    width:122px;
+    height:122px;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.7),
+        0 0 25px rgba(0,255,136,.12);
+
+    overflow:hidden;
+}
+
+/* RING JELAS & TEBAL */
 .loader-circle::before{
     content:"";
     position:absolute;
     inset:0;
     border-radius:50%;
-    border:2px solid rgba(255,255,255,.15);
+
+    border:5px solid rgba(0,255,136,.15);
 }
 
+/* ARC YANG BERPUTAR (INI YANG “KEREN”) */
 .loader-circle::after{
     content:"";
     position:absolute;
-    inset:0;
+    inset:-2px;
     border-radius:50%;
-    border:2px solid transparent;
-    border-top:2px solid #00ff88;
-    border-right:2px solid #00ff88;
-    animation:spin .7s linear infinite;
+
+    border:5px solid transparent;
+    border-top:5px solid #00ff88;
+    border-right:5px solid #00ff88;
+
+    filter:drop-shadow(0 0 8px rgba(0,255,136,.6));
+
+    animation:spinBig 0.9s cubic-bezier(.4,0,.2,1) infinite;
 }
 
-.loader-logo{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:45px;
-    height:45px;
+/* ANIMATION */
+@keyframes spinBig{
+    0%{
+        transform:rotate(0deg) scale(1);
+    }
+    50%{
+        transform:rotate(180deg) scale(1.05);
+    }
+    100%{
+        transform:rotate(360deg) scale(1);
+    }
 }
 
-.loader-logo img{
+/* =========================
+   LOGO CENTER
+========================= */
+.mini-logo{
+    position:relative;
+    z-index:2;
+
+    width:64px;
+    height:64px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 25px 60px rgba(0,0,0,.65),
+        0 0 25px rgba(0,255,136,.22);
+
+    animation:logoFloat 1.8s ease-in-out infinite;
+}
+
+.mini-logo img{
     width:100%;
     height:100%;
     object-fit:contain;
 }
 
-@keyframes spin{
-    100%{transform:rotate(360deg);}
+/* =========================
+   LUXURY PREMIUM LOADER TEXT
+========================= */
+.mini-loader p{
+    margin:0;
+    font-size:13px;
+    letter-spacing:1px;
+
+    display:inline-block;
+    position:relative;
+
+    /* gradient text mewah */
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,.85),
+        rgba(0,255,140,.9),
+        rgba(255,255,255,.85)
+    );
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    font-weight:500;
+
+    /* glow elegan */
+    filter:drop-shadow(0 0 10px rgba(0,255,140,.15));
+
+    opacity:0;
+    transform:translateY(8px);
+
+    animation:
+        fadeLuxury 0.7s ease forwards,
+        shimmerText 3.5s ease-in-out infinite;
+}
+
+/* masuk halus premium */
+@keyframes fadeLuxury{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* shimmer gradient slow (luxury feel) */
+@keyframes shimmerText{
+    0%{
+        background-position:0% 50%;
+    }
+    50%{
+        background-position:100% 50%;
+    }
+    100%{
+        background-position:0% 50%;
+    }
+}
+
+/* =========================
+   ANIMATION (SMOOTH LUXURY SPIN)
+========================= */
+@keyframes luxSpin{
+    0%{
+        transform:rotate(0deg);
+        filter:blur(.3px) saturate(1.2);
+    }
+    50%{
+        filter:blur(.6px) saturate(1.6);
+    }
+    100%{
+        transform:rotate(360deg);
+        filter:blur(.3px) saturate(1.2);
+    }
+}
+
+@keyframes logoFloat{
+    0%,100%{
+        transform:translateY(0);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.06),
+            0 25px 60px rgba(0,0,0,.65),
+            0 0 20px rgba(0,255,136,.18);
+    }
+    50%{
+        transform:translateY(-3px);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.08),
+            0 35px 80px rgba(0,0,0,.75),
+            0 0 35px rgba(0,255,136,.28);
+    }
 }
 
 </style>
@@ -681,16 +831,24 @@ Konfirmasi Pembelian
 
 </div>
 
-<div id="buyLoading">
-    <div class="loader-box">
+<div id="miniLoader" class="mini-loader">
+
+    <div class="mini-loader-box">
+
         <div class="loader-circle">
-            <div class="loader-logo">
+
+            <div class="mini-logo">
                 <img src="assets/logo.png">
             </div>
-        </div>
-    </div>
-</div>
 
+        </div>
+
+        <p>Memuat...</p>
+
+    </div>
+
+</div>
+    
 <!-- POPUP BERHASIL -->
 <div id="popupSuccess" class="popup-bg">
 
@@ -817,11 +975,11 @@ document.getElementById("btnKonfirmasi").onclick = () => {
     document.getElementById("popupConfirm").classList.remove("active");
 
     // loading logo only
-    document.getElementById("buyLoading").classList.add("active");
+    document.getElementById("miniLoader").classList.add("active");
 
     setTimeout(() => {
 
-        document.getElementById("buyLoading").classList.remove("active");
+        document.getElementById("miniLoader").classList.remove("active");
 
         // proses saldo
         user.saldo -= paket.modal;
@@ -876,7 +1034,7 @@ document.getElementById("btnSelesai").onclick = () => {
 
     document.getElementById("popupSuccess").classList.remove("active");
 
-    document.getElementById("buyLoading").classList.add("active");
+    document.getElementById("miniLoader").classList.add("active");
 
     setTimeout(() => {
         window.location.href = "dashboard.html";
