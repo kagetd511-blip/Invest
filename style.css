@@ -1348,53 +1348,17 @@ color:#041b10;
     top:18px;
     right:18px;
 
-    width:56px;
-    height:56px;
+    width:70px;
+    height:70px;
 
     border-radius:12px;
 
-    background: linear-gradient(
-        135deg,
-        rgba(255,255,255,.10),
-        rgba(255,255,255,.04)
-    );
-
-    border:1px solid rgba(255,255,255,.12);
-
-    backdrop-filter: blur(18px);
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
     overflow:hidden;
-
     box-shadow:
         0 18px 40px rgba(0,0,0,.5),
         inset 0 1px 0 rgba(255,255,255,.08);
 
-    z-index:2;
 
-    transition:.25s ease;
-}
-
-/* =========================
-   SOFT INNER GLOW (LEBIH HALUS)
-========================= */
-.drawer-logo::before{
-    content:"";
-    position:absolute;
-    inset:0;
-
-    background: radial-gradient(
-        circle at 30% 30%,
-        rgba(0,255,136,.18),
-        transparent 65%
-    );
-
-    opacity:.8;
-
-    z-index:0;
 }
 
 /* =========================
@@ -1404,9 +1368,8 @@ color:#041b10;
     width:100%;
     height:100%;
 
-    object-fit:cover; /* 🔥 biar penuh kotak, tidak ada ruang kosong */
-
-    border-radius:0 !important; /* 🔥 WAJIB: hilangkan bulat total */
+    object-fit:contain; /* 🔥 biar penuh kotak, tidak ada ruang kosong */
+    border-radius: 12px;
 }
 
 /* =========================
@@ -1420,7 +1383,6 @@ color:#041b10;
         0 0 18px rgba(0,255,136,.12),
         inset 0 1px 0 rgba(255,255,255,.1);
 }
-
 
 .popup-box{
 
