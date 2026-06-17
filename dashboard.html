@@ -1,162 +1,145 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script>
+      <script>
 
 if(
 localStorage.getItem("isLogin")
 !== "true"
 ){
     window.location.href =
-    "index.html";
+    "login.html";
 }
 
-</script>
-    
-<title>Dashboard Investasi</title>
+    <title>Dashboard Investasi</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo-box">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
 
-<!-- HEADER -->
-<header class="header">
-    <div class="logo-box">
-    <img src="assets/logo.png" alt="Logo">
-</div>
-
-    <div class="right-header">
+      <div class="right-header">
         <div class="saldo">
+          <i class="fas fa-wallet"></i>
 
-    <i class="fas fa-wallet"></i>
-
-    <div class="saldo-info">
-        <span id="saldoHeader">Rp 0</span>
-    </div>
-
-</div>
+          <div class="saldo-info">
+            <span id="saldoHeader">Rp 0</span>
+          </div>
+        </div>
 
         <button id="menuBtn">
-            <i class="fas fa-bars"></i>
+          <i class="fas fa-bars"></i>
         </button>
-    </div>
-</header>
+      </div>
+    </header>
 
-<!-- OVERLAY -->
-<div id="overlay"></div>
+    <!-- OVERLAY -->
+    <div id="overlay"></div>
 
-<!-- DRAWER -->
-<div id="drawer">
-
-<div class="profile">
-
-<div class="avatar-default">
-    <i class="fas fa-user"></i>
+    <!-- DRAWER -->
+    <div id="drawer">
+      <div class="profile">
+        <div class="drawer-logo">
+    <img src="assets/logo.png" alt="logo">
 </div>
+        <div class="avatar-default">
+          <i class="fas fa-user"></i>
+        </div>
 
-    <h3 id="namaUser">Pengguna</h3>
+        <h3 id="namaUser">Pengguna</h3>
 
-    <div class="profile-info">
-
-        <div class="info-item">
+        <div class="profile-info">
+          <div class="info-item">
             <span>ID Member</span>
             <b id="memberId">-</b>
-        </div>
+          </div>
 
-        <div class="info-item">
+          <div class="info-item">
             <span>Nomor HP</span>
             <b id="userPhone">-</b>
-        </div>
+          </div>
 
-        <div class="info-item">
+          <div class="info-item">
             <span>Level</span>
             <b id="userLevel">Member</b>
-        </div>
+          </div>
 
-        <div class="info-item">
+          <div class="info-item">
             <span>Referral</span>
             <b id="userReferral">-</b>
+          </div>
         </div>
 
+        <div class="saldo-card-drawer">
+          <small>Saldo Tersedia</small>
+
+          <h2 id="saldoDrawer">Rp 0</h2>
+        </div>
+      </div>
+
+      <ul>
+        <li onclick="hubungiAdmin()">
+          <i class="fab fa-whatsapp"></i>
+          Admin
+        </li>
+
+        <li onclick="goWithLoading('tambahsaldo.html')">
+          <i class="fas fa-wallet"></i>
+          Tambah Saldo
+        </li>
+
+        <li onclick="goWithLoading('tarikdana.html')">
+          <i class="fas fa-money-bill-wave"></i>
+          Tarik Dana
+        </li>
+
+        <li onclick="goWithLoading('riwayat.html')">
+          <i class="fas fa-history"></i>
+          Riwayat Transaksi
+        </li>
+
+        <li onclick="goWithLoading('referral.html')">
+          <i class="fas fa-users"></i>
+          Referral
+        </li>
+
+        <li onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </li>
+      </ul>
     </div>
 
-    <div class="saldo-card-drawer">
+    <!-- SALDO -->
+    <section class="news-slider">
+      <div class="slide active">
+        <img src="assets/berita1.jpg" alt="" />
+      </div>
 
-        <small>Saldo Tersedia</small>
+      <div class="slide">
+        <img src="assets/berita2.jpg" alt="" />
+      </div>
 
-        <h2 id="saldoDrawer">
-            Rp 0
-        </h2>
+      <div class="slide">
+        <img src="assets/berita3.jpg" alt="" />
+      </div>
+    </section>
 
-    </div>
-
-</div>
-
-<ul>
-
-    <li onclick="hubungiAdmin()">
-        <i class="fab fa-whatsapp"></i>
-        Admin
-    </li>
-
-    <li onclick="goWithLoading('tambahsaldo.html')">
-        <i class="fas fa-wallet"></i>
-        Tambah Saldo
-    </li>
-
-    <li onclick="goWithLoading('tarikdana.html')">
-    <i class="fas fa-money-bill-wave"></i>
-    Tarik Dana
-</li>
-
-    <li onclick="goWithLoading('riwayat.html')">
-        <i class="fas fa-history"></i>
-        Riwayat Transaksi
-    </li>
-
-    <li onclick="goWithLoading('referral.html')">
-        <i class="fas fa-users"></i>
-        Referral
-    </li>
-
-    <li onclick="logout()">
-        <i class="fas fa-sign-out-alt"></i>
-        Logout
-    </li>
-
-</ul>
-
-</div>
-
-
-<!-- SALDO -->
-<section class="news-slider">
-
-    <div class="slide active">
-        <img src="assets/berita1.jpg" alt="">
-    </div>
-
-    <div class="slide">
-        <img src="assets/berita2.jpg" alt="">
-    </div>
-
-    <div class="slide">
-        <img src="assets/berita3.jpg" alt="">
-    </div>
-
-</section>
-
-<!-- HARGA BAHAN BAKAR BERJALAN -->
-<section class="fuel-ticker">
-
-    <div class="ticker-track">
-
+    <!-- HARGA BAHAN BAKAR BERJALAN -->
+    <section class="fuel-ticker">
+      <div class="ticker-track">
         <span>Pertamax Turbo : <b>Rp20.750</b></span>
 
         <span>Pertamax Green : <b>Rp17.000</b></span>
@@ -170,91 +153,115 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <span>Pertamina Dex : <b>Rp24.800</b></span>
 
         <span>Bisolar : <b>Rp6.800</b></span>
+      </div>
+    </section>
+
+<!-- REKOMENDASI -->
+<section class="rekomendasi">
+
+    <h2 class="section-title">Rekomendasi Investasi Premium</h2>
+
+    <div class="rekomendasi-grid">
+
+        <div class="rekom-card best-seller">
+            <div class="tag gold">TERLARIS</div>
+
+            <div class="rekom-img">
+                <img src="assets/pakett5.jpg" alt="">
+            </div>
+
+            <h3>Paket 5</h3>
+            <p>Kuota: 10 Slot Tersisa</p>
+
+            <button onclick="pilihPaket(5)">Pilih Paket</button>
+        </div>
+
+        <div class="rekom-card high-profit">
+            <div class="tag gold">PROFIT TERTINGGI</div>
+
+            <div class="rekom-img">
+                <img src="assets/pakett7.jpg" alt="">
+            </div>
+
+            <h3>Paket 7</h3>
+            <p>Kuota: 3 Slot Tersisa</p>
+
+            <button onclick="pilihPaket(7)">Pilih Paket</button>
+        </div>
 
     </div>
 
 </section>
 
-
-<!-- PAKET -->
-<section class="paket-container">
-
-    <div class="paket" id="paket1"> 
+    <!-- PAKET -->
+    <h2 class="section-title">Rekomendasi Investasi Premium</h2>
+    <section class="paket-container">
+      <div class="paket" id="paket1">
+        <div class="kuota">Kuota: 1 Slot</div>
+        <div class="image-box">
+          <img src="assets/pakett1.jpg" alt="" />
+        </div>
         <h2>Paket 1</h2>
-        <div class="image-box">
-        <img src="assets/pakett1.jpg" alt="">
-    </div>
-        <button onclick="pilihPaket(1)">
-    Pilih Paket
-</button>
-    </div>
+        <button onclick="pilihPaket(1)">Pilih Paket</button>
+      </div>
 
-    <div class="paket" id="paket2">
+      <div class="paket" id="paket2">
+        <div class="kuota">Kuota: 1 Slot</div>
+        <div class="image-box">
+          <img src="assets/pakett2.jpg" alt="" />
+        </div>
         <h2>Paket 2</h2>
-        <div class="image-box">
-        <img src="assets/pakett2.jpg" alt="">
-    </div>
-        <button onclick="pilihPaket(2)">
-    Pilih Paket
-</button>
-    </div>
+        <button onclick="pilihPaket(2)">Pilih Paket</button>
+      </div>
 
-    <div class="paket" id="paket3">
+      <div class="paket" id="paket3">
+        <div class="kuota">Kuota: 1 Slot</div>
+        <div class="image-box">
+          <img src="assets/pakett3.jpg" alt="" />
+        </div>
         <h2>Paket 3</h2>
-        <div class="image-box">
-        <img src="assets/pakett3.jpg" alt="">
-    </div>
-        <button onclick="pilihPaket(3)">
-    Pilih Paket
-</button>
-    </div>
+        <button onclick="pilihPaket(3)">Pilih Paket</button>
+      </div>
 
-    <div class="paket" id="paket4">
+      <div class="paket" id="paket4">
+        <div class="kuota">Kuota: 1 Slot</div>
+        <div class="image-box">
+          <img src="assets/pakett4.jpg" alt="" />
+        </div>
         <h2>Paket 4</h2>
-        <div class="image-box">
-        <img src="assets/pakett4.jpg" alt="">
-    </div>
-        <button onclick="pilihPaket(4)">
-    Pilih Paket
-</button>
-    </div>
+        <button onclick="pilihPaket(4)">Pilih Paket</button>
+      </div>
 
-    <div class="paket" id="paket5">
+      <div class="paket" id="paket5">
+        <div class="kuota">Kuota: 1 Slot</div>
+        <div class="image-box">
+          <img src="assets/pakett5.jpg" alt="" />
+        </div>
         <h2>Paket 5</h2>
-        <div class="image-box">
-        <img src="assets/pakett5.jpg" alt="">
-    </div>
-        <button onclick="pilihPaket(5)">
-    Pilih Paket
-</button>
-    </div>
+        <button onclick="pilihPaket(5)">Pilih Paket</button>
+      </div>
 
-    <div class="paket" id="paket6">
+      <div class="paket" id="paket6">
+        <div class="kuota">Kuota: 1 Slot</div>
+        <div class="image-box">
+          <img src="assets/pakett6.jpg" alt="" />
+        </div>
         <h2>Paket 6</h2>
-        <div class="image-box">
-        <img src="assets/pakett6.jpg" alt="">
-    </div>
-        <button onclick="pilihPaket(6)">
-    Pilih Paket
-</button>
-    </div>
+        <button onclick="pilihPaket(6)">Pilih Paket</button>
+      </div>
 
-    <div class="paket" id="paket7">
+      <div class="paket" id="paket7">
+        <div class="kuota">Kuota: 1 Slot</div>
+        <div class="image-box">
+          <img src="assets/pakett7.jpg" alt="" />
+        </div>
         <h2>Paket 7</h2>
-        <div class="image-box">
-        <img src="assets/pakett7.jpg" alt="">
-    </div>
-        <button onclick="pilihPaket(7)">
-    Pilih Paket
-</button>
-    </div>
-
-</section>
+        <button onclick="pilihPaket(7)">Pilih Paket</button>
+      </div>
+    </section>
 
     <div id="logoutPopup" class="popup-overlay">
-
-    <div class="popup-box">
-
+      <div class="popup-box">
         <i class="fas fa-sign-out-alt popup-icon"></i>
 
         <h3>Konfirmasi Logout</h3>
@@ -262,42 +269,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <p>Apakah Anda yakin ingin keluar dari akun ini?</p>
 
         <div class="popup-btns">
+          <button class="btn-batal" onclick="tutupLogout()">Batal</button>
 
-            <button class="btn-batal"
-            onclick="tutupLogout()">
-                Batal
-            </button>
-
-            <button class="btn-logout"
-            onclick="prosesLogout()">
-                Logout
-            </button>
-
+          <button class="btn-logout" onclick="prosesLogout()">Logout</button>
         </div>
-
+      </div>
     </div>
 
-</div>
-
     <div id="miniLoader" class="mini-loader">
-
-    <div class="mini-loader-box">
-
+      <div class="mini-loader-box">
         <div class="loader-circle">
-
-            <div class="mini-logo">
-                <img src="assets/logo.png">
-            </div>
-
+          <div class="mini-logo">
+            <img src="assets/logo.png" />
+          </div>
         </div>
 
         <p>Memuat...</p>
-
+      </div>
     </div>
 
-</div>
-
-<script src="script.js"></script>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
