@@ -1,37 +1,20 @@
 window.addEventListener("load", () => {
 
-    const popup =
-    document.getElementById(
-    "announcementPopup"
-    );
-
-    const alreadySeen =
-    localStorage.getItem(
-    "dashboard_announcement"
-    );
-
-    if(!alreadySeen){
-
-        popup.style.display = "flex";
-
-    }
+    document
+    .getElementById("announcementPopup")
+    .style.display = "flex";
 
 });
 
-function closeAnnouncement(){
-
-    localStorage.setItem(
-    "dashboard_announcement",
-    "seen"
-    );
+document
+.getElementById("closeAnnouncement")
+.addEventListener("click", () => {
 
     document
-    .getElementById(
-    "announcementPopup"
-    )
+    .getElementById("announcementPopup")
     .style.display = "none";
 
-}
+});
 
 // ========================
 // GLOBAL STATE
