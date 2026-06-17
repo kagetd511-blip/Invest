@@ -11,346 +11,431 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <style>
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
 body{
-
-background:
-linear-gradient(
-180deg,
-#03132b 0%,
-#06224a 40%,
-#0b3f8d 100%
-);
-
-min-height:100vh;
-
-padding:20px;
-
-color:white;
-
-}
-
-.logo-box{
-
-width:120px;
-height:120px;
-
-margin:auto;
-
-background:rgba(255,255,255,.08);
-
-border-radius:25px;
-
-overflow:hidden;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-}
-
-.logo-box img{
-
-width:100%;
-height:100%;
-object-fit:contain;
-
-padding:10px;
-
-}
-
-.card{
-
-margin-top:20px;
-
-background:
-rgba(255,255,255,.08);
-
-backdrop-filter:blur(20px);
-
-border-radius:25px;
-
-padding:20px;
-
-border:1px solid rgba(255,255,255,.1);
-
-}
-
-.card h2{
-
-text-align:center;
-
-margin-bottom:15px;
-
-}
-
-.paket-image{
-
-width:100%;
-height:220px;
-
-border-radius:20px;
-
-overflow:hidden;
-
-margin-bottom:20px;
-
-}
-
-.paket-image img{
-
-width:100%;
-height:100%;
-object-fit:fill;
-
-}
-
-.info{
-
-display:flex;
-
-justify-content:space-between;
-
-margin-bottom:15px;
-
-padding:14px;
-
-background:rgba(255,255,255,.06);
-
-border-radius:12px;
-
-}
-
-.info span{
-
-color:rgba(255,255,255,.7);
-
-}
-
-.info b{
-
-color:#00ff88;
-
-}
-
-.saldo-box{
-
-background:
-linear-gradient(
-135deg,
-#00ff88,
-#00c95f
-);
-
-padding:15px;
-
-border-radius:15px;
-
-color:#03233e;
-
-text-align:center;
-
-margin-bottom:20px;
-
-}
-
-.saldo-box h3{
-
-margin-top:5px;
-
-font-size:24px;
-
-}
-
-.buy-btn{
-
-width:100%;
-
-height:55px;
-
-border:none;
-
-border-radius:15px;
-
-font-size:16px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-background:
-linear-gradient(
-135deg,
-#00ff88,
-#00c95f
-);
-
-color:#03233e;
-
-}
-
-.buy-btn:disabled{
-
-background:#666;
-
-color:white;
-
-cursor:not-allowed;
-
-}
-
-.back-btn{
-
-width:100%;
-
-height:50px;
-
-margin-top:10px;
-
-border:none;
-
-border-radius:15px;
-
-background:#1f4ea8;
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-    .popup-bg{
-
-position:fixed;
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,.7);
-
-display:none;
-
-justify-content:center;
-align-items:center;
-
-z-index:9999;
-
-}
-
-.popup-bg.active{
-display:flex;
-}
-
-.popup-box{
-
-width:92%;
-max-width:420px;
-
-background:#0d3270;
-
-border-radius:20px;
-
-padding:20px;
-
-border:1px solid rgba(255,255,255,.15);
-
-}
-
-.popup-box h2{
-
-text-align:center;
-margin-bottom:15px;
-
-}
-
-.popup-row{
-
-display:flex;
-justify-content:space-between;
-
-padding:12px;
-
-margin-bottom:10px;
-
-background:rgba(255,255,255,.05);
-
-border-radius:10px;
-
-}
-
-.popup-row b{
-color:#00ff88;
-}
-
-.popup-btn{
-
-width:100%;
-height:55px;
-
-border:none;
-
-border-radius:14px;
-
-font-size:16px;
-font-weight:bold;
-
-background:#00ff88;
-
-color:#03233e;
-
-cursor:pointer;
-
-margin-top:10px;
-
-}
-
-.success-icon{
-
-width:90px;
-height:90px;
-
-border-radius:50%;
-
-background:#00ff88;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:50px;
-font-weight:bold;
-
-margin:auto;
-margin-bottom:15px;
-
-color:white;
-
+    background:
+    radial-gradient(circle at top, #0b2a5a 0%, #061225 55%, #040812 100%);
+    min-height:100vh;
+    padding:20px;
+    color:white;
 }
 
 /* =========================
-   BUY LOADING PREMIUM MINI
+   LOGO BOX PREMIUM
 ========================= */
+.logo-box{
+    width:120px;
+    height:120px;
 
-#buyLoading{
-    position:fixed;
-    top:0;
-    left:0;
+    margin:auto;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.10),
+        rgba(255,255,255,.03)
+    );
+
+    border-radius:28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.6),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.logo-box img{
     width:100%;
     height:100%;
+    object-fit:contain;
+    padding:6px;
+}
 
-    background:rgba(0,0,0,.55);
-    backdrop-filter:blur(10px);
+/* =========================
+   CARD PREMIUM
+========================= */
+.card{
+    margin-top:20px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.08),
+        rgba(255,255,255,.03)
+    );
+
+    backdrop-filter:blur(22px);
+
+    border-radius:28px;
+
+    padding:20px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.6),
+        inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.card h2{
+    text-align:center;
+    margin-bottom:15px;
+    letter-spacing:.5px;
+}
+
+/* =========================
+   IMAGE PREMIUM
+========================= */
+.paket-image{
+    width:100%;
+    height:220px;
+
+    border-radius:22px;
+    overflow:hidden;
+
+    margin-bottom:20px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.5);
+}
+
+.paket-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* =========================
+   INFO BOX PREMIUM
+========================= */
+.info{
+    display:flex;
+    justify-content:space-between;
+
+    margin-bottom:15px;
+    padding:14px 16px;
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.info span{
+    color:rgba(255,255,255,.7);
+    font-size:12px;
+}
+
+.info b{
+    color:#00ff88;
+    font-weight:700;
+}
+
+/* =========================
+   SALDO BOX ULTRA LUXURY
+========================= */
+.saldo-box{
+    position:relative;
+
+    width:fit-content;
+    min-width:220px;
+
+    margin:0 auto 18px;
+
+    padding:14px 18px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    color:#031b12;
+
+    background:
+    radial-gradient(circle at top left, rgba(255,255,255,.35), transparent 55%),
+    linear-gradient(135deg,
+        rgba(0,255,136,.95),
+        rgba(0,201,83,.88)
+    );
+
+    border:1px solid rgba(255,255,255,.35);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.45),
+        0 10px 25px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.55),
+        inset 0 -8px 18px rgba(0,0,0,.08);
+
+    backdrop-filter: blur(14px);
+
+    overflow:hidden;
+}
+
+/* subtle shine layer */
+.saldo-box::before{
+    content:"";
+    position:absolute;
+    top:-40%;
+    left:-30%;
+    width:160%;
+    height:160%;
+
+    background:linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255,255,255,.35),
+        transparent 70%
+    );
+
+    transform:rotate(25deg);
+    opacity:.25;
+}
+
+/* optional glow edge */
+.saldo-box::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    border-radius:16px;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.15),
+        inset 0 0 25px rgba(0,255,136,.15);
+
+    pointer-events:none;
+}
+
+/* text kecil */
+.saldo-box small{
+    display:block;
+    font-size:10px;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    opacity:.75;
+}
+
+/* saldo utama */
+.saldo-box h3{
+    margin-top:4px;
+    font-size:19px;
+    font-weight:900;
+    letter-spacing:.4px;
+    text-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+/* =========================
+   BUY BUTTON ULTRA PREMIUM
+========================= */
+.buy-btn{
+    position:relative;
+
+    width:100%;
+    height:56px;
+
+    border:none;
+    border-radius:18px;
+
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:.3px;
+
+    cursor:pointer;
+
+    color:#031b12;
+
+    background:
+    linear-gradient(135deg,
+        #00ff88,
+        #00c95f
+    );
+
+    box-shadow:
+        0 18px 40px rgba(0,255,136,.28),
+        0 8px 20px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.55);
+
+    overflow:hidden;
+
+    transform:translateZ(0);
+}
+
+/* glossy highlight layer */
+.buy-btn::before{
+    content:"";
+    position:absolute;
+    top:-40%;
+    left:-60%;
+    width:160%;
+    height:160%;
+
+    background:linear-gradient(
+        120deg,
+        transparent 35%,
+        rgba(255,255,255,.35),
+        transparent 65%
+    );
+
+    transform:rotate(25deg);
+    opacity:.25;
+}
+
+/* inner border glow */
+.buy-btn::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    border-radius:18px;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.25),
+        inset 0 -10px 20px rgba(0,0,0,.12);
+
+    pointer-events:none;
+}
+
+/* disabled state premium (not flat) */
+.buy-btn:disabled{
+    background:
+    linear-gradient(135deg,#2a2a2a,#1a1a1a);
+
+    color:rgba(255,255,255,.4);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.4),
+        inset 0 1px 0 rgba(255,255,255,.05);
+
+    cursor:not-allowed;
+}
+
+/* =========================
+   BACK BUTTON PREMIUM
+========================= */
+.back-btn{
+    width:100%;
+    height:50px;
+
+    margin-top:10px;
+
+    border:none;
+    border-radius:16px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+/* =========================
+   POPUP PREMIUM
+========================= */
+.popup-bg{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.75);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.popup-bg.active{
+    display:flex;
+}
+
+.popup-box{
+    width:92%;
+    max-width:420px;
+
+    background:
+    linear-gradient(135deg,#0b2b5c,#07162f);
+
+    border-radius:22px;
+
+    padding:20px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:0 25px 60px rgba(0,0,0,.6);
+}
+
+.popup-box h2{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.popup-row{
+    display:flex;
+    justify-content:space-between;
+
+    padding:12px 14px;
+
+    margin-bottom:10px;
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.popup-row b{
+    color:#00ff88;
+}
+
+/* =========================
+   SUCCESS ICON PREMIUM
+========================= */
+.success-icon{
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#00ff88,#00c95f);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:50px;
+
+    margin:auto;
+    margin-bottom:15px;
+
+    color:#03233e;
+
+    box-shadow:0 15px 35px rgba(0,255,136,.3);
+}
+
+/* =========================
+   LOADING PREMIUM
+========================= */
+#buyLoading{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.6);
+    backdrop-filter:blur(12px);
 
     display:flex;
     justify-content:center;
@@ -359,8 +444,7 @@ color:white;
     opacity:0;
     visibility:hidden;
 
-    transition:.25s ease;
-    z-index:999999;
+    transition:.25s;
 }
 
 #buyLoading.active{
@@ -368,21 +452,12 @@ color:white;
     visibility:visible;
 }
 
-/* BOX CENTER */
-.loader-box{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* OUTER CIRCLE */
 .loader-circle{
     width:80px;
     height:80px;
     position:relative;
 }
 
-/* RING BASE */
 .loader-circle::before{
     content:"";
     position:absolute;
@@ -391,7 +466,6 @@ color:white;
     border:2px solid rgba(255,255,255,.15);
 }
 
-/* SPINNING RING */
 .loader-circle::after{
     content:"";
     position:absolute;
@@ -403,37 +477,23 @@ color:white;
     animation:spin .7s linear infinite;
 }
 
-/* LOGO DI DALAM CIRCLE */
 .loader-logo{
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-
     width:45px;
     height:45px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
 }
 
 .loader-logo img{
     width:100%;
     height:100%;
     object-fit:contain;
-
-    animation:pulseLogo 1.2s ease-in-out infinite;
 }
 
-/* ANIMASI */
 @keyframes spin{
-    100%{ transform:rotate(360deg); }
-}
-
-@keyframes pulseLogo{
-    0%,100%{ transform:scale(1); }
-    50%{ transform:scale(1.08); }
+    100%{transform:rotate(360deg);}
 }
 
 </style>
