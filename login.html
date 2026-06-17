@@ -650,19 +650,15 @@ h2{
 
 /* =========================
    LOADING SCREEN ULTRA PREMIUM
-   (LOADING DI KOTAK LUAR LOGO)
 ========================= */
-
 .loading-screen{
     position:fixed;
     inset:0;
 
-    background:linear-gradient(
-        180deg,
-        rgba(3,19,43,.96),
-        rgba(6,34,74,.98),
-        rgba(11,63,141,.98)
-    );
+    background:
+    radial-gradient(circle at top left, rgba(0,255,136,.12), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(0,140,255,.15), transparent 45%),
+    linear-gradient(180deg,#03132b,#061a3a,#0b3f8d);
 
     display:flex;
     justify-content:center;
@@ -672,7 +668,6 @@ h2{
 
     opacity:0;
     visibility:hidden;
-
     transition:.35s ease;
 }
 
@@ -681,120 +676,115 @@ h2{
     visibility:visible;
 }
 
-/* CENTER CONTENT */
+/* =========================
+   LOADING WRAPPER
+========================= */
 .loading-content{
     text-align:center;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
 }
 
 /* =========================
-   OUTER LOADING RING (KOTAK LUAR LOGO)
+   BOX LOGO (CENTER PIECE)
 ========================= */
-.loading-ring{
-    width:140px;
-    height:140px;
+.loading-logo{
+    width:120px;
+    height:120px;
+
+    margin:auto;
 
     border-radius:28px;
 
-    position:relative;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:rgba(255,255,255,.05);
-    backdrop-filter:blur(20px);
-
-    border:1px solid rgba(255,255,255,.10);
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.45),
-        0 0 40px rgba(0,255,136,.20);
-
-    overflow:hidden;
-}
-
-/* SPIN BORDER DI KOTAK LUAR */
-.loading-ring::before{
-    content:"";
-    position:absolute;
-    inset:-2px;
-
-    border-radius:30px;
-
-    background:conic-gradient(
-        #00ff88,
-        #22c55e,
-        transparent 60%
-    );
-
-    animation:spin 1s linear infinite;
-
-    filter:blur(1px);
-}
-
-/* INNER CUT (BIAR RING KELIHATAN) */
-.loading-ring::after{
-    content:"";
-    position:absolute;
-    inset:3px;
-
-    border-radius:26px;
-
-    background:rgba(10,20,40,.92);
-}
-
-/* LOGO DI TENGAH */
-.loading-logo{
-    width:85px;
-    height:85px;
-
-    z-index:2;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:18px;
-
     background:rgba(255,255,255,.06);
+    backdrop-filter:blur(22px);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     border:1px solid rgba(255,255,255,.12);
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.05),
-        0 10px 25px rgba(0,0,0,.35);
+        0 25px 60px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.08);
+
+    position:relative;
+    overflow:hidden;
 }
 
+/* LOGO IMAGE */
 .loading-logo img{
-    width:80%;
-    height:80%;
+    width:78%;
+    height:78%;
     object-fit:contain;
+
+    z-index:2;
 }
 
-/* TEXT */
+/* =========================
+   SQUARE LOADING RING (ANTI BULAT)
+========================= */
+.loading-logo::before{
+    content:"";
+    position:absolute;
+    inset:-6px;
+
+    border-radius:32px;
+
+    background:conic-gradient(
+        from 0deg,
+        transparent 0%,
+        #00ff88 20%,
+        transparent 40%,
+        #00cfff 60%,
+        transparent 80%,
+        #00ff88 100%
+    );
+
+    animation:spin 1.1s linear infinite;
+
+    filter:blur(.2px);
+    opacity:.9;
+}
+
+/* inner glow layer */
+.loading-logo::after{
+    content:"";
+    position:absolute;
+    inset:6px;
+
+    border-radius:22px;
+
+    background:radial-gradient(
+        circle at center,
+        rgba(0,255,136,.15),
+        transparent 60%
+    );
+}
+
+/* =========================
+   SPINNER TEXT
+========================= */
 .loading-content h3{
+    margin-top:18px;
     color:white;
     font-size:18px;
-    margin:0;
-    letter-spacing:.3px;
+    letter-spacing:.5px;
 }
 
 .loading-content p{
     color:rgba(255,255,255,.7);
     font-size:13px;
-    margin:0;
 }
 
-/* ANIMATIONS */
+/* =========================
+   ANIMATION
+========================= */
 @keyframes spin{
     100%{
         transform:rotate(360deg);
     }
 }
-
+    
 /* =========================
    MINI LOADER ULTRA PREMIUM
 ========================= */
