@@ -1,3 +1,38 @@
+window.addEventListener("load", () => {
+
+    const popup =
+    document.getElementById(
+    "announcementPopup"
+    );
+
+    const alreadySeen =
+    localStorage.getItem(
+    "dashboard_announcement"
+    );
+
+    if(!alreadySeen){
+
+        popup.style.display = "flex";
+
+    }
+
+});
+
+function closeAnnouncement(){
+
+    localStorage.setItem(
+    "dashboard_announcement",
+    "seen"
+    );
+
+    document
+    .getElementById(
+    "announcementPopup"
+    )
+    .style.display = "none";
+
+}
+
 // ========================
 // GLOBAL STATE
 // ========================
