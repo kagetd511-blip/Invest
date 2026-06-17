@@ -465,14 +465,13 @@ to{transform:translateX(-100%);}
 
 .status-aktif{
     margin-top:8px;
-    padding:10px 10px;
+    padding:10px;
 
     border-radius:14px;
 
-    /* glass premium */
     background: linear-gradient(
         135deg,
-        rgba(0,255,136,.10),
+        rgba(0,255,136,.12),
         rgba(255,255,255,.03)
     );
 
@@ -480,31 +479,54 @@ to{transform:translateX(-100%);}
 
     backdrop-filter: blur(18px);
 
-    font-size:11px;
-    line-height:1.4;
-
     position:relative;
     overflow:hidden;
 
     box-shadow:
-        0 12px 30px rgba(0,0,0,.35),
-        inset 0 1px 0 rgba(255,255,255,.05);
+        0 15px 35px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
 }
 
-/* soft glow layer */
+/* =========================
+   SHIMMER EFFECT (GERAK HALUS)
+========================= */
 .status-aktif::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-60%;
+    width:60%;
+    height:100%;
+
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(0,255,136,.18),
+        transparent
+    );
+
+    transform:skewX(-20deg);
+
+    animation:shimmerMove 3.5s infinite;
+}
+
+/* =========================
+   GLOW PULSE HALUS
+========================= */
+.status-aktif::after{
     content:"";
     position:absolute;
     inset:0;
 
     background: radial-gradient(
-        circle at top left,
+        circle at 30% 20%,
         rgba(0,255,136,.15),
         transparent 60%
     );
 
-    opacity:.8;
-    pointer-events:none;
+    opacity:.7;
+
+    animation:pulseGlow 2.5s ease-in-out infinite;
 }
 
 /* =========================
@@ -515,24 +537,23 @@ to{transform:translateX(-100%);}
     color:#041b10;
 
     font-weight:700;
+    font-size:10px;
 
     padding:3px 10px;
     border-radius:999px;
 
     display:inline-block;
-
     margin-bottom:6px;
 
-    font-size:10px;
-    letter-spacing:.3px;
-
     box-shadow:
-        0 6px 15px rgba(0,255,136,.25),
-        inset 0 1px 0 rgba(255,255,255,.2);
+        0 8px 18px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.25);
+
+    letter-spacing:.3px;
 }
 
 /* =========================
-   TITLE (H4 PREMIUM LOOK)
+   TITLE
 ========================= */
 .status-aktif h4{
     font-size:14px;
@@ -544,18 +565,16 @@ to{transform:translateX(-100%);}
 }
 
 /* =========================
-   TEXT INFO PREMIUM
+   TEXT
 ========================= */
 .status-aktif p{
     margin:2px 0;
-
     font-size:11px;
-
     color:rgba(255,255,255,.75);
 }
 
 /* =========================
-   PROGRESS BAR PREMIUM
+   PROGRESS PREMIUM LIVE
 ========================= */
 .progress{
     width:100%;
@@ -570,21 +589,41 @@ to{transform:translateX(-100%);}
     overflow:hidden;
 
     border:1px solid rgba(255,255,255,.08);
+
+    position:relative;
 }
 
 .progress-fill{
     height:100%;
+    border-radius:999px;
 
     background: linear-gradient(90deg, #00ff88, #00c853);
 
-    border-radius:999px;
+    box-shadow:0 0 12px rgba(0,255,136,.4);
 
-    box-shadow:0 0 10px rgba(0,255,136,.35);
-
-    transition:width .5s ease;
+    transition:width .6s ease;
 }
 
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes shimmerMove{
+    0%{
+        left:-60%;
+    }
+    100%{
+        left:120%;
+    }
+}
 
+@keyframes pulseGlow{
+    0%,100%{
+        opacity:.5;
+    }
+    50%{
+        opacity:1;
+    }
+}
 
 /* =========================
 
