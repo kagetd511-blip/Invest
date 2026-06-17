@@ -1808,364 +1808,248 @@ opacity:1;
     }
 }
 
-/* =========================
-   ANNOUNCEMENT POPUP
-========================= */
-
-.popup-overlay{
+/* OVERLAY */
+.announcement-popup{
     position:fixed;
     inset:0;
 
-    display:none;
+    display:flex;
     justify-content:center;
     align-items:center;
 
-    padding:20px;
-
-    background:
-    rgba(2,8,23,.78);
-
-    backdrop-filter:
-    blur(16px);
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(8px);
 
     z-index:999999;
-
-    animation:fadeIn .4s ease;
 }
 
-.popup-box{
+/* CARD */
+.announcement-card{
+    width:88%;
+    max-width:290px;
 
-    width:100%;
-    max-width:460px;
-
+    border-radius:22px;
     overflow:hidden;
-
-    border-radius:32px;
 
     background:
     linear-gradient(
-    135deg,
-    rgba(255,255,255,.12),
-    rgba(255,255,255,.04)
+        180deg,
+        rgba(15,25,45,.98),
+        rgba(6,12,25,.98)
     );
 
-    border:
-    1px solid rgba(255,255,255,.1);
-
-    backdrop-filter:
-    blur(25px);
+    border:1px solid rgba(255,255,255,.08);
 
     box-shadow:
-    0 25px 80px rgba(0,0,0,.45),
-    0 0 40px rgba(0,140,255,.18);
+        0 25px 70px rgba(0,0,0,.75),
+        0 0 25px rgba(0,140,255,.12);
 
-    animation:
-    popupShow .55s cubic-bezier(.18,.89,.32,1.28);
+    animation:popupShow .35s ease;
 }
 
-/* =========================
-   HEADER
-========================= */
-
-.popup-top{
+/* HEADER */
+.announcement-header{
+    padding:18px;
 
     text-align:center;
 
-    padding:28px 25px;
-
     background:
     linear-gradient(
-    135deg,
-    #00d084,
-    #008cff
+        135deg,
+        rgba(0,255,136,.15),
+        rgba(0,140,255,.15)
     );
 
-    color:white;
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.popup-icon{
+.announcement-icon{
+    width:46px;
+    height:46px;
 
-    width:70px;
-    height:70px;
-
-    margin:auto;
+    margin:auto auto 10px;
 
     border-radius:50%;
 
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+
+    color:#00ff88;
 
     background:
-    rgba(255,255,255,.15);
+    rgba(255,255,255,.05);
 
-    border:
-    1px solid rgba(255,255,255,.2);
-
-    margin-bottom:15px;
+    border:1px solid rgba(255,255,255,.08);
 }
 
-.popup-icon i{
-    font-size:28px;
+.announcement-icon i{
+    font-size:18px;
 }
 
-.popup-top h2{
-
-    font-size:24px;
-    font-weight:700;
-
-    margin-bottom:6px;
+.announcement-header h2{
+    font-size:17px;
+    color:#fff;
+    margin-bottom:4px;
 }
 
-.popup-top span{
-
-    font-size:13px;
-
-    opacity:.85;
+.announcement-header span{
+    font-size:11px;
+    color:rgba(255,255,255,.65);
 }
 
-/* =========================
-   CONTENT
-========================= */
-
-.popup-content{
-
-    max-height:430px;
-
+/* CONTENT */
+.announcement-content{
+    max-height:280px;
     overflow-y:auto;
 
-    padding:20px;
+    padding:14px;
 
-    color:white;
+    color:#d8d8d8;
 
+    font-size:12px;
     line-height:1.8;
 }
 
-.popup-content::-webkit-scrollbar{
-    width:4px;
+.announcement-content::-webkit-scrollbar{
+    width:3px;
 }
 
-.popup-content::-webkit-scrollbar-thumb{
-    background:#00d084;
-    border-radius:20px;
+.announcement-content::-webkit-scrollbar-thumb{
+    background:#00ff88;
+    border-radius:999px;
 }
 
+/* SECTION */
 .announce-section{
+    padding:12px;
 
-    margin-bottom:18px;
+    margin-bottom:10px;
 
-    padding:16px;
-
-    border-radius:18px;
+    border-radius:14px;
 
     background:
-    rgba(255,255,255,.04);
+    rgba(255,255,255,.03);
 
-    border:
-    1px solid rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.05);
 }
 
 .announce-section h3{
-
-    margin-bottom:12px;
-
-    color:#4ade80;
-
-    font-size:16px;
+    color:#00ff88;
+    font-size:12px;
+    margin-bottom:8px;
 }
 
-.announce-section p{
-
-    font-size:14px;
-
-    color:rgba(255,255,255,.85);
-}
-
-/* =========================
-   LEVEL CARD
-========================= */
-
+/* LEVEL */
 .level-box{
-
     display:flex;
-
     justify-content:space-between;
-    align-items:center;
 
-    padding:14px 16px;
+    padding:10px;
 
-    margin:12px 0;
+    margin:8px 0;
 
-    border-radius:16px;
+    border-radius:10px;
 
     background:
     linear-gradient(
-    135deg,
-    rgba(0,208,132,.12),
-    rgba(0,140,255,.12)
+        135deg,
+        rgba(0,255,136,.08),
+        rgba(0,140,255,.08)
     );
-
-    border:
-    1px solid rgba(255,255,255,.08);
-}
-
-.level-box span{
-
-    font-weight:600;
 }
 
 .level-box strong{
-
-    font-size:18px;
-
-    color:#4ade80;
+    color:#00ff88;
 }
 
-/* =========================
-   PROMO LIST
-========================= */
-
+/* LIST */
 .promo-list{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(2,1fr);
-
-    gap:10px;
-
-    margin-top:12px;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
 
     list-style:none;
+    margin-top:8px;
 }
 
 .promo-list li{
+    padding:8px;
 
     text-align:center;
+
+    font-size:11px;
+
+    border-radius:10px;
+
+    background:
+    rgba(255,255,255,.04);
+}
+
+/* BANNER */
+.premium-banner{
+    margin-top:10px;
 
     padding:12px;
 
     border-radius:12px;
 
-    background:
-    rgba(255,255,255,.05);
-
-    border:
-    1px solid rgba(255,255,255,.08);
-
-    font-size:13px;
-}
-
-/* =========================
-   BANNER
-========================= */
-
-.premium-banner{
-
-    padding:18px;
-
-    border-radius:20px;
-
     text-align:center;
 
     background:
     linear-gradient(
-    135deg,
-    rgba(0,208,132,.2),
-    rgba(0,140,255,.2)
+        135deg,
+        rgba(0,255,136,.08),
+        rgba(0,140,255,.08)
     );
-
-    margin-top:15px;
 }
 
 .premium-banner h3{
-
-    margin-bottom:10px;
-
-    color:#4ade80;
+    font-size:12px;
+    color:#00ff88;
+    margin-bottom:6px;
 }
 
 .thankyou{
+    margin-top:12px;
 
     text-align:center;
 
-    margin-top:20px;
+    color:#00ff88;
 
+    font-size:11px;
     font-weight:700;
-
-    letter-spacing:1px;
-
-    color:#00d084;
 }
 
-/* =========================
-   BUTTON
-========================= */
-
-.popup-button{
-
+/* BUTTON */
+.announcement-btn{
     width:100%;
+    height:48px;
 
     border:none;
 
-    padding:18px;
+    color:#fff;
 
-    cursor:pointer;
-
-    color:white;
-
-    font-size:15px;
-
+    font-size:13px;
     font-weight:700;
 
     background:
     linear-gradient(
-    135deg,
-    #00d084,
-    #008cff
+        135deg,
+        #00d084,
+        #008cff
     );
-
-    transition:.3s;
 }
 
-.popup-button:active{
-
-    transform:scale(.98);
-}
-
-/* =========================
-   ANIMATION
-========================= */
-
-@keyframes fadeIn{
-
-    from{
-        opacity:0;
-    }
-
-    to{
-        opacity:1;
-    }
-}
-
+/* ANIMATION */
 @keyframes popupShow{
-
     from{
-
         opacity:0;
-
-        transform:
-        translateY(50px)
-        scale(.8);
+        transform:scale(.9);
     }
-
     to{
-
         opacity:1;
-
-        transform:
-        translateY(0)
-        scale(1);
+        transform:scale(1);
     }
 }
 
