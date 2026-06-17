@@ -9,7 +9,9 @@ user-scalable=no">
     
     <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<title>Login Akun</title><style>
+<title>Login Akun</title>
+
+<style>
 
 *{
 margin:0;
@@ -18,580 +20,790 @@ box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
 
+/* =========================
+   BODY ULTRA PREMIUM BACKGROUND
+========================= */
 body{
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-min-height:100vh;
+    padding:20px;
 
-display:flex;
+    background:
+        radial-gradient(circle at top, #0a1f44 0%, #03132b 35%, #020617 100%);
 
-justify-content:center;
-
-align-items:center;
-
-padding:20px;
-
-background:
-linear-gradient(
-180deg,
-#03132b 0%,
-#06224a 40%,
-#0b3f8d 100%
-);
-
-overflow:hidden;
-
+    overflow-y:auto;
 }
 
+/* =========================
+   FLOATING GLOW ORB 1
+========================= */
 body::before{
+    content:"";
+    position:absolute;
 
-content:"";
+    width:300px;
+    height:300px;
 
-position:absolute;
+    background:radial-gradient(circle, #00ff88 0%, transparent 70%);
+    border-radius:50%;
 
-width:300px;
-height:300px;
+    filter:blur(120px);
 
-background:#00ff88;
+    top:-100px;
+    left:-100px;
 
-border-radius:50%;
+    opacity:.22;
 
-filter:blur(120px);
-
-top:-100px;
-left:-100px;
-
-opacity:.25;
-
+    animation:float1 10s ease-in-out infinite;
 }
 
+/* =========================
+   FLOATING GLOW ORB 2
+========================= */
 body::after{
+    content:"";
+    position:fixed;
 
-content:"";
+    width:420px;
+    height:420px;
 
-position:absolute;
+    background:radial-gradient(circle, #008cff 0%, transparent 70%);
+    border-radius:50%;
 
-width:300px;
-height:300px;
+    filter:blur(130px);
 
-background:#008cff;
+    bottom:-140px;
+    right:-140px;
 
-border-radius:50%;
+    opacity:.22;
 
-filter:blur(120px);
-
-bottom:-100px;
-right:-100px;
-
-opacity:.25;
-
+    animation:float2 12s ease-in-out infinite;
 }
 
+/* =========================
+   ANIMATION GLOW MOVE
+========================= */
+@keyframes float1{
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
+    50%{
+        transform:translate(40px,30px) scale(1.08);
+    }
+}
+
+@keyframes float2{
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
+    50%{
+        transform:translate(-40px,-30px) scale(1.1);
+    }
+}
+
+/* =========================
+   CUSTOM ALERT ULTRA PREMIUM
+========================= */
 .custom-alert{
+    position:fixed;
+    inset:0;
 
-position:fixed;
+    display:none;
+    justify-content:center;
+    align-items:center;
 
-top:0;
-left:0;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(12px);
 
-width:100%;
-height:100%;
+    z-index:9999;
 
-background:rgba(0,0,0,.65);
-
-display:none;
-
-justify-content:center;
-
-align-items:center;
-
-z-index:9999;
-
-backdrop-filter:blur(8px);
-
+    padding:20px;
 }
 
 .custom-alert.show{
-
-display:flex;
-
-animation:fadeIn .25s;
+    display:flex;
+    animation:fadeInBg .25s ease;
 }
 
+/* =========================
+   ALERT BOX PREMIUM
+========================= */
 .alert-box{
+    width:90%;
+    max-width:340px;
 
-width:90%;
-max-width:340px;
+    background:linear-gradient(180deg,#081a33,#0b1f3f);
 
-background:
-linear-gradient(
-180deg,
-#07152d,
-#0d2450
-);
+    border-radius:22px;
 
-border-radius:24px;
+    padding:26px 22px;
 
-padding:25px;
+    text-align:center;
 
-text-align:center;
+    border:1px solid rgba(255,255,255,.08);
 
-border:
-1px solid rgba(255,255,255,.08);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.05);
 
-box-shadow:
-0 20px 50px rgba(0,0,0,.35);
+    position:relative;
+    overflow:hidden;
 
+    animation:popUp .28s ease;
 }
 
+/* soft glow background */
+.alert-box::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+
+    background:radial-gradient(circle,rgba(0,255,136,.12),transparent 60%);
+    transform:rotate(20deg);
+}
+
+/* =========================
+   ICON PREMIUM
+========================= */
 .alert-icon{
+    width:72px;
+    height:72px;
 
-width:70px;
-height:70px;
+    margin:auto;
 
-margin:auto;
+    border-radius:18px;
 
-border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-display:flex;
+    background:linear-gradient(135deg,#00ff88,#22c55e);
 
-align-items:center;
+    font-size:30px;
+    color:#04130c;
 
-justify-content:center;
+    margin-bottom:14px;
 
-background:
-linear-gradient(
-135deg,
-#00ff88,
-#00c95f
-);
-
-font-size:28px;
-
-color:#03233e;
-
-margin-bottom:15px;
-
+    box-shadow:
+        0 15px 35px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.35);
 }
 
+/* =========================
+   TEXT
+========================= */
 .alert-box h3{
-
-color:white;
-
-margin-bottom:10px;
-
+    color:#ffffff;
+    margin-bottom:8px;
+    font-size:16px;
+    font-weight:800;
 }
 
 .alert-box p{
-
-color:rgba(255,255,255,.75);
-
-font-size:14px;
-
-margin-bottom:20px;
-
+    color:rgba(255,255,255,.75);
+    font-size:14px;
+    margin-bottom:18px;
+    line-height:1.5;
 }
 
+/* =========================
+   ALERT BUTTON PREMIUM (COMPACT)
+========================= */
 .alert-box button{
+    width:100%;
+    height:42px;
 
-width:100%;
+    border:none;
+    border-radius:12px;
 
-height:48px;
+    font-weight:800;
+    font-size:14px;
 
-border:none;
+    background:linear-gradient(135deg,#00ff88,#00c95f);
+    color:#04130c;
 
-border-radius:14px;
+    cursor:pointer;
 
-font-weight:bold;
+    box-shadow:
+        0 12px 25px rgba(0,255,136,.22),
+        inset 0 1px 0 rgba(255,255,255,.35);
 
-background:
-linear-gradient(
-135deg,
-#00ff88,
-#00c95f
-);
+    transition:.2s ease;
 
-color:#03233e;
-
-cursor:pointer;
-
+    letter-spacing:.3px;
 }
 
-@keyframes fadeIn{
-
-from{
-opacity:0;
+.alert-box button:hover{
+    transform:translateY(-1px);
+    box-shadow:
+        0 16px 30px rgba(0,255,136,.28),
+        inset 0 1px 0 rgba(255,255,255,.4);
 }
 
-to{
-opacity:1;
+.alert-box button:active{
+    transform:scale(.98);
 }
 
+/* =========================
+   ANIMATION
+========================= */
+@keyframes fadeInBg{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
+@keyframes popUp{
+    from{
+        transform:scale(.9);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* =========================
+   LOGIN CARD ULTRA PREMIUM
+========================= */
 .login-card{
+    position:relative;
+    z-index:2;
 
-position:relative;
+    width:100%;
+    max-width:420px;
 
-z-index:2;
+    background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
+    backdrop-filter:blur(28px);
 
-width:100%;
-max-width:420px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:28px;
 
-background:
-rgba(255,255,255,.08);
+    padding:32px 24px;
 
-backdrop-filter:blur(25px);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.05);
 
-border:1px solid rgba(255,255,255,.1);
-
-border-radius:30px;
-
-padding:35px 25px;
-
-box-shadow:
-0 25px 60px rgba(0,0,0,.35);
-
+    overflow:hidden;
 }
 
+/* glow layer */
+.login-card::before{
+    content:"";
+    position:absolute;
+    inset:-40%;
+
+    background:radial-gradient(circle at top,#00ff88 0%,transparent 55%);
+    opacity:.12;
+
+    pointer-events:none;
+}
+
+/* =========================
+   LOGO BOX PREMIUM
+========================= */
 .logo-box{
+    width:110px;
+    height:110px;
 
-width:120px;
-height:120px;
+    margin:0 auto;
 
-margin:auto;
+    background:rgba(255,255,255,.06);
+    border-radius:22px;
 
-background:
-rgba(255,255,255,.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-border-radius:25px;
+    overflow:hidden;
 
-display:flex;
+    border:1px solid rgba(255,255,255,.12);
 
-align-items:center;
-
-justify-content:center;
-
-overflow:hidden;
-
-border:1px solid rgba(255,255,255,.1);
-
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.05);
 }
 
 .logo-box img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
 
-width:100%;
-height:100%;
-
-object-fit:contain;
-
-padding:10px;
-
+    padding:12px;
 }
 
+/* =========================
+   TITLE
+========================= */
 h2{
+    text-align:center;
+    color:white;
 
-text-align:center;
+    margin-top:16px;
+    font-size:26px;
+    font-weight:800;
 
-color:white;
-
-margin-top:18px;
-
-font-size:28px;
-
+    letter-spacing:.3px;
 }
 
+/* =========================
+   SUBTITLE
+========================= */
 .subtitle{
+    text-align:center;
+    color:rgba(255,255,255,.72);
 
-text-align:center;
+    margin-top:8px;
+    margin-bottom:22px;
 
-color:rgba(255,255,255,.7);
-
-margin-top:8px;
-
-margin-bottom:25px;
-
+    font-size:14px;
+    line-height:1.4;
 }
 
+/* =========================
+   INPUT GROUP PREMIUM + ANIMASI
+========================= */
 .input-group{
-
-margin-bottom:15px;
-
+    margin-bottom:14px;
+    position:relative;
 }
 
+/* INPUT FIELD */
 .input-group input{
+    width:100%;
+    height:52px;
 
-width:100%;
+    border:none;
+    outline:none;
 
-height:55px;
+    border-radius:14px;
 
-border:none;
+    padding:0 15px;
 
-outline:none;
+    background:rgba(255,255,255,.06);
+    color:white;
 
-border-radius:15px;
+    font-size:15px;
 
-padding:0 15px;
+    border:1px solid rgba(255,255,255,.10);
 
-background:
-rgba(255,255,255,.1);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04);
 
-color:white;
-
-font-size:15px;
-
+    transition:.25s ease;
 }
 
+/* PLACEHOLDER */
 .input-group input::placeholder{
-
-color:rgba(255,255,255,.6);
-
+    color:rgba(255,255,255,.55);
 }
 
+/* FOCUS PREMIUM GLOW */
+.input-group input:focus{
+    border-color:#00ff88;
+    box-shadow:
+        0 0 0 3px rgba(0,255,136,.12),
+        0 10px 25px rgba(0,255,136,.10);
+    transform:translateY(-1px);
+}
+
+/* ANIMASI HALUS SAAT MUNCUL */
+.input-group{
+    animation:inputFade .35s ease both;
+}
+
+/* delay effect kalau dipakai berurutan */
+.input-group:nth-child(1){ animation-delay:.05s; }
+.input-group:nth-child(2){ animation-delay:.10s; }
+.input-group:nth-child(3){ animation-delay:.15s; }
+
+@keyframes inputFade{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   PASSWORD BOX PREMIUM + ANIMASI
+========================= */
 .password-box{
-
-position:relative;
-
+    position:relative;
+    margin-bottom:14px;
 }
 
+/* INPUT STYLE (biar konsisten premium) */
 .password-box input{
+    width:100%;
+    height:52px;
 
-padding-right:55px;
+    border:none;
+    outline:none;
 
+    border-radius:14px;
+
+    padding:0 55px 0 15px;
+
+    background:rgba(255,255,255,.06);
+    color:white;
+
+    font-size:15px;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    transition:.25s ease;
+
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 
+/* FOCUS GLOW */
+.password-box input:focus{
+    border-color:#00ff88;
+    box-shadow:
+        0 0 0 3px rgba(0,255,136,.12),
+        0 10px 25px rgba(0,255,136,.10);
+    transform:translateY(-1px);
+}
+
+/* ICON TOGGLE */
 .password-box span{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
 
-position:absolute;
+    cursor:pointer;
 
-right:18px;
+    font-size:18px;
+    color:rgba(255,255,255,.7);
 
-top:50%;
+    padding:6px;
+    border-radius:10px;
 
-transform:translateY(-50%);
+    transition:.25s ease;
 
-cursor:pointer;
-
-font-size:18px;
-
-color:rgba(255,255,255,.8);
-
-transition:.3s;
-
+    user-select:none;
 }
 
+/* HOVER PREMIUM */
 .password-box span:hover{
-
-color:#00ff88;
-
+    color:#00ff88;
+    background:rgba(0,255,136,.08);
+    box-shadow:0 0 15px rgba(0,255,136,.15);
 }
 
+/* CLICK FEEL (kalau span ditekan via JS toggle class .active) */
+.password-box span.active{
+    color:#00ff88;
+    transform:translateY(-50%) scale(1.1);
+    background:rgba(0,255,136,.12);
+}
+
+/* =========================
+   LOGIN BUTTON ULTRA PREMIUM + ANIMASI
+========================= */
 .login-btn{
+    width:100%;
+    height:52px;
 
-width:100%;
+    border:none;
+    border-radius:14px;
 
-height:55px;
+    cursor:pointer;
 
-border:none;
+    font-size:15px;
+    font-weight:800;
 
-border-radius:15px;
+    background:linear-gradient(135deg,#00ff88,#00c95f);
+    color:#04130c;
 
-cursor:pointer;
+    margin-top:10px;
 
-font-size:16px;
+    transition:.25s ease;
 
-font-weight:700;
+    position:relative;
+    overflow:hidden;
 
-background:
-linear-gradient(
-135deg,
-#00ff88,
-#00c95f
-);
-
-color:#03233e;
-
-margin-top:10px;
-
+    letter-spacing:.3px;
 }
 
+/* HOVER PREMIUM LIFT */
+.login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 20px 45px rgba(0,255,136,.30),
+        inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+/* CLICK EFFECT */
+.login-btn:active{
+    transform:scale(.98);
+}
+
+/* SHINE ANIMATION */
+.login-btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+
+    width:60%;
+    height:100%;
+
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.35),
+        transparent
+    );
+
+    transform:skewX(-20deg);
+}
+
+/* ANIMASI SHINE LOOP */
+.login-btn:hover::before{
+    animation:shine 1.2s ease;
+}
+
+@keyframes shine{
+    0%{ left:-120%; }
+    100%{ left:120%; }
+}
+
+/* =========================
+   REGISTER PREMIUM + ANIMASI
+========================= */
 .register{
+    text-align:center;
+    margin-top:18px;
 
-text-align:center;
+    color:rgba(255,255,255,.75);
 
-margin-top:20px;
+    font-size:14px;
 
-color:white;
-
+    animation:fadeUp .4s ease both;
 }
 
 .register a{
+    color:#00ff88;
+    text-decoration:none;
 
-color:#00ff88;
+    font-weight:800;
 
-text-decoration:none;
+    position:relative;
 
-font-weight:bold;
-
+    transition:.25s ease;
 }
 
-    /* LOADING PREMIUM */
+/* hover glow + lift */
+.register a:hover{
+    color:#22c55e;
+    text-shadow:0 0 15px rgba(0,255,136,.35);
+    transform:translateY(-1px);
+}
+
+/* underline animation */
+.register a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-3px;
+
+    width:100%;
+    height:2px;
+
+    background:linear-gradient(90deg,#00ff88,#22c55e);
+
+    transform:scaleX(0);
+    transform-origin:left;
+
+    transition:.25s ease;
+}
+
+.register a:hover::after{
+    transform:scaleX(1);
+}
+
+/* fade animation */
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   LOADING SCREEN ULTRA PREMIUM
+   (LOADING DI KOTAK LUAR LOGO)
+========================= */
 
 .loading-screen{
+    position:fixed;
+    inset:0;
 
-position:fixed;
-top:0;
-left:0;
+    background:linear-gradient(
+        180deg,
+        rgba(3,19,43,.96),
+        rgba(6,34,74,.98),
+        rgba(11,63,141,.98)
+    );
 
-width:100%;
-height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-background:
-linear-gradient(
-180deg,
-rgba(3,19,43,.95),
-rgba(6,34,74,.97),
-rgba(11,63,141,.98)
-);
+    z-index:999999;
 
-display:flex;
-justify-content:center;
-align-items:center;
+    opacity:0;
+    visibility:hidden;
 
-z-index:999999;
-
-opacity:0;
-visibility:hidden;
-
-transition:.35s;
+    transition:.35s ease;
 }
 
 .loading-screen.active{
-
-opacity:1;
-visibility:visible;
-
+    opacity:1;
+    visibility:visible;
 }
 
+/* CENTER CONTENT */
 .loading-content{
-
-text-align:center;
-
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
 }
 
+/* =========================
+   OUTER LOADING RING (KOTAK LUAR LOGO)
+========================= */
+.loading-ring{
+    width:140px;
+    height:140px;
+
+    border-radius:28px;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.10);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.45),
+        0 0 40px rgba(0,255,136,.20);
+
+    overflow:hidden;
+}
+
+/* SPIN BORDER DI KOTAK LUAR */
+.loading-ring::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+
+    border-radius:30px;
+
+    background:conic-gradient(
+        #00ff88,
+        #22c55e,
+        transparent 60%
+    );
+
+    animation:spin 1s linear infinite;
+
+    filter:blur(1px);
+}
+
+/* INNER CUT (BIAR RING KELIHATAN) */
+.loading-ring::after{
+    content:"";
+    position:absolute;
+    inset:3px;
+
+    border-radius:26px;
+
+    background:rgba(10,20,40,.92);
+}
+
+/* LOGO DI TENGAH */
 .loading-logo{
+    width:85px;
+    height:85px;
 
-width:120px;
-height:120px;
+    z-index:2;
 
-margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-border-radius:30px;
+    border-radius:18px;
 
-background:
-rgba(255,255,255,.08);
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
 
-backdrop-filter:blur(20px);
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-border:
-1px solid rgba(255,255,255,.1);
-
-box-shadow:
-0 0 40px rgba(0,255,136,.35);
-
-animation:pulse 1.8s infinite;
-
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 10px 25px rgba(0,0,0,.35);
 }
 
 .loading-logo img{
-
-width:85%;
-height:85%;
-
-object-fit:contain;
-
+    width:80%;
+    height:80%;
+    object-fit:contain;
 }
 
-.loading-spinner{
-
-width:60px;
-height:60px;
-
-margin:25px auto;
-
-border-radius:50%;
-
-border:4px solid
-rgba(255,255,255,.15);
-
-border-top:
-4px solid #00ff88;
-
-animation:spin 1s linear infinite;
-
-}
-
+/* TEXT */
 .loading-content h3{
-
-color:white;
-font-size:20px;
-
-margin-bottom:8px;
-
+    color:white;
+    font-size:18px;
+    margin:0;
+    letter-spacing:.3px;
 }
 
 .loading-content p{
-
-color:rgba(255,255,255,.7);
-
-font-size:14px;
-
+    color:rgba(255,255,255,.7);
+    font-size:13px;
+    margin:0;
 }
 
+/* ANIMATIONS */
 @keyframes spin{
-
-100%{
-transform:rotate(360deg);
+    100%{
+        transform:rotate(360deg);
+    }
 }
 
-}
-
-@keyframes pulse{
-
-0%{
-transform:scale(1);
-box-shadow:
-0 0 20px rgba(0,255,136,.25);
-}
-
-50%{
-transform:scale(1.05);
-box-shadow:
-0 0 50px rgba(0,255,136,.6);
-}
-
-100%{
-transform:scale(1);
-box-shadow:
-0 0 20px rgba(0,255,136,.25);
-}
-
-}
-
-/* MINI LOADER PREMIUM */
+/* =========================
+   MINI LOADER ULTRA PREMIUM
+========================= */
 
 .mini-loader{
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    inset:0;
 
     background:rgba(0,0,0,.55);
-    backdrop-filter:blur(8px);
+    backdrop-filter:blur(10px);
 
     display:flex;
     justify-content:center;
@@ -601,7 +813,7 @@ box-shadow:
 
     opacity:0;
     visibility:hidden;
-    transition:.3s;
+    transition:.3s ease;
 }
 
 .mini-loader.active{
@@ -609,80 +821,110 @@ box-shadow:
     visibility:visible;
 }
 
+/* CENTER BOX */
 .mini-loader-box{
     text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
 }
 
+/* =========================
+   OUTER RING PREMIUM
+========================= */
 .loader-circle{
     position:relative;
-    width:90px;
-    height:90px;
-    margin:auto;
+    width:92px;
+    height:92px;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.45),
+        0 0 25px rgba(0,255,136,.15);
 }
 
+/* SPIN RING */
 .loader-circle::before{
     content:"";
     position:absolute;
-    inset:0;
+    inset:-3px;
     border-radius:50%;
-    border:3px solid rgba(255,255,255,.12);
+
+    background:conic-gradient(
+        #00ff88,
+        #22c55e,
+        transparent 65%
+    );
+
+    animation:rotateLoader 1s linear infinite;
+
+    filter:blur(0.5px);
 }
 
+/* INNER CUT */
 .loader-circle::after{
     content:"";
     position:absolute;
-    inset:0;
+    inset:3px;
+
     border-radius:50%;
-    border:3px solid transparent;
-    border-top:3px solid #00ff88;
-    border-right:3px solid #00ff88;
-    animation:rotateLoader .8s linear infinite;
+
+    background:rgba(10,20,40,.92);
 }
 
+/* =========================
+   LOGO CENTER
+========================= */
 .mini-logo{
     position:absolute;
     top:50%;
     left:50%;
-
     transform:translate(-50%,-50%);
 
-    width:58px;
-    height:58px;
+    width:56px;
+    height:56px;
 
-    border-radius:50%;
+    border-radius:16px;
 
-    background:
-    linear-gradient(
-    135deg,
-    rgba(255,255,255,.12),
-    rgba(255,255,255,.05)
-    );
-
-    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.10);
 
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+
+    z-index:2;
 
     box-shadow:
-    0 0 20px rgba(0,255,136,.25);
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 10px 25px rgba(0,0,0,.35);
 
-    animation:pulseLogo 1.5s ease-in-out infinite;
+    animation:pulseLogo 1.4s ease-in-out infinite;
 }
 
 .mini-logo img{
-    width:70%;
-    height:70%;
+    width:75%;
+    height:75%;
     object-fit:contain;
 }
 
+/* TEXT */
 .mini-loader p{
-    margin-top:18px;
-    color:white;
-    font-size:14px;
-    letter-spacing:.5px;
+    margin:0;
+    color:rgba(255,255,255,.85);
+    font-size:13px;
+    letter-spacing:.4px;
 }
 
+/* ANIMATIONS */
 @keyframes rotateLoader{
     100%{
         transform:rotate(360deg);
@@ -693,36 +935,95 @@ box-shadow:
     0%,100%{
         transform:translate(-50%,-50%) scale(1);
     }
-
     50%{
-        transform:translate(-50%,-50%) scale(1.08);
+        transform:translate(-50%,-50%) scale(1.06);
     }
 }
 
+/* =========================
+   FORGOT PASSWORD PREMIUM + ANIMASI
+========================= */
 .forgot-password{
     text-align:left;
     margin-top:8px;
+
+    animation:fadeUp .35s ease both;
 }
 
 .forgot-password a{
     color:#00ff88;
     text-decoration:none;
-    font-size:14px;
-    font-weight:600;
+
+    font-size:13px;
+    font-weight:700;
+
+    position:relative;
+
+    transition:.25s ease;
 }
+
+/* hover glow */
+.forgot-password a:hover{
+    color:#22c55e;
+    text-shadow:0 0 14px rgba(0,255,136,.35);
+    transform:translateX(2px);
+}
+
+/* underline animation */
+.forgot-password a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-3px;
+
+    width:100%;
+    height:2px;
+
+    background:linear-gradient(90deg,#00ff88,#22c55e);
+
+    transform:scaleX(0);
+    transform-origin:left;
+
+    transition:.25s ease;
+}
+
+.forgot-password a:hover::after{
+    transform:scaleX(1);
+}
+
+/* entry animation */
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(6px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   FORGOT POPUP ULTRA PREMIUM + ANIMASI
+========================= */
 
 .forgot-popup{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.7);
+
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(10px);
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     z-index:9998;
 
     opacity:0;
     visibility:hidden;
-    transition:.3s;
+
+    transition:.3s ease;
 }
 
 .forgot-popup.show{
@@ -730,59 +1031,118 @@ box-shadow:
     visibility:visible;
 }
 
+/* BOX */
 .forgot-box{
     width:90%;
     max-width:380px;
 
-    background:
-    linear-gradient(
-    180deg,
-    #08162d,
-    #0d2450
-    );
+    background:linear-gradient(180deg,#08162d,#0d2450);
 
-    border-radius:28px;
+    border-radius:24px;
 
-    padding:25px;
+    padding:22px;
 
-    border:
-    1px solid rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
 
     box-shadow:
-    0 20px 60px rgba(0,0,0,.45);
+        0 25px 70px rgba(0,0,0,.55),
+        0 0 25px rgba(0,255,136,.10);
+
+    transform:translateY(10px) scale(.98);
+
+    animation:popupIn .25s ease forwards;
 }
 
+/* HEADER */
 .forgot-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:10px;
+
+    margin-bottom:12px;
 }
 
 .forgot-header h3{
     color:white;
-    font-size:22px;
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:.3px;
 }
 
+/* CLOSE BUTTON (kalau ada icon X) */
+.forgot-header span{
+    cursor:pointer;
+    color:rgba(255,255,255,.7);
+    font-size:18px;
+
+    padding:6px 10px;
+    border-radius:10px;
+
+    transition:.2s ease;
+}
+
+.forgot-header span:hover{
+    color:#00ff88;
+    background:rgba(0,255,136,.08);
+}
+
+/* ANIMASI MASUK */
+@keyframes popupIn{
+    from{
+        opacity:0;
+        transform:translateY(18px) scale(.95);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* =========================
+   FORGOT BOX CONTENT ULTRA PREMIUM + ANIMASI
+========================= */
+
+/* CLOSE BUTTON */
 .close-btn{
     width:38px;
     height:38px;
+
     border:none;
     border-radius:50%;
 
-    background:
-    rgba(255,255,255,.08);
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.10);
 
-    color:white;
+    color:rgba(255,255,255,.85);
     cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:.25s ease;
+
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
 }
 
+.close-btn:hover{
+    background:rgba(0,255,136,.08);
+    color:#00ff88;
+    transform:rotate(90deg) scale(1.05);
+    box-shadow:0 0 18px rgba(0,255,136,.18);
+}
+
+/* DESC TEXT */
 .forgot-desc{
-    color:rgba(255,255,255,.7);
-    font-size:14px;
-    margin-bottom:15px;
+    color:rgba(255,255,255,.72);
+    font-size:13px;
+    margin-bottom:14px;
+    line-height:1.4;
+
+    animation:fadeUp .3s ease both;
 }
 
+/* INPUT */
 .forgot-box input{
     width:100%;
     height:52px;
@@ -796,15 +1156,47 @@ box-shadow:
 
     margin-bottom:12px;
 
-    background:
-    rgba(255,255,255,.08);
-
+    background:rgba(255,255,255,.06);
     color:white;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    transition:.25s ease;
+
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+
+    animation:fadeUp .35s ease both;
 }
 
+/* FOCUS PREMIUM */
+.forgot-box input:focus{
+    border-color:#00ff88;
+    box-shadow:
+        0 0 0 3px rgba(0,255,136,.12),
+        0 10px 25px rgba(0,255,136,.10);
+    transform:translateY(-1px);
+}
+
+/* PLACEHOLDER */
 .forgot-box input::placeholder{
     color:rgba(255,255,255,.5);
 }
+
+/* ENTRY ANIMATION */
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   SAVE PASSWORD BUTTON ULTRA PREMIUM + ANIMASI
+========================= */
 
 .save-password-btn{
     width:100%;
@@ -813,18 +1205,67 @@ box-shadow:
     border:none;
     border-radius:12px;
 
-    font-weight:700;
+    font-weight:800;
     font-size:13px;
 
-    background:
-    linear-gradient(
-    135deg,
-    #00ff88,
-    #00c95f
-    );
+    cursor:pointer;
 
     color:#03233e;
-    cursor:pointer;
+
+    background:linear-gradient(135deg,#00ff88,#00c95f);
+
+    box-shadow:
+        0 12px 28px rgba(0,255,136,.22),
+        inset 0 1px 0 rgba(255,255,255,.35);
+
+    position:relative;
+    overflow:hidden;
+
+    transition:.25s ease;
+
+    letter-spacing:.2px;
+}
+
+/* HOVER LIFT */
+.save-password-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 18px 40px rgba(0,255,136,.30),
+        inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+/* ACTIVE CLICK */
+.save-password-btn:active{
+    transform:scale(.97);
+}
+
+/* SHINE EFFECT */
+.save-password-btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+
+    width:60%;
+    height:100%;
+
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.35),
+        transparent
+    );
+
+    transform:skewX(-20deg);
+}
+
+.save-password-btn:hover::before{
+    animation:btnShine .9s ease;
+}
+
+@keyframes btnShine{
+    0%{ left:-120%; }
+    100%{ left:120%; }
 }
 
 </style>
