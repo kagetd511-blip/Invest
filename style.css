@@ -1809,6 +1809,367 @@ opacity:1;
 }
 
 /* =========================
+   ANNOUNCEMENT POPUP
+========================= */
+
+.popup-overlay{
+    position:fixed;
+    inset:0;
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    background:
+    rgba(2,8,23,.78);
+
+    backdrop-filter:
+    blur(16px);
+
+    z-index:999999;
+
+    animation:fadeIn .4s ease;
+}
+
+.popup-box{
+
+    width:100%;
+    max-width:460px;
+
+    overflow:hidden;
+
+    border-radius:32px;
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(255,255,255,.12),
+    rgba(255,255,255,.04)
+    );
+
+    border:
+    1px solid rgba(255,255,255,.1);
+
+    backdrop-filter:
+    blur(25px);
+
+    box-shadow:
+    0 25px 80px rgba(0,0,0,.45),
+    0 0 40px rgba(0,140,255,.18);
+
+    animation:
+    popupShow .55s cubic-bezier(.18,.89,.32,1.28);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.popup-top{
+
+    text-align:center;
+
+    padding:28px 25px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #00d084,
+    #008cff
+    );
+
+    color:white;
+}
+
+.popup-icon{
+
+    width:70px;
+    height:70px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    rgba(255,255,255,.15);
+
+    border:
+    1px solid rgba(255,255,255,.2);
+
+    margin-bottom:15px;
+}
+
+.popup-icon i{
+    font-size:28px;
+}
+
+.popup-top h2{
+
+    font-size:24px;
+    font-weight:700;
+
+    margin-bottom:6px;
+}
+
+.popup-top span{
+
+    font-size:13px;
+
+    opacity:.85;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.popup-content{
+
+    max-height:430px;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    color:white;
+
+    line-height:1.8;
+}
+
+.popup-content::-webkit-scrollbar{
+    width:4px;
+}
+
+.popup-content::-webkit-scrollbar-thumb{
+    background:#00d084;
+    border-radius:20px;
+}
+
+.announce-section{
+
+    margin-bottom:18px;
+
+    padding:16px;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,.04);
+
+    border:
+    1px solid rgba(255,255,255,.06);
+}
+
+.announce-section h3{
+
+    margin-bottom:12px;
+
+    color:#4ade80;
+
+    font-size:16px;
+}
+
+.announce-section p{
+
+    font-size:14px;
+
+    color:rgba(255,255,255,.85);
+}
+
+/* =========================
+   LEVEL CARD
+========================= */
+
+.level-box{
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    padding:14px 16px;
+
+    margin:12px 0;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(0,208,132,.12),
+    rgba(0,140,255,.12)
+    );
+
+    border:
+    1px solid rgba(255,255,255,.08);
+}
+
+.level-box span{
+
+    font-weight:600;
+}
+
+.level-box strong{
+
+    font-size:18px;
+
+    color:#4ade80;
+}
+
+/* =========================
+   PROMO LIST
+========================= */
+
+.promo-list{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:10px;
+
+    margin-top:12px;
+
+    list-style:none;
+}
+
+.promo-list li{
+
+    text-align:center;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:
+    rgba(255,255,255,.05);
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    font-size:13px;
+}
+
+/* =========================
+   BANNER
+========================= */
+
+.premium-banner{
+
+    padding:18px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(0,208,132,.2),
+    rgba(0,140,255,.2)
+    );
+
+    margin-top:15px;
+}
+
+.premium-banner h3{
+
+    margin-bottom:10px;
+
+    color:#4ade80;
+}
+
+.thankyou{
+
+    text-align:center;
+
+    margin-top:20px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    color:#00d084;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.popup-button{
+
+    width:100%;
+
+    border:none;
+
+    padding:18px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    background:
+    linear-gradient(
+    135deg,
+    #00d084,
+    #008cff
+    );
+
+    transition:.3s;
+}
+
+.popup-button:active{
+
+    transform:scale(.98);
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+}
+
+@keyframes popupShow{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(50px)
+        scale(.8);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0)
+        scale(1);
+    }
+}
+
+/* =========================
 
 PREMIUM UI V2
 
