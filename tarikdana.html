@@ -431,6 +431,79 @@ body{
 }
 
 /* =========================
+   POPUP BUTTON PREMIUM
+========================= */
+
+/* WRAPPER (kalau ada) */
+.popup-btns{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+
+/* BUTTON BATAL (SECONDARY) */
+.btn-batal{
+    flex:1;
+    height:46px;
+
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+
+    background:rgba(255,255,255,.05);
+    color:rgba(255,255,255,.75);
+
+    font-weight:600;
+    font-size:14px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(10px);
+
+    transition:.2s ease;
+}
+
+.btn-batal:hover{
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    transform:translateY(-1px);
+}
+
+/* BUTTON LANJUT (PRIMARY) */
+.btn-lanjut{
+    flex:1;
+    height:46px;
+
+    border-radius:14px;
+    border:none;
+
+    background:linear-gradient(135deg,#00ff88,#00c96a);
+    color:#021b12;
+
+    font-weight:800;
+    font-size:14px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 15px 30px rgba(0,255,136,.25),
+        inset 0 1px 0 rgba(255,255,255,.35);
+
+    transition:.2s ease;
+}
+
+.btn-lanjut:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 20px 40px rgba(0,255,136,.3),
+        inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+.btn-lanjut:active,
+.btn-batal:active{
+    transform:scale(.98);
+}
+
+/* =========================
    WARNING PREMIUM COMPACT
 ========================= */
 .warning{
