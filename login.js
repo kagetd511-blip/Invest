@@ -162,89 +162,55 @@ function resetPassword(){
 }
 
 // ======================
-// LOGIN
+// LOGIN FIX FULL (SERVER)
 // ======================
-
-function login(){
-
-let phone =
-document.getElementById("phone")
-.value.trim();
-
-let password =
-document.getElementById("password")
-.value;
-
-if(phone === ""){
-
-    showAlert(
-    "Peringatan",
-    "Masukkan Nomor HP"
-    );
-
-    return;
-
-}
-
-if(password === ""){
-
-    showAlert(
-    "Peringatan",
-    "Masukkan Sandi"
-    );
-
-    return;
-
-}
 
 async function login(){
 
-let phone = document.getElementById("phone").value.trim();
-let password = document.getElementById("password").value;
+    let phone = document.getElementById("phone").value.trim();
+    let password = document.getElementById("password").value;
 
-if(phone === "" || password === ""){
-    showAlert("Peringatan", "Lengkapi data login");
-    return;
-}
-
-showLoading();
-
-try {
-
-    let res = await fetch("https://invest-production-366e.up.railway.app/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            phone,
-            password
-        })
-    });
-
-    let data = await res.json();
-
-    hideLoading();
-
-    if(data.status){
-
-        // simpan session login (untuk UI saja)
-        localStorage.setItem("currentUser", data.user.phone);
-        sessionStorage.setItem("fromLogin", "true");
-
-        showLoading();
-
-        setTimeout(()=>{
-            window.location.href = "dashboard.html";
-        },1200);
-
-    } else {
-        showAlert("Login Gagal", data.message);
+    if(phone === "" || password === ""){
+        showAlert("Peringatan", "Lengkapi data login");
+        return;
     }
 
-} catch(err){
-    hideLoading();
-    showAlert("Error", "Server tidak merespon");
-}
+    showLoading();
 
+    try {
+
+        let res = await fetch("https://invest-production-366e.up.railway.app/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                phone,
+                password
+            })
+        });
+
+        let data = await res.json();
+
+        hideLoading();
+
+        if(data.status === "ok"){
+
+            localStorage.setItem("currentUser", data.user.phone);
+            sessionStorage.setItem("fromLogin", "true");
+
+            showLoading();
+
+            setTimeout(()=>{
+                window.location.href = "dashboard.html";
+            },1200);
+
+        } else {
+            showAlert("Login Gagal", "Nomor atau sandi salah");
+        }
+
+    } catch(err){
+        hideLoading();
+        showAlert("Error", "Server tidak merespon");
+    }
 }
