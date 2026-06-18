@@ -197,53 +197,54 @@ if(password === ""){
 
 }
 
-let data =
-localStorage.getItem(phone);
+async function login(){
 
-if(!data){
+let phone = document.getElementById("phone").value.trim();
+let password = document.getElementById("password").value;
 
-    showAlert(
-    "Login Gagal",
-    "Akun belum terdaftar"
-    );
-
+if(phone === "" || password === ""){
+    showAlert("Peringatan", "Lengkapi data login");
     return;
-
 }
 
-let user =
-JSON.parse(data);
+showLoading();
 
-if(user.password === password){
+try {
 
-    localStorage.setItem(
-    "isLogin",
-    "true"
-    );
+    let res = await fetch("https://invest-production-366e.up.railway.app/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            phone,
+            password
+        })
+    });
 
-    localStorage.setItem(
-    "currentUser",
-    phone
-    );
+    let data = await res.json();
 
-    sessionStorage.setItem("fromLogin", "true");
+    hideLoading();
 
-    showLoading();
+    if(data.status){
 
-    setTimeout(()=>{
+        // simpan session login (untuk UI saja)
+        localStorage.setItem("currentUser", data.user.phone);
+        sessionStorage.setItem("fromLogin", "true");
 
-        window.location.href =
-        "dashboard.html";
+        showLoading();
 
-    },4000);
+        setTimeout(()=>{
+            window.location.href = "dashboard.html";
+        },1200);
 
-}else{
+    } else {
+        showAlert("Login Gagal", data.message);
+    }
 
-    showAlert(
-    "Login Gagal",
-    "Sandi yang Anda masukkan salah"
-    );
-
+} catch(err){
+    hideLoading();
+    showAlert("Error", "Server tidak merespon");
 }
 
 }
