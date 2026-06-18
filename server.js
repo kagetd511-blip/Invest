@@ -5,197 +5,292 @@ const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 
 const app = express();
+const PORT = process.env.PORT || 8080;
+
 app.use(cors());
 app.use(express.json());
 
 // =========================
 // TELEGRAM BOT
 // =========================
-const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: false });
+const bot = new TelegramBot(process.env.BOT_TOKEN, {
+    polling: false
+});
 
-function send(msg){
-    if(process.env.BOT_TOKEN && process.env.CHAT_ID){
+function send(msg) {
+    if (process.env.BOT_TOKEN && process.env.CHAT_ID) {
         bot.sendMessage(process.env.CHAT_ID, msg);
     }
 }
 
 // =========================
-// DB CONNECT
+// HOME ROUTE
 // =========================
-async function start() {
-    try {
-        await mongoose.connect(process.env.MONGO_URL);
-        console.log("MongoDB Connected");
-
-        app.listen(PORT, () => {
-            console.log("Server running on", PORT);
-        });
-
-    } catch (err) {
-        console.log("MongoDB error:", err);
-    }
-}
-
-start();
+app.get("/", (req, res) => {
+    res.json({
+        status: true,
+        message: "Server Invest Aktif",
+        mongodb: "Connected"
+    });
+});
 
 // =========================
 // USER MODEL
 // =========================
 const User = mongoose.model("User", {
     username: String,
-    phone: { type: String, unique: true },
+    phone: {
+        type: String,
+        unique: true
+    },
     email: String,
     password: String,
     referral: String,
-    saldo: { type: Number, default: 0 },
+    saldo: {
+        type: Number,
+        default: 0
+    },
     referralCode: String,
-    referralCount: { type: Number, default: 0 },
+    referralCount: {
+        type: Number,
+        default: 0
+    },
 
-    paketAktif: [
-        {
-            nama: String,
-            modal: Number,
-            profitPerHari: Number,
-            durasi: Number,
-            hariBerjalan: { type: Number, default: 0 },
-            lastClaim: { type: Number, default: Date.now },
-            aktif: { type: Boolean, default: true }
+    paketAktif: [{
+        nama: String,
+        modal: Number,
+        profitPerHari: Number,
+        durasi: Number,
+        hariBerjalan: {
+            type: Number,
+            default: 0
+        },
+        lastClaim: {
+            type: Number,
+            default: Date.now
+        },
+        aktif: {
+            type: Boolean,
+            default: true
         }
-    ]
+    }]
 });
 
 // =========================
 // REGISTER
 // =========================
-app.post("/register", async (req,res)=>{
-    try{
+app.post("/register", async (req, res) => {
+    try {
+
         const u = new User(req.body);
+
         await u.save();
 
         send(`🔵 REGISTRASI
+
 Username : ${u.username}
 HP       : ${u.phone}
 Email    : ${u.email}
 Referral : ${u.referral || "-"}`);
 
-        res.json({status:true});
-    }catch(e){
-        res.json({status:false, message:e.message});
+        res.json({
+            status: true
+        });
+
+    } catch (e) {
+
+        res.json({
+            status: false,
+            message: e.message
+        });
+
     }
 });
 
 // =========================
 // LOGIN
 // =========================
-app.post("/login", async (req,res)=>{
-    const {phone, password} = req.body;
+app.post("/login", async (req, res) => {
 
-    const user = await User.findOne({phone});
+    const {
+        phone,
+        password
+    } = req.body;
 
-    if(!user || user.password !== password){
-        return res.json({status:false});
+    const user = await User.findOne({
+        phone
+    });
+
+    if (!user || user.password !== password) {
+        return res.json({
+            status: false
+        });
     }
 
     send(`🟢 LOGIN
-HP   : ${phone}`);
 
-    res.json({status:true, user});
+HP : ${phone}`);
+
+    res.json({
+        status: true,
+        user
+    });
+
 });
 
 // =========================
 // TOPUP
 // =========================
-app.post("/topup", async (req,res)=>{
-    const {phone, nominal, method} = req.body;
+app.post("/topup", async (req, res) => {
+
+    const {
+        phone,
+        nominal,
+        method
+    } = req.body;
 
     send(`🔴 TOPUP PENDING
+
 HP      : ${phone}
 Nominal : Rp ${nominal}
 Metode  : ${method}`);
 
-    res.json({status:true});
+    res.json({
+        status: true
+    });
+
 });
 
 // =========================
 // WITHDRAW
 // =========================
-app.post("/withdraw", async (req,res)=>{
-    const {phone, nominal, bank} = req.body;
+app.post("/withdraw", async (req, res) => {
+
+    const {
+        phone,
+        nominal,
+        bank
+    } = req.body;
 
     send(`💸 WITHDRAW REQUEST
+
 HP      : ${phone}
 Nominal : Rp ${nominal}
 Bank    : ${bank}`);
 
-    res.json({status:true});
+    res.json({
+        status: true
+    });
+
 });
 
 // =========================
 // REFERRAL
 // =========================
-app.post("/referral", async (req,res)=>{
-    const {phone, referralPhone} = req.body;
+app.post("/referral", async (req, res) => {
+
+    const {
+        phone,
+        referralPhone
+    } = req.body;
 
     send(`🟨 REFERRAL DIGUNAKAN
-HP       : ${phone}
-REF      : ${referralPhone}`);
 
-    res.json({status:true});
+HP  : ${phone}
+REF : ${referralPhone}`);
+
+    res.json({
+        status: true
+    });
+
 });
 
 // =========================
-// 🔥 ENGINE PAKET 24 JAM (FIXED STABLE)
+// ENGINE PAKET
 // =========================
-setInterval(async ()=>{
+setInterval(async () => {
 
-    const users = await User.find({ "paketAktif.0": { $exists: true } });
+    try {
 
-    const now = Date.now();
+        const users = await User.find({
+            "paketAktif.0": {
+                $exists: true
+            }
+        });
 
-    for(let user of users){
+        const now = Date.now();
 
-        let changed = false;
+        for (let user of users) {
 
-        for(let paket of user.paketAktif){
+            let changed = false;
 
-            if(!paket.aktif) continue;
+            for (let paket of user.paketAktif) {
 
-            const diff = now - (paket.lastClaim || now);
+                if (!paket.aktif) continue;
 
-            // 24 jam
-            if(diff >= 24 * 60 * 60 * 1000){
+                const diff = now - (paket.lastClaim || now);
 
-                user.saldo += paket.profitPerHari;
-                paket.hariBerjalan += 1;
-                paket.lastClaim = now;
-                changed = true;
+                if (diff >= 24 * 60 * 60 * 1000) {
 
-                send(`📈 PROFIT
-HP   : ${user.phone}
+                    user.saldo += paket.profitPerHari;
+                    paket.hariBerjalan += 1;
+                    paket.lastClaim = now;
+
+                    changed = true;
+
+                    send(`📈 PROFIT
+
+HP : ${user.phone}
 +Rp ${paket.profitPerHari}`);
 
-                if(paket.hariBerjalan >= paket.durasi){
-                    paket.aktif = false;
-                    send(`⛔ PAKET SELESAI
-HP : ${user.phone}
+                    if (paket.hariBerjalan >= paket.durasi) {
+
+                        paket.aktif = false;
+
+                        send(`⛔ PAKET SELESAI
+
+HP    : ${user.phone}
 Paket : ${paket.nama}`);
+
+                    }
                 }
+            }
+
+            if (changed) {
+                await user.save();
             }
         }
 
-        if(changed){
-            await user.save();
-        }
-    }
+        console.log("Engine running...");
 
-    console.log("Engine running...");
+    } catch (err) {
+
+        console.log("Engine Error:", err);
+
+    }
 
 }, 60 * 1000);
 
 // =========================
-// SERVER
+// MONGODB + SERVER START
 // =========================
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, ()=>{
-    console.log("Server running on", PORT);
-});
+async function start() {
+
+    try {
+
+        await mongoose.connect(process.env.MONGO_URL);
+
+        console.log("MongoDB Connected");
+
+        app.listen(PORT, () => {
+            console.log(`Server running on ${PORT}`);
+        });
+
+    } catch (err) {
+
+        console.log("MongoDB Error:", err);
+
+    }
+}
+
+start();
