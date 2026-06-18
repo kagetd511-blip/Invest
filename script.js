@@ -11,8 +11,8 @@ window.addEventListener("load", () => {
         popup.style.display = "flex";
 
         // 🔥 AMBIL TEKS POPUP
-    const textEl = document.getElementById("announcementText");
-    const text = textEl ? textEl.innerText : "Pengumuman baru";
+    const textEl = document.getElementById("announcementMessageText");
+    const text = textEl ? textEl.innerText : "Pengumuman";
 
     // 🔥 MASUKKAN KE PESAN
     sendMessage("info", text);
