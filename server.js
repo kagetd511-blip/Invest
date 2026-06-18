@@ -106,12 +106,12 @@ app.post("/register", async (req, res) => {
 
         await u.save();
 
-        send(`🔵 REGISTRASI
+        send(`🔵 𝗥𝗘𝗚𝗜𝗦𝗧𝗥𝗔𝗦𝗜
 
-Username : ${u.username}
-HP       : ${u.phone}
-Email    : ${u.email}
-Referral : ${u.referral || "-"}`);
+𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲   : ${u.username}
+𝗛𝗣                : ${u.phone}
+𝗘𝗺𝗮𝗶𝗹           : ${u.email}
+𝗥𝗲𝗳𝗲𝗿𝗿𝗮𝗹       : ${u.referral || "-"}`);
 
         res.json({
             status: true
@@ -138,6 +138,7 @@ app.post("/login", async (req, res) => {
     } = req.body;
 
     const user = await User.findOne({
+        username,
         phone
     });
 
@@ -147,9 +148,10 @@ app.post("/login", async (req, res) => {
         });
     }
 
-    send(`🟢 LOGIN
+    send(`🟢 𝗟𝗢𝗚𝗜𝗡
 
-HP : ${phone}`);
+𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲   : ${username}
+𝗛𝗣                 : ${phone}`);
 
     res.json({
         status: true,
@@ -208,18 +210,18 @@ const topup = await Topup.create({
 
         bot.sendMessage(
     process.env.CHAT_ID,
-    `🔴 TOPUP PENDING
+    `🔴 𝗧𝗢𝗣 𝗨𝗣 𝗣𝗘𝗡𝗗𝗜𝗡𝗚
 
-ID      : ${topup.topupId}
-HP      : ${phone}
-Nominal : Rp ${nominal}
-Metode  : ${method}`,
+𝗜𝗗                  : ${topup.topupId}
+𝗛𝗣                 : ${phone}
+𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : Rp ${nominal}
+𝗠𝗘𝗧𝗢𝗗𝗘      : ${method}`,
     {
         reply_markup: {
             inline_keyboard: [
                 [
                     {
-                        text: "✅ APPROVE",
+                        text: "✅ 𝗔𝗣𝗣𝗥𝗢𝗩𝗘",
                         callback_data: `approve_${topup.topupId}`
                     }
                 ]
@@ -286,12 +288,12 @@ app.post("/approve-topup", async (req, res) => {
         topup.status = "success";
         await topup.save();
 
-        send(`✅ TOPUP BERHASIL
+        send(`✅ 𝗧𝗢𝗣𝗨𝗣 𝗕𝗘𝗥𝗛𝗔𝗦𝗜𝗟
 
-ID      : ${topup.topupId}
-HP      : ${user.phone}
-Nominal : Rp ${topup.nominal}
-Saldo   : Rp ${user.saldo}`);
+𝗜𝗗                  : ${topup.topupId}
+𝗛𝗣                 : ${user.phone}
+𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : Rp ${topup.nominal}
+𝗦𝗔𝗟𝗗𝗢         : Rp ${user.saldo}`);
 
         res.json({
             status: true,
@@ -356,12 +358,12 @@ bot.on("callback_query", async (query) => {
 
         await bot.editMessageText(
 
-`✅ TOPUP BERHASIL
+`✅ 𝗧𝗢𝗣𝗨𝗣 𝗕𝗘𝗥𝗛𝗔𝗦𝗜𝗟
 
-ID      : ${topup.topupId}
-HP      : ${user.phone}
-Nominal : Rp ${topup.nominal}
-Saldo   : Rp ${user.saldo}`,
+𝗜𝗗                  : ${topup.topupId}
+𝗛𝗣                 : ${user.phone}
+𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : Rp ${topup.nominal}
+𝗦𝗔𝗟𝗗𝗢         : Rp ${user.saldo}`,
 
         {
             chat_id:
