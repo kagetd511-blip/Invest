@@ -82,7 +82,7 @@ if(password.type === "password"){
 /* =========================
    REGISTER
 ========================= */
-function register() {
+async function register() {
 
     let username = document.getElementById("username").value.trim();
     let phone = document.getElementById("phone").value.trim();
@@ -93,51 +93,22 @@ function register() {
 
     if (!username) return showAlert("Peringatan", "Username wajib diisi");
     if (!phone) return showAlert("Peringatan", "Nomor HP wajib diisi");
-   if (!/^0\d{9,}$/.test(phone)) {
-    return showAlert(
-        "Peringatan",
-        "Nomor HP harus diawali angka 0 dan minimal 10 digit"
-    );
-}
-   let uniqueDigits = [...new Set(phone)];
 
-if(uniqueDigits.length === 1){
-    return showAlert(
-        "Peringatan",
-        "Nomor HP tidak valid"
-    );
-}
-    if (!password) return showAlert("Peringatan", "Sandi wajib diisi");
-   if(password.length < 5){
-    return showAlert(
-        "Peringatan",
-        "Sandi minimal 5 karakter"
-    );
-}
-    if (!confirmPassword) return showAlert("Peringatan", "Ulangi sandi wajib diisi");
+    if (!/^0\d{9,}$/.test(phone)) {
+        return showAlert("Peringatan", "Nomor HP tidak valid");
+    }
+
+    if (password.length < 5) {
+        return showAlert("Peringatan", "Sandi minimal 5 karakter");
+    }
 
     if (password !== confirmPassword) {
         return showAlert("Peringatan", "Password tidak cocok");
     }
 
-   async function register() {
-
-    let username = document.getElementById("username").value.trim();
-    let phone = document.getElementById("phone").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("password").value;
-    let confirmPassword = document.getElementById("confirmPassword").value;
-    let referral = document.getElementById("referral").value.trim();
-
-    if (!username) return showAlert("Peringatan", "Username wajib diisi");
-    if (!phone) return showAlert("Peringatan", "Nomor HP wajib diisi");
-    if (!password) return showAlert("Peringatan", "Sandi wajib diisi");
-    if (password !== confirmPassword) return showAlert("Peringatan", "Password tidak cocok");
-
     showLoading();
 
     try {
-
         let res = await fetch("https://invest-production-366e.up.railway.app/register", {
             method: "POST",
             headers: {
@@ -157,13 +128,11 @@ if(uniqueDigits.length === 1){
         hideLoading();
 
         if (data.status) {
-
             showAlert("Berhasil", "Pendaftaran Sukses");
 
             setTimeout(() => {
                 window.location.href = "login.html";
             }, 800);
-
         } else {
             showAlert("Gagal", data.message);
         }
