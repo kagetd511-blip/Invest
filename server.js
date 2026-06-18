@@ -157,6 +157,32 @@ HP : ${phone}`);
 
 });
 
+app.get("/user/:phone", async (req, res) => {
+    try {
+        const user = await User.findOne({
+            phone: req.params.phone
+        });
+
+        if (!user) {
+            return res.json({
+                status: false,
+                message: "User tidak ditemukan"
+            });
+        }
+
+        res.json({
+            status: true,
+            user
+        });
+
+    } catch (err) {
+        res.json({
+            status: false,
+            message: err.message
+        });
+    }
+});
+
 // =========================
 // TOPUP
 // =========================
