@@ -9,6 +9,14 @@ window.addEventListener("load", () => {
 
     if(fromLogin === "true"){
         popup.style.display = "flex";
+
+        // 🔥 AMBIL TEKS POPUP
+    const textEl = document.getElementById("announcementText");
+    const text = textEl ? textEl.innerText : "Pengumuman baru";
+
+    // 🔥 MASUKKAN KE PESAN
+    sendMessage("info", text);
+        
         sessionStorage.removeItem("fromLogin");
     } else {
         popup.style.display = "none";
