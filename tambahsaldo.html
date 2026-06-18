@@ -869,6 +869,13 @@ async function submit(){
 
         if(data.status){
 
+           localStorage.setItem("topupData", JSON.stringify({
+    topupId: data.topupId,
+    phone: phone,
+    nominal: nominal,
+    method: method
+}));
+
             // =========================
             // 🔥 KIRIM PESAN NOTIF
             // =========================
