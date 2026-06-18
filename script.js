@@ -1,26 +1,20 @@
-// ===============================
-// ANNOUNCEMENT POPUP DASHBOARD
-// ===============================
-
 window.addEventListener("load", () => {
 
     const popup = document.getElementById("announcementPopup");
     const closeBtn = document.getElementById("closeAnnouncement");
 
-    // cek apakah datang dari login
+    if(!popup) return;
+
     const fromLogin = sessionStorage.getItem("fromLogin");
 
-    if (fromLogin === "true") {
-
-        // tampilkan popup
+    if(fromLogin === "true"){
         popup.style.display = "flex";
-
-        // hapus flag supaya tidak muncul lagi saat refresh
         sessionStorage.removeItem("fromLogin");
+    } else {
+        popup.style.display = "none";
     }
 
-    // tombol close popup
-    if (closeBtn) {
+    if(closeBtn){
         closeBtn.addEventListener("click", () => {
             popup.style.display = "none";
         });
