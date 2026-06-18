@@ -204,7 +204,7 @@ app.post("/topup", async (req, res) => {
 
         send(`🔴 TOPUP PENDING
 
-ID      : <code>${topup._id}</code>
+ID      : ${topup._id}
 HP      : ${phone}
 Nominal : Rp ${nominal}
 Metode  : ${method}`);
