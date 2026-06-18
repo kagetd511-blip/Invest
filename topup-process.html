@@ -352,42 +352,37 @@ function toast(msg){
 }
 
 /* CEK PEMBAYARAN */
-function cekPembayaran(){
+async function cekPembayaran(){
 
-    document.getElementById("status").innerText = "Mengecek pembayaran...";
+    document.getElementById("status").innerText =
+    "Mengecek status pembayaran...";
 
-    setTimeout(() => {
+    try{
+        let res = await fetch(
+            "https://invest-production-366e.up.railway.app/topup-status/" + data.topupId
+        );
 
-        let success = Math.random() > 0.3;
+        let result = await res.json();
 
-        if(success){
+        if(!result.status){
+            document.getElementById("status").innerText =
+            "Data topup tidak ditemukan ❌";
+            return;
+        }
 
-            let key = localStorage.getItem("currentUser");
-            let user = JSON.parse(localStorage.getItem(key));
+        if(result.topup.status === "success"){
 
-            user.saldo += data.nominal;
-
-            if(!user.riwayatDeposit){
-                user.riwayatDeposit = [];
-            }
-
-            user.riwayatDeposit.unshift({
-                nominal:data.nominal,
-                metode:data.method,
-                tanggal:new Date().toLocaleString("id-ID")
-            });
-
-            localStorage.setItem(key, JSON.stringify(user));
-
-           sendMessage(
-    "success",
-    "Deposit Rp " + data.nominal.toLocaleString("id-ID") + " telah dikonfirmasi dan masuk ke saldo"
-);
+            sendMessage(
+                "success",
+                "Deposit Rp " + data.nominal.toLocaleString("id-ID") + " telah dikonfirmasi dan masuk ke saldo"
+            );
 
             document.getElementById("status").innerText =
             "Pembayaran berhasil ✔";
 
             toast("Saldo masuk +Rp " + data.nominal.toLocaleString("id-ID"));
+
+            localStorage.removeItem("topupData");
 
             setTimeout(() => {
                 window.location.href = "dashboard.html";
@@ -395,11 +390,15 @@ function cekPembayaran(){
 
         }else{
             document.getElementById("status").innerText =
-            "Pembayaran belum ditemukan ❌";
-            toast("Pembayaran belum terdeteksi");
+            "Pembayaran masih pending ⏳";
+            toast("Menunggu konfirmasi admin");
         }
 
-    }, 1500);
+    }catch(err){
+        document.getElementById("status").innerText =
+        "Gagal mengecek server ❌";
+        toast("Server tidak merespon");
+    }
 }
 
 /* BATAL */
