@@ -77,6 +77,25 @@ const User = mongoose.model("User", {
 });
 
 // =========================
+// TOPUP MODEL
+// =========================
+const Topup = mongoose.model("Topup", {
+    phone: String,
+    nominal: Number,
+    method: String,
+
+    status: {
+        type: String,
+        default: "pending"
+    },
+
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+// =========================
 // REGISTER
 // =========================
 app.post("/register", async (req, res) => {
@@ -143,21 +162,40 @@ HP : ${phone}`);
 // =========================
 app.post("/topup", async (req, res) => {
 
-    const {
-        phone,
-        nominal,
-        method
-    } = req.body;
+    try {
 
-    send(`🔴 TOPUP PENDING
+        const {
+            phone,
+            nominal,
+            method
+        } = req.body;
 
+        const topup = await Topup.create({
+            phone,
+            nominal,
+            method
+        });
+
+        send(`🔴 TOPUP PENDING
+
+ID      : ${topup._id}
 HP      : ${phone}
 Nominal : Rp ${nominal}
 Metode  : ${method}`);
 
-    res.json({
-        status: true
-    });
+        res.json({
+            status: true,
+            topupId: topup._id
+        });
+
+    } catch (err) {
+
+        res.json({
+            status: false,
+            message: err.message
+        });
+
+    }
 
 });
 
