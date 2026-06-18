@@ -120,41 +120,56 @@ if(uniqueDigits.length === 1){
         return showAlert("Peringatan", "Password tidak cocok");
     }
 
-    if (localStorage.getItem(phone)) {
-        return showAlert("Gagal", "Nomor HP sudah terdaftar");
-    }
+   async function register() {
 
-    let userData = {
-        username,
-        phone,
-        email,
-        password,
-        referral,
-        saldo: 0,
-        level: "Member",
-        registerDate: new Date().toLocaleDateString("id-ID")
-    };
+    let username = document.getElementById("username").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+    let referral = document.getElementById("referral").value.trim();
 
-    localStorage.setItem(phone, JSON.stringify(userData));
+    if (!username) return showAlert("Peringatan", "Username wajib diisi");
+    if (!phone) return showAlert("Peringatan", "Nomor HP wajib diisi");
+    if (!password) return showAlert("Peringatan", "Sandi wajib diisi");
+    if (password !== confirmPassword) return showAlert("Peringatan", "Password tidak cocok");
 
-   // 1. tampilkan loading
     showLoading();
 
-    // 2. tunggu loading
-    setTimeout(() => {
+    try {
+
+        let res = await fetch("https://invest-production-366e.up.railway.app/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                phone,
+                email,
+                password,
+                referral
+            })
+        });
+
+        let data = await res.json();
 
         hideLoading();
 
-        // 3. tampilkan alert sukses
-        showAlert("Pendaftaran Berhasil", "Mengalihkan ke halaman login...");
+        if (data.status) {
 
-        // 4. tunggu user lihat alert
-        setTimeout(() => {
+            showAlert("Berhasil", "Pendaftaran Sukses");
 
-            // 5. pindah halaman
-            window.location.href = "login.html";
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 800);
 
-        }, 600);
+        } else {
+            showAlert("Gagal", data.message);
+        }
 
-    }, 4000);
+    } catch (err) {
+        hideLoading();
+        showAlert("Error", "Server tidak merespon");
+    }
 }
