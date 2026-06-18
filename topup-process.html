@@ -279,6 +279,7 @@ body{
 
 </div>
 
+<script src="utils.js"></script>
 <script>
 let data = JSON.parse(localStorage.getItem("topupData"));
 
@@ -377,6 +378,11 @@ function cekPembayaran(){
             });
 
             localStorage.setItem(key, JSON.stringify(user));
+
+           sendMessage(
+    "success",
+    "Deposit Rp " + data.nominal.toLocaleString("id-ID") + " telah dikonfirmasi dan masuk ke saldo"
+);
 
             document.getElementById("status").innerText =
             "Pembayaran berhasil ✔";
