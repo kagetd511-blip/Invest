@@ -724,6 +724,7 @@ body{
     </div>
 </div>
 
+<script src="utils.js"></script>
 <script>
 let method = "";
 
@@ -863,6 +864,11 @@ function submit(){
             method,
             time: Date.now()
         }));
+
+       sendMessage(
+    "info",
+    "Top up Rp " + nominal.toLocaleString("id-ID") + " telah dibuat dan menunggu konfirmasi"
+);
 
         window.location.href = "topup-process.html";
 
