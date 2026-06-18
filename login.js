@@ -226,6 +226,8 @@ if(user.password === password){
     phone
     );
 
+    sessionStorage.setItem("fromLogin", "true");
+
     showLoading();
 
     setTimeout(()=>{
