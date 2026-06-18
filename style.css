@@ -1960,7 +1960,7 @@ opacity:1;
     position:fixed;
     inset:0;
 
-    display:flex;
+    display:none;
     justify-content:center;
     align-items:center;
 
