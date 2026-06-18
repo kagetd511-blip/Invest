@@ -891,6 +891,8 @@ Selesai
 
 </div>
 
+<script src="utils.js"></script>
+
 <script>
 
 const paketData = {
@@ -1010,6 +1012,12 @@ document.getElementById("btnKonfirmasi").onclick = () => {
         localStorage.setItem(
     currentUser,
     JSON.stringify(user)
+);
+
+        // PESAN MASUK
+sendMessage(
+    "success",
+    "Pembelian " + paket.nama + " berhasil. Paket aktif selama 14 hari."
 );
 
         // ===== isi popup success (INI YANG KURANG DI KAMU) =====
