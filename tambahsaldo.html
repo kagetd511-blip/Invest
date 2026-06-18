@@ -728,9 +728,9 @@ body{
 <script>
 let method = "";
 
-// =========================
-// LOAD USER (SAFE)
-// =========================
+/* =========================
+   LOAD USER (SAFE)
+========================= */
 function getUser(){
     let key = localStorage.getItem("currentUser");
     if(!key) return null;
@@ -752,9 +752,9 @@ if(user){
     "Rp " + Number(user.saldo).toLocaleString("id-ID");
 }
 
-// =========================
-// FORMAT INPUT RP
-// =========================
+/* =========================
+   FORMAT INPUT RP
+========================= */
 const input = document.getElementById("nominal");
 
 input.addEventListener("input", () => {
@@ -762,16 +762,16 @@ input.addEventListener("input", () => {
     input.value = val ? new Intl.NumberFormat("id-ID").format(val) : "";
 });
 
-// =========================
-// QUICK NOMINAL
-// =========================
+/* =========================
+   QUICK NOMINAL
+========================= */
 function setNominal(val){
     input.value = new Intl.NumberFormat("id-ID").format(val);
 }
 
-// =========================
-// METHOD SELECT
-// =========================
+/* =========================
+   METHOD SELECT
+========================= */
 function select(btn, m){
     method = m;
 
@@ -781,8 +781,8 @@ function select(btn, m){
     btn.classList.add("active");
 }
 
-    function blockedMethod(btn){
-    showAlert("⚠ Metode Pembayaran ini sedang maintenance. Silahkan gunakan Metode Pembayaran yang lain");
+function blockedMethod(btn){
+    showAlert("⚠ Metode Pembayaran ini sedang maintenance. Silahkan gunakan Metode lain");
 
     document.querySelectorAll(".method button")
     .forEach(b => b.classList.remove("active"));
@@ -791,10 +791,10 @@ function select(btn, m){
     method = "";
 }
 
-// =========================
-// MODAL ALERT
-// =========================
-function showAlert(text, time = 1500){
+/* =========================
+   MODAL ALERT
+========================= */
+function showAlert(title, text, time = 1500){
 
     const modal = document.getElementById("modal");
     const box = document.getElementById("modalText");
@@ -812,9 +812,9 @@ function showAlert(text, time = 1500){
     }, time);
 }
 
-// =========================
-// LOADER FIX (INI YANG PENTING)
-// =========================
+/* =========================
+   LOADER
+========================= */
 function showLoader(){
     document.getElementById("miniLoader").classList.add("active");
 }
@@ -823,25 +823,25 @@ function hideLoader(){
     document.getElementById("miniLoader").classList.remove("active");
 }
 
-// =========================
-// SUBMIT TOPUP (FIX FULL)
-// =========================
+/* =========================
+   SUBMIT TOPUP (SERVER VERSION)
+========================= */
 async function submit(){
 
     let nominal = parseInt(input.value.replace(/[^0-9]/g,""));
 
     if(!nominal || nominal < 15000){
-        showAlert("Minimal deposit Rp15.000");
+        showAlert("Peringatan", "Minimal deposit Rp15.000");
         return;
     }
 
-    if(!nominal || nominal > 70000000){
-        showAlert("Maksimal deposit Rp70.000.000");
+    if(nominal > 70000000){
+        showAlert("Peringatan", "Maksimal deposit Rp70.000.000");
         return;
     }
 
     if(!method){
-        showAlert("Pilih metode pembayaran");
+        showAlert("Peringatan", "Pilih metode pembayaran");
         return;
     }
 
@@ -869,11 +869,17 @@ async function submit(){
 
         if(data.status){
 
+            // =========================
+            // 🔥 KIRIM PESAN NOTIF
+            // =========================
             sendMessage(
                 "info",
-                "Top up Rp " + nominal.toLocaleString("id-ID") + " telah dikirim dan menunggu konfirmasi"
+                "🔴 " + phone + " Menunggu Konfirmasi Topup\n" +
+                "Nominal : Rp " + nominal.toLocaleString("id-ID") + "\n" +
+                "Metode  : " + method
             );
 
+            // redirect
             window.location.href = "topup-process.html";
 
         } else {
