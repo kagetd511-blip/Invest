@@ -260,6 +260,30 @@ Saldo   : Rp ${user.saldo}`);
     }
 });
 
+app.get("/topup-status/:id", async (req, res) => {
+    try {
+        const topup = await Topup.findById(req.params.id);
+
+        if (!topup) {
+            return res.json({
+                status: false,
+                message: "Topup tidak ditemukan"
+            });
+        }
+
+        res.json({
+            status: true,
+            topup
+        });
+
+    } catch (err) {
+        res.json({
+            status: false,
+            message: err.message
+        });
+    }
+});
+
 // =========================
 // WITHDRAW
 // =========================
