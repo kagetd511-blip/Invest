@@ -200,6 +200,67 @@ Metode  : ${method}`);
 });
 
 // =========================
+// APPROVE TOPUP
+// =========================
+app.post("/approve-topup", async (req, res) => {
+    try {
+        const { topupId } = req.body;
+
+        const topup = await Topup.findById(topupId);
+
+        if (!topup) {
+            return res.json({
+                status: false,
+                message: "Topup tidak ditemukan"
+            });
+        }
+
+        if (topup.status === "success") {
+            return res.json({
+                status: false,
+                message: "Topup sudah pernah di-approve"
+            });
+        }
+
+        const user = await User.findOne({
+            phone: topup.phone
+        });
+
+        if (!user) {
+            return res.json({
+                status: false,
+                message: "User tidak ditemukan"
+            });
+        }
+
+        user.saldo += topup.nominal;
+        await user.save();
+
+        topup.status = "success";
+        await topup.save();
+
+        send(`✅ TOPUP BERHASIL
+
+ID      : ${topup._id}
+HP      : ${user.phone}
+Nominal : Rp ${topup.nominal}
+Saldo   : Rp ${user.saldo}`);
+
+        res.json({
+            status: true,
+            message: "Topup berhasil di-approve",
+            user
+        });
+
+    } catch (err) {
+        res.json({
+            status: false,
+            message: err.message
+        });
+    }
+});
+
+// =========================
 // WITHDRAW
 // =========================
 app.post("/withdraw", async (req, res) => {
