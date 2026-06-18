@@ -194,7 +194,7 @@ async function login(){
 
         hideLoading();
 
-        if(data.status === "ok"){
+        if(data.status){
 
             localStorage.setItem("currentUser", data.user.phone);
             sessionStorage.setItem("fromLogin", "true");
