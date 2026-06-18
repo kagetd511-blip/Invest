@@ -1,3 +1,31 @@
+// ===============================
+// ANNOUNCEMENT POPUP DASHBOARD
+// ===============================
+
+function sendMessage(type, text){
+
+    let user = localStorage.getItem("currentUser");
+    if(!user) return;
+
+    let key = "messages_" + user;
+
+    let messages = JSON.parse(localStorage.getItem(key)) || [];
+
+    messages.push({
+        type: type,
+        text: text,
+        time: new Date().toLocaleString(),
+        read: false
+    });
+
+    localStorage.setItem(key, JSON.stringify(messages));
+}
+
+
+// ===============================
+// ANNOUNCEMENT POPUP CONTROL
+// ===============================
+
 window.addEventListener("load", () => {
 
     const popup = document.getElementById("announcementPopup");
@@ -8,20 +36,25 @@ window.addEventListener("load", () => {
     const fromLogin = sessionStorage.getItem("fromLogin");
 
     if(fromLogin === "true"){
+
+        // tampilkan popup
         popup.style.display = "flex";
 
-        // 🔥 AMBIL TEKS POPUP
-    const textEl = document.getElementById("announcementMessageText");
-    const text = textEl ? textEl.innerText : "Pengumuman";
+        // ambil isi announcement untuk inbox
+        const textEl = document.getElementById("announcementMessageText");
+        const text = textEl ? textEl.innerText : "Pengumuman baru";
 
-    // 🔥 MASUKKAN KE PESAN
-    sendMessage("info", text);
-        
+        // 🔥 MASUKKAN KE PESAN (INBOX)
+        sendMessage("info", text);
+
+        // hapus flag login
         sessionStorage.removeItem("fromLogin");
+
     } else {
         popup.style.display = "none";
     }
 
+    // tombol close popup
     if(closeBtn){
         closeBtn.addEventListener("click", () => {
             popup.style.display = "none";
