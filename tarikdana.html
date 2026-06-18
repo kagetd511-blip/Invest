@@ -1076,19 +1076,13 @@ Selesai
 <script src="utils.js"></script>
 <script>
 
-const currentUser =
-localStorage.getItem("currentUser");
+const currentUser = localStorage.getItem("currentUser");
 
-const user =
-JSON.parse(
-localStorage.getItem(currentUser)
-);
+let user = JSON.parse(localStorage.getItem(currentUser) || "{}");
 
 // tampil saldo
-document.getElementById("saldoUser")
-.innerText =
-"Rp " +
-Number(user.saldo).toLocaleString("id-ID");
+document.getElementById("saldoUser").innerText =
+"Rp " + Number(user.saldo || 0).toLocaleString("id-ID");
 
 let bankTerpilih = "";
 
@@ -1107,8 +1101,7 @@ function hideLoading(){
    BANK
 ========================= */
 function toggleBankList(){
-    document.getElementById("bankList")
-    .classList.toggle("active");
+    document.getElementById("bankList").classList.toggle("active");
 }
 
 function pilihBank(bank){
@@ -1116,8 +1109,7 @@ function pilihBank(bank){
 
     document.getElementById("bankText").innerText = bank;
 
-    document.getElementById("bankList")
-    .classList.remove("active");
+    document.getElementById("bankList").classList.remove("active");
 }
 
 /* =========================
@@ -1125,17 +1117,14 @@ function pilihBank(bank){
 ========================= */
 function formatNominal(input){
 
-let angka =
-input.value.replace(/\D/g,'');
+    let angka = input.value.replace(/\D/g,'');
 
-if(!angka){
-input.value="";
-return;
-}
+    if(!angka){
+        input.value="";
+        return;
+    }
 
-input.value =
-"Rp " +
-Number(angka).toLocaleString("id-ID");
+    input.value = "Rp " + Number(angka).toLocaleString("id-ID");
 }
 
 /* =========================
@@ -1143,126 +1132,117 @@ Number(angka).toLocaleString("id-ID");
 ========================= */
 function showAlert(text){
 
-const alertBox =
-document.getElementById("showAlert");
+    const alertBox = document.getElementById("showAlert");
 
-document.getElementById("alertText").innerText = text;
+    document.getElementById("alertText").innerText = text;
 
-alertBox.classList.add("active");
+    alertBox.classList.add("active");
 
-setTimeout(()=>{
-
-alertBox.classList.remove("active");
-
-},2500);
-
+    setTimeout(()=>{
+        alertBox.classList.remove("active");
+    },2500);
 }
 
 /* =========================
-   KIRIM WITHDRAW
+   VALIDASI WITHDRAW
 ========================= */
 function kirimWithdraw(){
 
-const nominal =
-Number(
-document.getElementById("nominal").value.replace(/[^0-9]/g,'')
-);
+    const nominal = Number(
+        document.getElementById("nominal").value.replace(/[^0-9]/g,'')
+    );
 
-const rekening =
-document.getElementById("rekening").value;
+    const rekening = document.getElementById("rekening").value;
+    const namaRek = document.getElementById("namaRek").value;
 
-const namaRek =
-document.getElementById("namaRek").value;
+    if(!nominal || !rekening || !namaRek || !bankTerpilih){
+        showAlert("Lengkapi semua data terlebih dahulu");
+        return;
+    }
 
-// validasi kosong
-if(!nominal || !rekening || !namaRek || !bankTerpilih){
-    showAlert("Lengkapi semua data terlebih dahulu");
-    return;
-}
-
-// minimal
-if(nominal < 1000000){
-    showAlert("Minimal tarik saldo Rp 1.000.000");
-    return;
-}
+    if(nominal < 1000000){
+        showAlert("Minimal tarik saldo Rp 1.000.000");
+        return;
+    }
 
     if(nominal > 100000000){
-    showAlert("Maksimal tarik saldo Rp 100.000.000");
-    return;
-}
+        showAlert("Maksimal tarik saldo Rp 100.000.000");
+        return;
+    }
 
-// saldo
-if(nominal > user.saldo){
-    showAlert("Saldo tidak mencukupi");
-    return;
-}
+    if(nominal > user.saldo){
+        showAlert("Saldo tidak mencukupi");
+        return;
+    }
 
-// popup konfirmasi
-document.getElementById("popupKonfirmasi")
-.classList.add("active");
+    document.getElementById("popupKonfirmasi").classList.add("active");
 }
 
 /* =========================
    TUTUP POPUP
 ========================= */
 function tutupPopup(){
-document.getElementById("popupKonfirmasi")
-.classList.remove("active");
+    document.getElementById("popupKonfirmasi").classList.remove("active");
 }
 
 /* =========================
-   PROSES WITHDRAW (WITH LOADING)
+   PROSES WITHDRAW (FINAL)
 ========================= */
 function prosesWithdraw(){
 
-const nominal =
-Number(document.getElementById("nominal").value.replace(/[^0-9]/g,''));
+    const nominal = Number(
+        document.getElementById("nominal").value.replace(/[^0-9]/g,'')
+    );
 
-// update saldo
-user.saldo = Number(user.saldo) - nominal;
+    const rekening = document.getElementById("rekening").value;
+    const namaRek = document.getElementById("namaRek").value;
 
-if(!user.riwayatWithdraw){
-user.riwayatWithdraw = [];
-}
+    // update saldo
+    user.saldo = Number(user.saldo) - nominal;
 
-user.riwayatWithdraw.unshift({
-nominal: nominal,
-bank: bankTerpilih,
-rekening: document.getElementById("rekening").value,
-nama: document.getElementById("namaRek").value,
-tanggal: new Date().toLocaleString("id-ID"),
-status:"MENUNGGU"
-});
+    if(!user.riwayatWithdraw){
+        user.riwayatWithdraw = [];
+    }
 
-localStorage.setItem(currentUser, JSON.stringify(user));
+    user.riwayatWithdraw.unshift({
+        nominal: nominal,
+        bank: bankTerpilih,
+        rekening: rekening,
+        nama: namaRek,
+        tanggal: new Date().toLocaleString("id-ID"),
+        status: "PENDING"
+    });
 
+    localStorage.setItem(currentUser, JSON.stringify(user));
+
+    /* =========================
+       🔥 SEND NOTIF KE PESAN
+    ========================= */
     sendMessage(
-    "info",
-    "Permintaan tarik saldo Rp " +
-    nominal.toLocaleString("id-ID") +
-    " telah dibuat dan sedang diproses"
-);
+        "warning",
+        "🔴 " + (user.phone || currentUser) + " Menunggu Penarikan Saldo\n" +
+        "Nominal : Rp " + nominal.toLocaleString("id-ID") + "\n" +
+        "Bank    : " + bankTerpilih + "\n" +
+        "Rekening: " + rekening
+    );
 
-// update UI saldo
-document.getElementById("saldoUser").innerText =
-"Rp " + Number(user.saldo).toLocaleString("id-ID");
+    // update UI saldo
+    document.getElementById("saldoUser").innerText =
+    "Rp " + Number(user.saldo).toLocaleString("id-ID");
 
-// tutup popup konfirmasi
-document.getElementById("popupKonfirmasi")
-.classList.remove("active");
+    // tutup popup
+    document.getElementById("popupKonfirmasi").classList.remove("active");
 
-// 🔥 LOADING MUNCUL
-showLoading();
+    // loading
+    showLoading();
 
-setTimeout(()=>{
+    setTimeout(()=>{
 
-hideLoading();
+        hideLoading();
 
-// tampil popup sukses
-document.getElementById("popupSukses")
-.classList.add("active");
+        document.getElementById("popupSukses").classList.add("active");
 
-},2000);
+    },2000);
 }
 
 /* =========================
@@ -1270,17 +1250,15 @@ document.getElementById("popupSukses")
 ========================= */
 document.getElementById("btnSelesai").onclick = () => {
 
-document.getElementById("popupSukses")
-.classList.remove("active");
+    document.getElementById("popupSukses").classList.remove("active");
 
-// loading lagi
-showLoading();
+    showLoading();
 
-setTimeout(()=>{
+    setTimeout(()=>{
 
-window.location.href = "dashboard.html";
+        window.location.href = "dashboard.html";
 
-},2000);
+    },2000);
 
 };
 
