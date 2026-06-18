@@ -1073,6 +1073,7 @@ Selesai
 
 </div>
 
+<script src="utils.js"></script>
 <script>
 
 const currentUser =
@@ -1234,6 +1235,13 @@ status:"MENUNGGU"
 });
 
 localStorage.setItem(currentUser, JSON.stringify(user));
+
+    sendMessage(
+    "info",
+    "Permintaan tarik saldo Rp " +
+    nominal.toLocaleString("id-ID") +
+    " telah dibuat dan sedang diproses"
+);
 
 // update UI saldo
 document.getElementById("saldoUser").innerText =
