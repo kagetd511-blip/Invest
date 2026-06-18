@@ -14,7 +14,7 @@ app.use(express.json());
 // TELEGRAM BOT
 // =========================
 const bot = new TelegramBot(process.env.BOT_TOKEN, {
-    polling: false
+    polling: true
 });
 
 function send(msg) {
@@ -80,6 +80,7 @@ const User = mongoose.model("User", {
 // TOPUP MODEL
 // =========================
 const Topup = mongoose.model("Topup", {
+    topupId: String,
     phone: String,
     nominal: Number,
     method: String,
@@ -196,22 +197,40 @@ app.post("/topup", async (req, res) => {
             method
         } = req.body;
 
-        const topup = await Topup.create({
-            phone,
-            nominal,
-            method
-        });
+        const customId = "PRT" + Math.floor(100000 + Math.random() * 900000);
 
-        send(`🔴 TOPUP PENDING
+const topup = await Topup.create({
+    topupId: customId,
+    phone,
+    nominal,
+    method
+});
 
-ID      : ${topup._id}
+        bot.sendMessage(
+    process.env.CHAT_ID,
+    `🔴 TOPUP PENDING
+
+ID      : ${topup.topupId}
 HP      : ${phone}
 Nominal : Rp ${nominal}
-Metode  : ${method}`);
+Metode  : ${method}`,
+    {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    {
+                        text: "✅ APPROVE",
+                        callback_data: `approve_${topup.topupId}`
+                    }
+                ]
+            ]
+        }
+    }
+);
 
         res.json({
             status: true,
-            topupId: topup._id
+            topupId: topup.topupId
         });
 
     } catch (err) {
@@ -232,7 +251,9 @@ app.post("/approve-topup", async (req, res) => {
     try {
         const { topupId } = req.body;
 
-        const topup = await Topup.findById(topupId);
+        const topup = await Topup.findOne({
+    topupId: topupId
+});
 
         if (!topup) {
             return res.json({
@@ -267,7 +288,7 @@ app.post("/approve-topup", async (req, res) => {
 
         send(`✅ TOPUP BERHASIL
 
-ID      : ${topup._id}
+ID      : ${topup.topupId}
 HP      : ${user.phone}
 Nominal : Rp ${topup.nominal}
 Saldo   : Rp ${user.saldo}`);
@@ -286,9 +307,93 @@ Saldo   : Rp ${user.saldo}`);
     }
 });
 
+bot.on("callback_query", async (query) => {
+
+    try{
+
+        const data = query.data;
+
+        if(!data.startsWith("approve_")) return;
+
+        const topupId =
+        data.replace("approve_","");
+
+        const topup =
+        await Topup.findOne({
+            topupId
+        });
+
+        if(!topup){
+            return bot.answerCallbackQuery(
+                query.id,
+                {
+                    text:"Topup tidak ditemukan"
+                }
+            );
+        }
+
+        if(topup.status === "success"){
+            return bot.answerCallbackQuery(
+                query.id,
+                {
+                    text:"Sudah di approve"
+                }
+            );
+        }
+
+        const user =
+        await User.findOne({
+            phone: topup.phone
+        });
+
+        user.saldo += topup.nominal;
+
+        await user.save();
+
+        topup.status = "success";
+
+        await topup.save();
+
+        await bot.editMessageText(
+
+`✅ TOPUP BERHASIL
+
+ID      : ${topup.topupId}
+HP      : ${user.phone}
+Nominal : Rp ${topup.nominal}
+Saldo   : Rp ${user.saldo}`,
+
+        {
+            chat_id:
+            query.message.chat.id,
+
+            message_id:
+            query.message.message_id
+        });
+
+        bot.answerCallbackQuery(
+            query.id,
+            {
+                text:"Berhasil"
+            }
+        );
+
+    }catch(err){
+
+        console.log(
+            "Approve Error:",
+            err
+        );
+
+    }
+
+});
+
 app.get("/topup-status/:id", async (req, res) => {
     try {
-        const topup = await Topup.findById(req.params.id);
+        const topup = await Topup.findOne({
+    topupId: req.params.id
+});
 
         if (!topup) {
             return res.json({
