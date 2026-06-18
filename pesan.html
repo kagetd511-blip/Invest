@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesan</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+/* =========================
+   GLOBAL PREMIUM (SAMAIN RIWAYAT)
+========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:
+    linear-gradient(180deg,#03132b 0%,#06224a 40%,#0b3f8d 100%);
+    min-height:100vh;
+    padding:20px;
+    color:white;
+}
+
+/* =========================
+   HEADER (SELEVEL RIWAYAT)
+========================= */
+.header{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.header h2{
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:.4px;
+}
+
+/* =========================
+   LIST WRAPPER
+========================= */
+#messageList{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding-bottom:90px;
+}
+
+/* =========================
+   CARD PREMIUM (SAMAIN RIWAYAT CARD)
+========================= */
+.message-box{
+    position:relative;
+    overflow:hidden;
+
+    background:rgba(255,255,255,.06);
+    backdrop-filter:blur(22px);
+
+    border-radius:18px;
+    padding:16px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+
+    transition:.2s ease;
+}
+
+.message-box:hover{
+    transform:translateY(-2px);
+    box-shadow:0 20px 45px rgba(0,0,0,.35);
+}
+
+/* SOFT GLOW (SAMAIN RIWAYAT) */
+.message-box::before{
+    content:"";
+    position:absolute;
+    top:-40%;
+    right:-40%;
+
+    width:200px;
+    height:200px;
+
+    background:radial-gradient(circle,rgba(0,255,136,.15),transparent 60%);
+    transform:rotate(25deg);
+}
+
+/* TYPE */
+.message-box b{
+    display:block;
+    font-size:12px;
+    margin-bottom:8px;
+    letter-spacing:.8px;
+}
+
+/* TEXT */
+.message-box p{
+    font-size:13px;
+    margin:4px 0;
+    color:rgba(255,255,255,.78);
+    line-height:1.5;
+}
+
+/* TIME */
+.message-box small{
+    display:block;
+    margin-top:10px;
+    font-size:11px;
+    color:rgba(255,255,255,.5);
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    opacity:.7;
+    font-size:14px;
+}
+
+/* =========================
+   TYPE BADGE (LEBIH PREMIUM)
+========================= */
+.badge{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:10px;
+    letter-spacing:.5px;
+}
+
+/* COLORS */
+.success{
+    color:#00ff88;
+    background:rgba(0,255,136,.12);
+    border:1px solid rgba(0,255,136,.25);
+}
+
+.info{
+    color:#4da6ff;
+    background:rgba(77,166,255,.12);
+    border:1px solid rgba(77,166,255,.25);
+}
+
+.error{
+    color:#ff4d4d;
+    background:rgba(255,77,77,.12);
+    border:1px solid rgba(255,77,77,.25);
+}
+
+/* =========================
+   BACK BUTTON (SAMAIN RIWAYAT STYLE)
+========================= */
+.kembali{
+    position:fixed;
+    bottom:18px;
+    left:20px;
+    right:20px;
+
+    height:52px;
+
+    border:none;
+    border-radius:16px;
+
+    font-size:15px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    color:#021b12;
+
+    background:linear-gradient(135deg,#00ff88,#00c96a);
+
+    box-shadow:
+        0 22px 55px rgba(0,255,136,.35),
+        inset 0 1px 0 rgba(255,255,255,.35);
+
+    overflow:hidden;
+}
+
+.kembali:active{
+    transform:scale(.98);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h2><i class="fas fa-envelope"></i> Pesan</h2>
+</div>
+
+<div id="messageList"></div>
+
+<button class="kembali" onclick="history.back()">
+  ← Kembali
+</button>
+
+<script>
+
+// =========================
+// LOAD MESSAGE + MARK READ
+// =========================
+window.addEventListener("load", () => {
+
+    let currentUser = localStorage.getItem("currentUser");
+    let container = document.getElementById("messageList");
+
+    if(!currentUser){
+        container.innerHTML = "<div class='empty'>User tidak ditemukan</div>";
+        return;
+    }
+
+    let key = "messages_" + currentUser;
+    let messages = JSON.parse(localStorage.getItem(key)) || [];
+
+    if(messages.length === 0){
+        container.innerHTML = "<div class='empty'>Belum ada pesan</div>";
+        return;
+    }
+
+    // MARK AS READ
+    messages.forEach(m => m.read = true);
+    localStorage.setItem(key, JSON.stringify(messages));
+
+    // RENDER
+    messages.reverse().forEach(msg => {
+
+        let div = document.createElement("div");
+        div.className = "message-box";
+
+        let typeClass = "info";
+        if(msg.type === "success") typeClass = "success";
+        if(msg.type === "error") typeClass = "error";
+
+        div.innerHTML = `
+            <span class="badge ${typeClass}">
+                ${msg.type.toUpperCase()}
+            </span>
+
+            <p>${msg.text}</p>
+            <small>${msg.time}</small>
+        `;
+
+        container.appendChild(div);
+    });
+
+});
+
+</script>
+
+</body>
+</html>
