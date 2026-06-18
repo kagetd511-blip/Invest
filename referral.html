@@ -502,27 +502,55 @@ small{
 
 </div>
 
+<script src="utils.js"></script>
 <script>
-let user = JSON.parse(localStorage.getItem(localStorage.getItem("currentUser")));
 
+// =========================
+// LOAD USER SAFE
+// =========================
+let currentUser = localStorage.getItem("currentUser");
+let user = currentUser ? JSON.parse(localStorage.getItem(currentUser)) : null;
+
+if(!user){
+    alert("User tidak ditemukan");
+    throw new Error("No user");
+}
+
+// =========================
+// GENERATE REFERRAL CODE
+// =========================
 function generateRef(){
     if(!user.referralCode){
         user.referralCode = "PRTMNA" + Math.floor(100000 + Math.random() * 900000);
-        localStorage.setItem(localStorage.getItem("currentUser"), JSON.stringify(user));
+        saveUser();
     }
 }
 
+// =========================
+// SAVE USER
+// =========================
+function saveUser(){
+    localStorage.setItem(currentUser, JSON.stringify(user));
+}
+
+// =========================
+// RENDER UI
+// =========================
 function render(){
 
     generateRef();
 
-    document.getElementById("refCode").innerText = user.referralCode;
+    document.getElementById("refCode").innerText =
+        user.referralCode;
 
-    const link = window.location.origin + "/register.html?ref=" + user.referralCode;
+    const link =
+        window.location.origin +
+        "/register.html?ref=" +
+        user.referralCode;
 
     document.getElementById("refLink").innerText = link;
 
-    const count = user.referralCount || 0;
+    let count = user.referralCount || 0;
 
     document.getElementById("progressText").innerText =
         count + " / 3 undangan";
@@ -531,12 +559,84 @@ function render(){
         (count / 3 * 100) + "%";
 }
 
+// =========================
+// COPY LINK
+// =========================
 function copyRef(){
-    navigator.clipboard.writeText(document.getElementById("refLink").innerText);
+    navigator.clipboard.writeText(
+        document.getElementById("refLink").innerText
+    );
+
     alert("Link referral disalin!");
 }
 
+// =========================
+// BONUS REFERRAL SYSTEM PRO
+// =========================
+// dipanggil saat user lain daftar pakai kode referral
+
+function processReferral(refCode){
+
+    let ownerKey = null;
+    let owner = null;
+
+    // cari user pemilik referral
+    for(let i=0;i<localStorage.length;i++){
+        let key = localStorage.key(i);
+
+        if(key === "currentUser") continue;
+
+        try{
+            let u = JSON.parse(localStorage.getItem(key));
+
+            if(u && u.referralCode === refCode){
+                ownerKey = key;
+                owner = u;
+                break;
+            }
+        }catch(e){}
+    }
+
+    if(!owner) return;
+
+    if(!owner.referralCount) owner.referralCount = 0;
+    owner.referralCount++;
+
+    let bonus = 0;
+    let level = owner.referralCount;
+
+    // =========================
+    // BONUS 3 LEVEL
+    // =========================
+    if(level === 1) bonus = 50000;
+    if(level === 2) bonus = 30000;
+    if(level === 3) bonus = 20000;
+
+    if(bonus > 0){
+        owner.saldo = (owner.saldo || 0) + bonus;
+
+        // =========================
+        // MASUK PESAN SYSTEM
+        // =========================
+        if(typeof sendMessage === "function"){
+            sendMessage(
+                "success",
+                "Bonus referral level " + level +
+                " sebesar Rp " +
+                bonus.toLocaleString("id-ID") +
+                " telah masuk ke saldo Anda"
+            );
+        }
+    }
+
+    localStorage.setItem(ownerKey, JSON.stringify(owner));
+}
+
+// =========================
+// INIT
+// =========================
 render();
+
 </script>
 
 </body>
