@@ -826,7 +826,7 @@ function hideLoader(){
 // =========================
 // SUBMIT TOPUP (FIX FULL)
 // =========================
-function submit(){
+async function submit(){
 
     let nominal = parseInt(input.value.replace(/[^0-9]/g,""));
 
@@ -847,32 +847,43 @@ function submit(){
 
     showLoader();
 
-    setTimeout(() => {
+    try {
+
+        let phone = localStorage.getItem("currentUser");
+
+        let res = await fetch("https://invest-production-366e.up.railway.app/topup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                phone,
+                nominal,
+                method
+            })
+        });
+
+        let data = await res.json();
 
         hideLoader();
 
-        let key = localStorage.getItem("currentUser");
-        let user = JSON.parse(localStorage.getItem(key));
+        if(data.status){
 
-        if(!user){
-            show("User tidak ditemukan");
-            return;
+            sendMessage(
+                "info",
+                "Top up Rp " + nominal.toLocaleString("id-ID") + " telah dikirim dan menunggu konfirmasi"
+            );
+
+            window.location.href = "topup-process.html";
+
+        } else {
+            showAlert("Gagal", data.message);
         }
 
-        localStorage.setItem("topupData", JSON.stringify({
-            nominal,
-            method,
-            time: Date.now()
-        }));
-
-       sendMessage(
-    "info",
-    "Top up Rp " + nominal.toLocaleString("id-ID") + " telah dibuat dan menunggu konfirmasi"
-);
-
-        window.location.href = "topup-process.html";
-
-    }, 900);
+    } catch(err){
+        hideLoader();
+        showAlert("Error", "Server tidak merespon");
+    }
 }
 </script>
 
