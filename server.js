@@ -22,9 +22,21 @@ function send(msg){
 // =========================
 // DB CONNECT
 // =========================
-mongoose.connect(process.env.MONGO_URL)
-.then(()=>console.log("MongoDB Connected"))
-.catch(err=>console.log(err));
+async function start() {
+    try {
+        await mongoose.connect(process.env.MONGO_URL);
+        console.log("MongoDB Connected");
+
+        app.listen(PORT, () => {
+            console.log("Server running on", PORT);
+        });
+
+    } catch (err) {
+        console.log("MongoDB error:", err);
+    }
+}
+
+start();
 
 // =========================
 // USER MODEL
