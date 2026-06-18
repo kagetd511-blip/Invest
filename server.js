@@ -221,7 +221,7 @@ const topup = await Topup.create({
 
 ◈ 𝗜𝗗                  : <b>${topup.topupId}</b>
 ◈ 𝗛𝗣                 : <b>${phone}</b>
-◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(nominal).toLocaleString("id-ID)}</b>
+◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(nominal).toLocaleString("id-ID")}</b>
 ◈ 𝗠𝗘𝗧𝗢𝗗𝗘      : <b>${method}</b>
 
 ◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`,
@@ -301,8 +301,8 @@ app.post("/approve-topup", async (req, res) => {
 
 ◈ 𝗜𝗗                  : <b>${topup.topupId}</b>
 ◈ 𝗛𝗣                 : <b>${user.phone}</b>
-◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(topup.nominal).toLocaleString("id-Id")}</b>
-◈ 𝗦𝗔𝗟𝗗𝗢         : <b>Rp ${Number(user.saldo).toLocaleString("id-Id")}</b>
+◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(topup.nominal).toLocaleString("id-ID")}</b>
+◈ 𝗦𝗔𝗟𝗗𝗢         : <b>Rp ${Number(user.saldo).toLocaleString("id-ID")}</b>
 
 ◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈
 `);
@@ -375,7 +375,7 @@ bot.on("callback_query", async (query) => {
 ◈ 𝗜𝗗                  : <b>${topup.topupId}</b>
 ◈ 𝗛𝗣                 : <b>${user.phone}</b>
 ◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(topup.nominal).toLocaleString("id-ID")}</b>
-◈ 𝗦𝗔𝗟𝗗𝗢         : <b>Rp ${Number(user.saldo).toLocaleString(:id-ID")}</b>
+◈ 𝗦𝗔𝗟𝗗𝗢         : <b>Rp ${Number(user.saldo).toLocaleString("id-ID")}</b>
 
 ◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`,
 
@@ -445,7 +445,7 @@ app.post("/withdraw", async (req, res) => {
     send(`◈ 🚮 𝗪𝗜𝗧𝗛𝗗𝗥𝗔𝗪 𝗥𝗘𝗤𝗨𝗘𝗦𝗧 ◈
 
 ◈ 𝗛𝗣                 : <b>${phone}</b>
-◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(nominal).toLoacaleString("id-ID")}</b>
+◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(nominal).toLocaleString("id-ID")}</b>
 ◈ 𝗕𝗔𝗡𝗞            : <b>${bank}</b>
 
 ◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
