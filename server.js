@@ -134,12 +134,12 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
 
     const {
+        username,
         phone,
         password
     } = req.body;
 
     const user = await User.findOne({
-        username,
         phone,
         password
     });
