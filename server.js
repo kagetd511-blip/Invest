@@ -628,8 +628,14 @@ setInterval(async () => {
 
                 if (diff >= 5 * 1000) {
 
-                    paket.saldoPaket += paket.profitPerHari;
-                    paket.hariBerjalan += 1;
+    if(!paket.saldoPaket || isNaN(paket.saldoPaket)){
+        paket.saldoPaket = paket.modal;
+    }
+
+    paket.saldoPaket =
+    Number(paket.saldoPaket) + Number(paket.profitPerHari);
+
+    paket.hariBerjalan += 1;
                     paket.lastClaim = now;
 
                     changed = true;
