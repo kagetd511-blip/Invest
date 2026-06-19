@@ -228,14 +228,44 @@ function tampilkanPaketAktif(){
 
     user.paketAktif.forEach(p => {
 
-        const box = document.getElementById("paket" + p.id);
+        if(!p.aktif) return;
+
+        let nomorPaket = "";
+        if(p.nama){
+            nomorPaket = p.nama.replace(/[^0-9]/g, "");
+        }
+
+        const box = document.getElementById("paket" + nomorPaket);
         if(!box) return;
 
         const old = box.querySelector(".status-aktif");
         if(old) old.remove();
 
-    });
+        const profit = Number(p.profitPerHari || 0);
+        const modal = Number(p.modal || 0);
+        const hari = Number(p.hariBerjalan || 0);
+        const durasi = Number(p.durasi || 14);
 
+        const persenHari = (hari / durasi) * 100;
+
+        box.insertAdjacentHTML("beforeend", `
+            <div class="status-aktif">
+                <div class="badge">AKTIF</div>
+
+                <p>Modal: Rp ${modal.toLocaleString("id-ID")}</p>
+
+                <h4>
+                    +Rp ${profit.toLocaleString("id-ID")} / hari
+                </h4>
+
+                <p>Hari Berjalan: ${hari} / ${durasi}</p>
+
+                <div class="progress">
+                    <div class="progress-fill" style="width:${persenHari}%"></div>
+                </div>
+            </div>
+        `);
+    });
 }
 
 
