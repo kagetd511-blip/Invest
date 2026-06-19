@@ -445,23 +445,63 @@ app.get("/topup-status/:id", async (req, res) => {
 // =========================
 app.post("/withdraw", async (req, res) => {
 
-    const {
-        phone,
-        nominal,
-        bank
-    } = req.body;
+    try{
 
-    send(`◈ 🚮 𝗪𝗜𝗧𝗛𝗗𝗥𝗔𝗪 𝗥𝗘𝗤𝗨𝗘𝗦𝗧 ◈
+        const {
+            phone,
+            nominal,
+            bank,
+            rekening,
+            namaRek
+        } = req.body;
+
+        const user = await User.findOne({
+            phone
+        });
+
+        if(!user){
+            return res.json({
+                status:false,
+                message:"User tidak ditemukan"
+            });
+        }
+
+        if(user.saldo < nominal){
+            return res.json({
+                status:false,
+                message:"Saldo tidak mencukupi"
+            });
+        }
+
+        user.saldo -= nominal;
+
+        await user.save();
+
+        send(`◈ 🚮 𝗪𝗜𝗧𝗛𝗗𝗥𝗔𝗪 𝗥𝗘𝗤𝗨𝗘𝗦𝗧 ◈
 
 ◈ 𝗛𝗣                 : <b>${phone}</b>
 ◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(nominal).toLocaleString("id-ID")}</b>
 ◈ 𝗕𝗔𝗡𝗞            : <b>${bank}</b>
+◈ 𝗥𝗘𝗞𝗘𝗡𝗜𝗡𝗚 : <b>${rekening}</b>
+◈ 𝗔/𝗡              : <b>${namaRek}</b>
+
+◈ 𝗦𝗔𝗟𝗗𝗢 𝗦𝗜𝗦𝗔 : <b>Rp ${Number(user.saldo).toLocaleString("id-ID")}</b>
 
 ◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
 
-    res.json({
-        status: true
-    });
+        res.json({
+            status:true,
+            user
+        });
+
+    }catch(err){
+
+        res.json({
+            status:false,
+            message:err.message
+        });
+
+    }
 
 });
 
