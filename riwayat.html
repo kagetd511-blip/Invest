@@ -282,7 +282,7 @@ opacity:.7;
 <button
 class="tab-btn active"
 onclick="showDeposit(this)">
-Riwayat Deposit / Withdraw
+Riwayat Top Up / Tarik Saldo
 </button>
 
 <button
@@ -303,13 +303,52 @@ Kembali
 
 <script>
 
+const API = "https://invest-production-366e.up.railway.app";
+
 const currentUser =
 localStorage.getItem("currentUser");
 
-const user =
-JSON.parse(
-localStorage.getItem(currentUser)
-);
+let user = null;
+
+async function loadUserRiwayat(){
+
+    if(!currentUser){
+        window.location.href = "login.html";
+        return;
+    }
+
+    try{
+
+        const res = await fetch(API + "/user/" + currentUser);
+        const data = await res.json();
+
+        if(data.status){
+
+            user = data.user;
+
+            localStorage.setItem(
+                currentUser,
+                JSON.stringify(user)
+            );
+
+        }else{
+
+            window.location.href = "login.html";
+
+        }
+
+    }catch(err){
+
+        const localData =
+        localStorage.getItem(currentUser);
+
+        user = localData ?
+        JSON.parse(localData) :
+        null;
+
+    }
+
+}
 
 const list =
 document.getElementById("list");
@@ -341,7 +380,7 @@ withdraw.length === 0
 
 list.innerHTML = `
 <div class="kosong">
-Belum ada riwayat deposit / withdraw
+Belum ada riwayat top up / tarik saldo
 </div>
 `;
 
@@ -353,12 +392,12 @@ const semuaRiwayat = [
 
 ...(user.riwayatDeposit || []).map(item => ({
     ...item,
-    tipe:"DEPOSIT"
+    tipe:"Top Up"
 })),
 
 ...(user.riwayatWithdraw || []).map(item => ({
     ...item,
-    tipe:"WITHDRAW"
+    tipe:"Tarik Saldo"
 }))
 
 ];
@@ -371,11 +410,11 @@ list.innerHTML += `
 
 <h3>
 ${
-item.tipe === "DEPOSIT"
+item.tipe === "TOP UP"
 ?
-'<i class="fas fa-wallet"></i> Deposit'
+'<i class="fas fa-wallet"></i> Top Upt'
 :
-'<i class="fas fa-money-bill-wave"></i> Withdraw'
+'<i class="fas fa-money-bill-wave"></i> Tarik Saldo'
 }
 </h3>
 
@@ -386,7 +425,7 @@ Rp ${Number(item.nominal)
 </p>
 
 ${
-item.tipe === "WITHDRAW"
+item.tipe === "TARIK SALDO"
 ?
 `
 <p>Bank : ${item.bank}</p>
@@ -520,10 +559,15 @@ ${p.status}
 }
 
 // tampil awal
-showDeposit(
-document.querySelector(".tab-btn")
-);
+window.addEventListener("load", async () => {
 
+    await loadUserRiwayat();
+
+    showDeposit(
+        document.querySelector(".tab-btn")
+    );
+
+});
 </script>
 
 </body>
