@@ -65,6 +65,7 @@ const User = mongoose.model("User", {
     paketAktif: [{
         nama: String,
         modal: Number,
+        saldoPaket: Number,
         profitPerHari: Number,
         durasi: Number,
         hariBerjalan: {
@@ -566,6 +567,7 @@ app.post("/buy-paket", async (req, res) => {
         user.paketAktif.push({
             nama,
             modal,
+            saldoPaket: modal,
             profitPerHari,
             durasi,
             hariBerjalan:0,
@@ -624,27 +626,46 @@ setInterval(async () => {
 
                 const diff = now - (paket.lastClaim || now);
 
-                if (diff >= 24 * 60 * 60 * 1000) {
+                if (diff >= 5 * 1000) {
 
-                    user.saldo += paket.profitPerHari;
+                    paket.saldoPaket += paket.profitPerHari;
                     paket.hariBerjalan += 1;
                     paket.lastClaim = now;
 
                     changed = true;
 
-                    send(`📈 PROFIT
+                    send(`◈ 📈 𝗣𝗥𝗢𝗙𝗜𝗧 𝗣𝗔𝗞𝗘𝗧 ◈
 
-HP : ${user.phone}
-+Rp ${paket.profitPerHari}`);
+◈ 𝗣𝗔𝗞𝗘𝗧           : <b>${paket.nama}</b>
+◈ 𝗛𝗣                  : <b>${user.phone}</b>
+
+◈ 𝗣𝗥𝗢𝗙𝗜𝗧         : <b>Rp ${Number(paket.profitPerHari).toLocaleString("id-ID")}</b>
+◈ 𝗦𝗔𝗟𝗗𝗢 𝗣𝗔𝗞𝗘𝗧 : <b>Rp ${Number(paket.saldoPaket).toLocaleString("id-ID")}</b>
+
+◈ 𝗛𝗔𝗥𝗜 𝗞𝗘       : <b>${paket.hariBerjalan}/${paket.durasi}</b>
+
+◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
 
                     if (paket.hariBerjalan >= paket.durasi) {
 
                         paket.aktif = false;
 
-                        send(`⛔ PAKET SELESAI
+                        user.saldo += paket.saldoPaket;
 
-HP    : ${user.phone}
-Paket : ${paket.nama}`);
+                        send(`◈ ✅ 𝗣𝗔𝗞𝗘𝗧 𝗦𝗘𝗟𝗘𝗦𝗔𝗜 ◈
+
+◈ 𝗣𝗔𝗞𝗘𝗧           : <b>${paket.nama}</b>
+◈ 𝗛𝗣                  : <b>${user.phone}</b>
+
+◈ 𝗠𝗢𝗗𝗔𝗟          : <b>Rp ${Number(paket.modal).toLocaleString("id-ID")}</b>
+◈ 𝗛𝗔𝗦𝗜𝗟            : <b>Rp ${Number(paket.saldoPaket).toLocaleString("id-ID")}</b>
+
+◈ 𝗗𝗨𝗥𝗔𝗦𝗜          : <b>${paket.durasi} Hari</b>
+◈ 𝗦𝗧𝗔𝗧𝗨𝗦          : <b>BERHASIL DICAIRKAN</b>
+
+◈ 𝗦𝗔𝗟𝗗𝗢 𝗨𝗧𝗔𝗠𝗔 : <b>Rp ${Number(user.saldo).toLocaleString("id-ID")}</b>
+
+◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
 
                     }
                 }
@@ -663,7 +684,7 @@ Paket : ${paket.nama}`);
 
     }
 
-}, 60 * 1000);
+}, 5 * 1000);
 
 // =========================
 // MONGODB + SERVER START
