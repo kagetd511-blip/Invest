@@ -62,6 +62,33 @@ const User = mongoose.model("User", {
         default: 0
     },
 
+    saldoReferral:{
+    type:Number,
+    default:0
+},
+
+referrals:[{
+    username:String,
+    phone:String,
+    active:{
+        type:Boolean,
+        default:false
+    },
+    topupPertama:{
+        type:Number,
+        default:0
+    },
+    komisi:{
+        type:Number,
+        default:0
+    },
+    status:{
+        type:String,
+        default:"MENUNGGU"
+    },
+    tanggal:String
+}],
+
     riwayatDeposit: [{
     nominal: Number,
     method: String,
@@ -127,6 +154,23 @@ const Topup = mongoose.model("Topup", {
     }
 });
 
+function hitungKomisiReferral(urutan, nominal){
+
+    if(urutan === 1){
+        return Math.floor(nominal * 0.30);
+    }
+
+    if(urutan === 2){
+        return Math.floor(nominal * 0.20);
+    }
+
+    if(urutan === 3){
+        return Math.floor(nominal * 0.10);
+    }
+
+    return Math.floor(nominal * 0.08);
+}
+
 // =========================
 // REGISTER
 // =========================
@@ -135,7 +179,43 @@ app.post("/register", async (req, res) => {
 
         const u = new User(req.body);
 
+        if(!u.referralCode){
+            u.referralCode =
+            "PRTMNA" + Math.floor(100000 + Math.random() * 900000);
+        }
+
         await u.save();
+
+        if(u.referral){
+
+            const owner = await User.findOne({
+                referralCode: u.referral
+            });
+
+            if(owner){
+
+                if(!owner.referrals){
+                    owner.referrals = [];
+                }
+
+                const sudahAda =
+                owner.referrals.find(r => r.phone === u.phone);
+
+                if(!sudahAda){
+                    owner.referrals.push({
+                        username: u.username,
+                        phone: u.phone,
+                        active: false,
+                        topupPertama: 0,
+                        komisi: 0,
+                        status: "MENUNGGU",
+                        tanggal: new Date().toLocaleString("id-ID")
+                    });
+
+                    await owner.save();
+                }
+            }
+        }
 
         send(`◈ 🔵 𝗥𝗘𝗚𝗜𝗦𝗧𝗥𝗔𝗦𝗜 ◈
 
@@ -325,6 +405,70 @@ app.post("/approve-topup", async (req, res) => {
 
         user.saldo += topup.nominal;
 
+        if(user.referral){
+
+    const owner = await User.findOne({
+        referralCode: user.referral
+    });
+
+    if(owner){
+
+        if(!owner.referrals){
+            owner.referrals = [];
+        }
+
+        const sudahAktif = owner.referrals.find(
+            r => r.phone === user.phone && r.active === true
+        );
+
+        if(!sudahAktif){
+
+            const urutanAktif =
+            owner.referrals.filter(r => r.active === true).length + 1;
+
+            const komisi =
+            hitungKomisiReferral(urutanAktif, topup.nominal);
+
+            owner.saldoReferral =
+            Number(owner.saldoReferral || 0) + komisi;
+
+            owner.referralCount =
+            Number(owner.referralCount || 0) + 1;
+
+            let refData =
+            owner.referrals.find(r => r.phone === user.phone);
+
+            if(refData){
+                refData.active = true;
+                refData.topupPertama = topup.nominal;
+                refData.komisi = komisi;
+                refData.status = "AKTIF";
+            }else{
+                owner.referrals.push({
+                    username:user.username,
+                    phone:user.phone,
+                    active:true,
+                    topupPertama:topup.nominal,
+                    komisi:komisi,
+                    status:"AKTIF",
+                    tanggal:new Date().toLocaleString("id-ID")
+                });
+            }
+
+            await owner.save();
+
+            send(`◈ 🏆 𝗞𝗢𝗠𝗜𝗦𝗜 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 ◈
+
+◈ 𝗣𝗘𝗠𝗜𝗟𝗜𝗞 : <b>${owner.phone}</b>
+◈ 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 : <b>${user.phone}</b>
+◈ 𝗧𝗢𝗣 𝗨𝗣 : <b>Rp ${Number(topup.nominal).toLocaleString("id-ID")}</b>
+◈ 𝗞𝗢𝗠𝗜𝗦𝗜 : <b>Rp ${Number(komisi).toLocaleString("id-ID")}</b>
+
+◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
+        }
+    }
+}
+
 if(!user.riwayatDeposit){
     user.riwayatDeposit = [];
 }
@@ -405,6 +549,70 @@ bot.on("callback_query", async (query) => {
         });
 
         user.saldo += topup.nominal;
+
+        if(user.referral){
+
+    const owner = await User.findOne({
+        referralCode: user.referral
+    });
+
+    if(owner){
+
+        if(!owner.referrals){
+            owner.referrals = [];
+        }
+
+        const sudahAktif = owner.referrals.find(
+            r => r.phone === user.phone && r.active === true
+        );
+
+        if(!sudahAktif){
+
+            const urutanAktif =
+            owner.referrals.filter(r => r.active === true).length + 1;
+
+            const komisi =
+            hitungKomisiReferral(urutanAktif, topup.nominal);
+
+            owner.saldoReferral =
+            Number(owner.saldoReferral || 0) + komisi;
+
+            owner.referralCount =
+            Number(owner.referralCount || 0) + 1;
+
+            let refData =
+            owner.referrals.find(r => r.phone === user.phone);
+
+            if(refData){
+                refData.active = true;
+                refData.topupPertama = topup.nominal;
+                refData.komisi = komisi;
+                refData.status = "AKTIF";
+            }else{
+                owner.referrals.push({
+                    username:user.username,
+                    phone:user.phone,
+                    active:true,
+                    topupPertama:topup.nominal,
+                    komisi:komisi,
+                    status:"AKTIF",
+                    tanggal:new Date().toLocaleString("id-ID")
+                });
+            }
+
+            await owner.save();
+
+            send(`◈ 🏆 𝗞𝗢𝗠𝗜𝗦𝗜 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 ◈
+
+◈ 𝗣𝗘𝗠𝗜𝗟𝗜𝗞 : <b>${owner.phone}</b>
+◈ 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 : <b>${user.phone}</b>
+◈ 𝗧𝗢𝗣 𝗨𝗣 : <b>Rp ${Number(topup.nominal).toLocaleString("id-ID")}</b>
+◈ 𝗞𝗢𝗠𝗜𝗦𝗜 : <b>Rp ${Number(komisi).toLocaleString("id-ID")}</b>
+
+◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
+        }
+    }
+}
 
 if(!user.riwayatDeposit){
     user.riwayatDeposit = [];
@@ -586,6 +794,60 @@ app.post("/referral", async (req, res) => {
         status: true
     });
 
+});
+
+// =========================
+// CAIRKAN REFERRAL
+// =========================
+app.post("/cairkan-referral", async (req, res) => {
+    try {
+
+        const { phone } = req.body;
+
+        const user = await User.findOne({ phone });
+
+        if(!user){
+            return res.json({
+                status:false,
+                message:"User tidak ditemukan"
+            });
+        }
+
+        if(Number(user.saldoReferral || 0) < 1000000){
+            return res.json({
+                status:false,
+                message:"Minimal cair Rp 1.000.000"
+            });
+        }
+
+        const nominal = Number(user.saldoReferral || 0);
+
+        user.saldo += nominal;
+        user.saldoReferral = 0;
+
+        await user.save();
+
+        send(`◈ 💸 𝗖𝗔𝗜𝗥𝗞𝗔𝗡 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 ◈
+
+◈ 𝗛𝗣 : <b>${user.phone}</b>
+◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟 : <b>Rp ${nominal.toLocaleString("id-ID")}</b>
+◈ 𝗦𝗔𝗟𝗗𝗢 : <b>Rp ${Number(user.saldo).toLocaleString("id-ID")}</b>
+
+◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
+
+        res.json({
+            status:true,
+            user
+        });
+
+    } catch(err) {
+
+        res.json({
+            status:false,
+            message:err.message
+        });
+
+    }
 });
 
 // =========================
