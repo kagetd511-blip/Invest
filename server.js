@@ -19,7 +19,13 @@ const bot = new TelegramBot(process.env.BOT_TOKEN, {
 
 function send(msg) {
     if (process.env.BOT_TOKEN && process.env.CHAT_ID) {
-        bot.sendMessage(process.env.CHAT_ID, msg);
+        bot.sendMessage(
+            process.env.CHAT_ID,
+            msg,
+            {
+                parse_mode: "HTML"
+            }
+        );
     }
 }
 
