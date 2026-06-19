@@ -62,6 +62,30 @@ const User = mongoose.model("User", {
         default: 0
     },
 
+    riwayatDeposit: [{
+    nominal: Number,
+    method: String,
+    tanggal: String,
+    status: String
+}],
+
+riwayatWithdraw: [{
+    nominal: Number,
+    bank: String,
+    rekening: String,
+    tanggal: String,
+    status: String
+}],
+
+riwayatPaket: [{
+    nama: String,
+    modal: Number,
+    saldoPaket: Number,
+    totalCair: Number,
+    status: String,
+    tanggal: String
+}],
+
     paketAktif: [{
         nama: String,
         modal: Number,
@@ -300,7 +324,15 @@ app.post("/approve-topup", async (req, res) => {
         }
 
         user.saldo += topup.nominal;
-        await user.save();
+
+user.riwayatDeposit.push({
+    nominal: topup.nominal,
+    method: topup.method,
+    tanggal: new Date().toLocaleString("id-ID"),
+    status: "BERHASIL"
+});
+
+await user.save();
 
         topup.status = "success";
         await topup.save();
@@ -370,7 +402,18 @@ bot.on("callback_query", async (query) => {
 
         user.saldo += topup.nominal;
 
-        await user.save();
+if(!user.riwayatDeposit){
+    user.riwayatDeposit = [];
+}
+        
+        user.riwayatDeposit.push({
+    nominal: topup.nominal,
+    method: topup.method,
+    tanggal: new Date().toLocaleString("id-ID"),
+    status: "BERHASIL"
+});
+
+await user.save();
 
         topup.status = "success";
 
@@ -476,7 +519,19 @@ app.post("/withdraw", async (req, res) => {
 
         user.saldo -= nominal;
 
-        await user.save();
+if(!user.riwayatWithdraw){
+    user.riwayatWithdraw = [];
+}
+        
+        user.riwayatWithdraw.push({
+    nominal,
+    bank,
+    rekening,
+    tanggal: new Date().toLocaleString("id-ID"),
+    status: "PENDING"
+});
+
+await user.save();
 
         send(`◈ 🚮 𝗪𝗜𝗧𝗛𝗗𝗥𝗔𝗪 𝗥𝗘𝗤𝗨𝗘𝗦𝗧 ◈
 
@@ -575,6 +630,18 @@ app.post("/buy-paket", async (req, res) => {
             aktif:true
         });
 
+        if(!user.riwayatPaket){
+    user.riwayatPaket = [];
+}
+        
+        user.riwayatPaket.push({
+    nama,
+    modal,
+    saldoPaket: modal,
+    status: "AKTIF",
+    tanggal: new Date().toLocaleString("id-ID")
+});
+
         await user.save();
 
         send(`◈ 📦 𝗣𝗘𝗠𝗕𝗘𝗟𝗜𝗔𝗡 𝗣𝗔𝗞𝗘𝗧 ◈
@@ -657,6 +724,19 @@ setInterval(async () => {
                         paket.aktif = false;
 
                         user.saldo += paket.saldoPaket;
+
+                        if(!user.riwayatPaket){
+    user.riwayatPaket = [];
+}
+                        
+                        const riwayat = user.riwayatPaket.find(
+    x => x.nama === paket.nama && x.status === "AKTIF"
+);
+
+if(riwayat){
+    riwayat.status = "SELESAI";
+    riwayat.totalCair = paket.saldoPaket;
+}
 
                         send(`◈ ✅ 𝗣𝗔𝗞𝗘𝗧 𝗦𝗘𝗟𝗘𝗦𝗔𝗜 ◈
 
