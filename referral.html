@@ -11,420 +11,957 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <style>
 
-/* =========================
-   BODY PREMIUM
-========================= */
+*{
+    box-sizing:border-box;
+}
+
 body{
     margin:0;
-    font-family:Arial;
+    font-family:Arial,sans-serif;
     background:linear-gradient(135deg,#050b18,#0b1220,#020617);
     color:#f1f5f9;
-    min-height:100vh;
+    min-height:420vh;
     overflow-y:auto;
 }
 
-/* =========================
-   HEADER ULTRA PREMIUM
-========================= */
 .header{
     display:flex;
     align-items:center;
     gap:12px;
-
     padding:16px 20px;
-
-    background:linear-gradient(
-        135deg,
-        rgba(10,18,32,.92),
-        rgba(5,10,20,.88)
-    );
-
+    background:linear-gradient(135deg,rgba(10,18,32,.94),rgba(5,10,20,.9));
     backdrop-filter:blur(18px);
-
     border-bottom:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        0 18px 50px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.04);
-
+    box-shadow:0 18px 50px rgba(0,0,0,.45);
     position:sticky;
     top:0;
     z-index:100;
 }
 
-/* LOGO */
-.header img{
-    width:44px;
-    height:44px;
-
-    border-radius:14px;
-    object-fit:cover;
-
-    background:rgba(255,255,255,.06);
-    padding:3px;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.45),
-        0 0 0 1px rgba(255,255,255,.06);
-}
-
-/* TITLE */
 .header h2{
     font-size:18px;
     margin:0;
-    letter-spacing:.5px;
-    font-weight:800;
-
-    background:linear-gradient(90deg,#ffffff,#cbd5e1);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+    font-weight:900;
+    letter-spacing:.4px;
+    color:#ffffff;
 }
 
-/* =========================
-   CONTAINER
-========================= */
 .container{
     padding:20px;
 }
 
-/* =========================
-   CARD ULTRA PREMIUM + ANIMASI HALUS
-========================= */
-.card{
-    background:linear-gradient(135deg,rgba(30,41,59,.85),rgba(15,23,42,.85));
-    backdrop-filter:blur(14px);
-
-    padding:18px;
-    border-radius:18px;
-
-    margin-bottom:15px;
-
-    border:1px solid rgba(255,255,255,.06);
-
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.03);
-
-    transition:transform .25s ease, box-shadow .25s ease;
-
-    position:relative;
-    overflow:hidden;
-
-    animation:fadeInUp .45s ease both;
+.icon-box{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    color:#04130c;
+    font-size:20px;
+    background:linear-gradient(135deg,#00ff88,#22c55e);
+    box-shadow:0 15px 30px rgba(0,255,136,.22);
 }
 
-/* glow halus bergerak */
+.card{
+    position:relative;
+    overflow:hidden;
+    padding:20px;
+    margin-bottom:18px;
+    border-radius:24px;
+    background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+    backdrop-filter:blur(28px);
+    -webkit-backdrop-filter:blur(28px);
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:
+        0 22px 55px rgba(0,0,0,.40),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
 .card::before{
     content:"";
     position:absolute;
-    top:-60%;
-    left:-60%;
-    width:220%;
-    height:220%;
+    inset:0;
+    background:radial-gradient(circle at top right,rgba(0,255,136,.08),transparent 45%);
+    pointer-events:none;
+}
 
-    background:radial-gradient(
-        circle,
-        rgba(0,255,136,.08),
-        transparent 55%
+.card > *{
+    position:relative;
+    z-index:2;
+}
+
+.title{
+    font-size:16px;
+    margin-bottom:12px;
+    color:#ffffff;
+    font-weight:900;
+    letter-spacing:.3px;
+    display:inline-block;
+    position:relative;
+}
+
+.title::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-5px;
+    width:100%;
+    height:2px;
+    background:linear-gradient(90deg,#00ff88,transparent);
+    border-radius:999px;
+    box-shadow:0 0 12px rgba(0,255,136,.35);
+}
+
+small{
+    color:#94a3b8;
+    font-size:12px;
+}
+
+p{
+    color:#cbd5e1;
+    line-height:1.5;
+}
+
+.ref-code{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+
+    padding:14px 18px;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(0,255,136,.12),
+        rgba(0,255,136,.04)
     );
 
-    transform:rotate(20deg);
-}
+    border:1px solid rgba(0,255,136,.22);
 
-/* hover premium */
-.card:hover{
-    transform:translateY(-3px);
-    box-shadow:
-        0 28px 70px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.04);
-}
+    font-size:24px;
+    font-weight:900;
 
-/* =========================
-   REF CODE PREMIUM
-========================= */
-.ref-code{
-    font-size:22px;
-    font-weight:800;
     color:#00ff88;
+
     letter-spacing:4px;
-    margin:10px 0;
 
-    text-shadow:0 0 18px rgba(0,255,136,.25);
+    margin:14px 0;
 
-    animation:glowText 2.5s ease-in-out infinite;
+    box-shadow:
+        0 10px 25px rgba(0,255,136,.12),
+        inset 0 1px 0 rgba(255,255,255,.08);
+
+    text-shadow:
+        0 0 12px rgba(0,255,136,.25);
+
+    overflow:hidden;
 }
 
-/* =========================
-   BUTTON PREMIUM
-========================= */
+/* garis glow atas */
+.ref-code::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:12px;
+    right:12px;
+
+    height:1px;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.5),
+        transparent
+    );
+}
+
+
 .btn{
-    padding:12px 15px;
+    width:100%;
+    height:42px;
+
     border:none;
     border-radius:12px;
 
-    background:linear-gradient(135deg,#00ff88,#00c853);
-    color:#04130c;
-
+    font-size:12px;
     font-weight:800;
+    letter-spacing:.3px;
+
     cursor:pointer;
 
-    width:100%;
+    color:#04130c;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00ff88,
+        #12c96b
+    );
 
     box-shadow:
-        0 15px 35px rgba(0,255,136,.25),
-        inset 0 1px 0 rgba(255,255,255,.35);
+        0 8px 22px rgba(0,255,136,.18),
+        inset 0 1px 0 rgba(255,255,255,.28);
 
-    transition:.2s ease;
+    transition:.25s ease;
 }
 
 .btn:hover{
-    transform:translateY(-2px);
+    transform:translateY(-1px);
+
     box-shadow:
-        0 20px 45px rgba(0,255,136,.35),
-        inset 0 1px 0 rgba(255,255,255,.4);
+        0 12px 28px rgba(0,255,136,.22),
+        inset 0 1px 0 rgba(255,255,255,.35);
 }
 
 .btn:active{
     transform:scale(.98);
 }
 
-/* =========================
-   ANIMATIONS
-========================= */
-@keyframes fadeInUp{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+.btn:disabled{
+    background:
+    linear-gradient(
+        135deg,
+        #334155,
+        #1e293b
+    );
+
+    color:#94a3b8;
+
+    cursor:not-allowed;
+
+    box-shadow:none;
 }
 
-@keyframes glowText{
-    0%,100%{
-        text-shadow:0 0 10px rgba(0,255,136,.15);
-    }
-    50%{
-        text-shadow:0 0 22px rgba(0,255,136,.35);
-    }
-}
-
-/* =========================
-   PROGRESS ULTRA PREMIUM
-========================= */
-.progress{
-    background:rgba(255,255,255,.06);
-    height:12px;
-    border-radius:999px;
-    overflow:hidden;
-    margin-top:10px;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        inset 0 2px 6px rgba(0,0,0,.35);
-}
-
-/* BAR */
-.progress-bar{
-    height:100%;
-    width:0%;
-
-    background:linear-gradient(90deg,#00ff88,#22c55e,#00ff88);
-    background-size:200% 100%;
-
-    border-radius:999px;
-
-    box-shadow:
-        0 0 18px rgba(0,255,136,.35),
-        0 0 35px rgba(0,255,136,.15);
-
-    animation:shineBar 2s linear infinite;
-}
-
-/* shimmer effect */
-@keyframes shineBar{
-    0%{
-        background-position:0% 0%;
-    }
-    100%{
-        background-position:200% 0%;
-    }
-}
-
-/* =========================
-   BADGE ULTRA PREMIUM
-========================= */
 .badge{
+    position:relative;
+    overflow:hidden;
     display:inline-flex;
     align-items:center;
     gap:6px;
-
-    padding:5px 10px;
-
-    background:linear-gradient(135deg,#f59e0b,#fbbf24,#ffd38a);
-    color:#1a1200;
-
+    padding:8px 14px;
+    margin:4px 6px 12px 0;
     border-radius:999px;
     font-size:11px;
     font-weight:900;
-
-    box-shadow:
-        0 10px 25px rgba(245,158,11,.25),
-        inset 0 1px 0 rgba(255,255,255,.35);
-
-    position:relative;
-    overflow:hidden;
-
+    color:#1a1200;
+    background:linear-gradient(135deg,#f59e0b,#fbbf24,#ffd38a);
+    box-shadow:0 10px 22px rgba(245,158,11,.22);
     animation:badgePulse 2.5s ease-in-out infinite;
 }
 
-/* light sweep */
-.badge::before{
+.badge::after{
     content:"";
     position:absolute;
     top:-50%;
     left:-60%;
-    width:40%;
+    width:45%;
     height:200%;
-
     background:rgba(255,255,255,.35);
     transform:rotate(25deg);
-
-    animation:sweep 2.8s infinite;
-    opacity:.4;
+    animation:badgeSweep 3s infinite;
 }
 
-@keyframes sweep{
-    0%{ left:-60%; }
-    100%{ left:120%; }
-}
-
-/* =========================
-   LIST PREMIUM
-========================= */
-ul{
-    padding-left:18px;
-    margin:0;
-    color:#cbd5e1;
-
-    line-height:1.6;
-}
-
-ul li{
-    margin-bottom:6px;
+.ref-note{
     position:relative;
-    padding-left:6px;
+
+    margin:14px 0;
+    padding:14px 16px 14px 18px;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.02)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:#dbe4ee;
+
+    font-size:13px;
+    font-weight:500;
+
+    line-height:1.7;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 8px 20px rgba(0,0,0,.12);
 }
 
-/* bullet lebih premium */
-ul li::marker{
-    color:#00ff88;
-}
-
-/* =========================
-   SMALL TEXT PREMIUM
-========================= */
-small{
-    color:#94a3b8;
-    font-size:12px;
-    letter-spacing:.2px;
-    opacity:.9;
-}
-
-/* =========================
-   TITLE PREMIUM
-========================= */
-.title{
-    font-size:16px;
-    margin-bottom:10px;
-
-    color:#ffffff;
-    font-weight:800;
-
-    letter-spacing:.3px;
-
-    position:relative;
-    display:inline-block;
-}
-
-/* underline glow */
-.title::after{
+.ref-note::before{
     content:"";
+
     position:absolute;
+
     left:0;
-    bottom:-4px;
+    top:12px;
+    bottom:12px;
 
-    width:100%;
-    height:2px;
-
-    background:linear-gradient(90deg,#00ff88,transparent);
+    width:4px;
 
     border-radius:999px;
 
-    box-shadow:0 0 10px rgba(0,255,136,.35);
+    background:#00ff88;
+
+    box-shadow:
+        0 0 12px rgba(0,255,136,.35);
 }
 
-/* =========================
-   ICON BOX ULTRA PREMIUM
-========================= */
-.icon-box{
-    width:46px;
-    height:46px;
+.ref-note b{
+    color:#00ff88;
+    font-weight:800;
+}
+
+.ref-note span{
+    color:#ffffff;
+    font-weight:700;
+}
+
+.ref-grid{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:16px;
+}
+
+.ref-tier{
+    position:relative;
+    overflow:hidden;
+    padding:18px;
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(22px);
+    box-shadow:0 15px 35px rgba(0,0,0,.20);
+}
+
+.ref-tier::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at top right,rgba(255,255,255,.08),transparent 45%);
+    pointer-events:none;
+}
+
+.ref-tier > *{
+    position:relative;
+    z-index:2;
+}
+
+.tier-number{
+    position:absolute;
+    right:14px;
+    top:8px;
+    font-size:58px;
+    font-weight:900;
+    opacity:.05;
+    line-height:1;
+}
+
+.ref-tier h3{
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:16px;
+    font-weight:900;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+}
+
+.ref-tier h3 i{
+    font-size:18px;
+}
+
+.ref-tier p{
+    margin:8px 0;
+    padding:12px 14px;
+    border-radius:14px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.06);
+    color:#f1f5f9;
+    font-size:13px;
+    font-weight:700;
+}
+
+.ref-tier p b{
+    color:#00ff88;
+    font-weight:900;
+}
+
+.gold{
+    background:linear-gradient(145deg,rgba(255,215,0,.15),rgba(255,215,0,.03));
+    border-color:rgba(255,215,0,.20);
+}
+
+.gold h3{
+    color:#ffd700;
+}
+
+.silver{
+    background:linear-gradient(145deg,rgba(226,232,240,.11),rgba(148,163,184,.03));
+    border-color:rgba(226,232,240,.12);
+}
+
+.silver h3{
+    color:#e2e8f0;
+}
+
+.bronze{
+    background:linear-gradient(145deg,rgba(205,127,50,.15),rgba(205,127,50,.03));
+    border-color:rgba(205,127,50,.16);
+}
+
+.bronze h3{
+    color:#d99058;
+}
+
+.diamond{
+    background:linear-gradient(145deg,rgba(0,255,136,.13),rgba(0,255,136,.03));
+    border-color:rgba(0,255,136,.18);
+}
+
+.diamond h3{
+    color:#00ff88;
+}
+.ref-balance{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+
+    margin:18px 0;
+    padding:16px 18px;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(0,255,136,.08),
+        rgba(255,255,255,.03)
+    );
+
+    border:1px solid rgba(0,255,136,.12);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 10px 30px rgba(0,0,0,.18);
+
+    position:relative;
+}
+
+.ref-balance::before{
+    content:"SALDO REFERRAL";
+
+    font-size:11px;
+    font-weight:800;
+
+    letter-spacing:1.2px;
+
+    color:#94a3b8;
+
+    margin-bottom:6px;
+}
+
+.ref-balance::after{
+    content:"";
+
+    position:absolute;
+    left:0;
+    top:16px;
+
+    width:4px;
+    height:42px;
+
+    border-radius:999px;
+
+    background:#00ff88;
+
+    box-shadow:
+        0 0 12px rgba(0,255,136,.4);
+}
+
+.ref-balance span{
+    font-size:32px;
+    font-weight:900;
+
+    color:#00ff88;
+
+    margin-left:8px;
+
+    text-shadow:
+        0 0 18px rgba(0,255,136,.25);
+}
+
+
+.ref-balance span{
+    color:#00ff88;
+}
+
+.progress{
+    margin-top:12px;
+
+    height:14px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(255,255,255,.08),
+        rgba(255,255,255,.03)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        inset 0 2px 6px rgba(0,0,0,.35),
+        0 1px 0 rgba(255,255,255,.04);
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+
+    border-radius:999px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #00ff88 0%,
+        #22c55e 55%,
+        #16a34a 100%
+    );
+
+    box-shadow:
+        0 0 10px rgba(0,255,136,.15),
+        0 0 20px rgba(0,255,136,.10);
+
+    position:relative;
+}
+
+/* highlight tipis atas */
+.progress-bar::before{
+    content:"";
+
+    position:absolute;
+
+    top:1px;
+    left:2px;
+    right:2px;
+
+    height:35%;
+
+    border-radius:999px;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(255,255,255,.25),
+        transparent
+    );
+}
+
+.ref-link{
+    margin-top:12px;
+
+    padding:12px 14px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:#cbd5e1;
+
+    font-size:12px;
+
+    word-break:break-all;
+}
+
+.referral-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:14px;
+}
+
+.ref-user{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+
+    padding:13px 14px;
+    border-radius:16px;
+
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.ref-user-left{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.ref-user-left b{
+    color:#fff;
+    font-size:13px;
+}
+
+.ref-user-left small{
+    color:#94a3b8;
+    font-size:11px;
+}
+
+.ref-status{
+    padding:5px 9px;
+    border-radius:999px;
+
+    font-size:10px;
+    font-weight:900;
+
+    color:#04130c;
+    background:#00ff88;
+}
+
+.level-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+}
+
+.level-badge{
+    border:none;
+    padding:12px 18px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:900;
+    color:#04130c;
+    background:linear-gradient(135deg,#00ff88,#22c55e);
+    box-shadow:0 12px 30px rgba(0,255,136,.2);
+    cursor:pointer;
+}
+
+.level-popup{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(14px);
+    z-index:9999;
+    padding:20px;
+}
+
+.level-popup.show{
+    display:flex;
+}
+
+.level-popup-box{
+    width:100%;
+    max-width:420px;
+    padding:20px;
+    border-radius:24px;
+    background:linear-gradient(135deg,#0b1220,#020617);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 25px 70px rgba(0,0,0,.55);
+}
+
+.level-popup-box h3{
+    margin:0 0 15px;
+    color:#00ff88;
+    font-size:18px;
+}
+
+.level-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 14px;
+    margin-bottom:8px;
+    border-radius:14px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+    color:#f1f5f9;
+    font-size:13px;
+    font-weight:800;
+}
+
+.level-row span{
+    color:#94a3b8;
+    font-size:12px;
+}
+
+.referral-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:14px;
+}
+
+.ref-user{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:13px 14px;
+    border-radius:16px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.ref-user-left{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.ref-user-left b{
+    color:#fff;
+    font-size:13px;
+}
+
+.ref-user-left small{
+    color:#94a3b8;
+    font-size:11px;
+}
+
+.ref-status{
+    padding:5px 9px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:900;
+    color:#04130c;
+    background:#00ff88;
+}
+
+.level-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+
+.level-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    font-size:10px;
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+/* rookie */
+.level-badge.rookie{
+    background:rgba(148,163,184,.12);
+    color:#cbd5e1;
+    border:1px solid rgba(148,163,184,.2);
+}
+
+/* bronze */
+.level-badge.bronze{
+    background:rgba(205,127,50,.12);
+    color:#d99058;
+    border:1px solid rgba(205,127,50,.2);
+}
+
+/* silver */
+.level-badge.silver{
+    background:rgba(226,232,240,.12);
+    color:#e2e8f0;
+    border:1px solid rgba(226,232,240,.15);
+}
+
+/* gold */
+.level-badge.gold{
+    background:rgba(255,215,0,.12);
+    color:#ffd700;
+    border:1px solid rgba(255,215,0,.2);
+}
+
+/* diamond */
+.level-badge.diamond{
+    background:rgba(0,255,136,.12);
+    color:#00ff88;
+    border:1px solid rgba(0,255,136,.2);
+}
+
+/* elite */
+.level-badge.elite{
+    background:linear-gradient(
+        135deg,
+        #ffd700,
+        #ffb300
+    );
+
+    color:#04130c;
+}
+
+.referral-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+
+    margin-top:14px;
+
+    max-height:260px;
+    overflow-y:auto;
+
+    padding:10px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        inset 0 -12px 25px rgba(0,0,0,.12);
+}
+
+/* scrollbar kecil premium */
+.referral-list::-webkit-scrollbar{
+    width:5px;
+}
+
+.referral-list::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+.referral-list::-webkit-scrollbar-thumb{
+    background:rgba(0,255,136,.35);
+    border-radius:999px;
+}
+
+.empty-ref{
+    min-height:120px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    border-radius:14px;
+    text-align:center;
 
-    color:#04130c;
-    font-size:20px;
-    font-weight:800;
+    padding:18px;
 
-    background:linear-gradient(135deg,#00ff88,#22c55e);
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.045),
+        rgba(255,255,255,.02)
+    );
+
+    border:1px dashed rgba(255,255,255,.14);
+
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.ref-total-box{
+    margin:12px 0 16px;
+
+    padding:14px 16px;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.02)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
 
     position:relative;
+
     overflow:hidden;
+}
+
+.ref-total-box::before{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:12px;
+    bottom:12px;
+
+    width:4px;
+
+    border-radius:999px;
+
+    background:#00ff88;
 
     box-shadow:
-        0 15px 30px rgba(0,255,136,.25),
-        inset 0 1px 0 rgba(255,255,255,.35);
+        0 0 12px rgba(0,255,136,.35);
 }
 
-/* light sweep effect */
-.icon-box::before{
-    content:"";
-    position:absolute;
-    top:-50%;
-    left:-60%;
-    width:40%;
-    height:200%;
+.ref-total-label{
+    font-size:10px;
+    font-weight:800;
 
-    background:rgba(255,255,255,.35);
-    transform:rotate(25deg);
+    letter-spacing:1.2px;
 
-    animation:iconSweep 2.5s infinite;
-    opacity:.35;
+    color:#94a3b8;
+
+    margin-left:10px;
 }
 
-/* glow ring */
-.icon-box::after{
-    content:"";
-    position:absolute;
-    inset:-2px;
+.ref-total-value{
+    margin-left:10px;
+    margin-top:4px;
 
-    border-radius:14px;
+    font-size:18px;
+    font-weight:900;
 
-    background:radial-gradient(circle,rgba(0,255,136,.25),transparent 60%);
-    opacity:.6;
+    color:#ffffff;
 }
 
-@keyframes iconSweep{
-    0%{ left:-60%; }
-    100%{ left:120%; }
+.ref-total-value span{
+    color:#00ff88;
+}
+
+/* ANIMASI CUMA BADGE */
+@keyframes badgePulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.04);
+    }
+}
+
+@keyframes badgeSweep{
+    0%{
+        left:-60%;
+    }
+    100%{
+        left:150%;
+    }
 }
 
 </style>
@@ -432,7 +969,6 @@ small{
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <div class="icon-box">
         <i class="fas fa-users"></i>
@@ -446,7 +982,6 @@ small{
 
 <div class="container">
 
-    <!-- CARD REF -->
     <div class="card">
         <div class="title">Referral Kamu</div>
 
@@ -457,35 +992,164 @@ small{
             <i class="fas fa-copy"></i> Copy Link Referral
         </button>
 
-        <p style="margin-top:12px">
-            Link Referral:
-        </p>
-        <small id="refLink">-</small>
+        <p style="margin-top:12px">Link Referral:</p>
+        <small class="ref-link" id="refLink">-</small>
     </div>
 
-    <!-- INFO -->
     <div class="card">
-        <div class="title">Aktivitas Referral</div>
 
-        <div class="badge">🔥 Reward Referral</div>
-        <div class="badge">⚡ Bonus Instan</div>
+            <div class="title">Saldo Referral</div>
 
-        <ul>
-            <li>Undang 3 teman baru</li>
-            <li>Deposit minimal Rp 350.000</li>
-            <li>Hadiah instan Rp 100.000 / teman</li>
-        </ul>
+        <div class="ref-balance" id="saldoReferral">
+            Rp 0
+        </div>
 
-        <p>Bonus Sistem:</p>
+        <div class="ref-note">
+    Undang <b>3 referral pertama</b> dan dapatkan komisi hingga
+    <span>30%</span> dari top up pertama mereka.
+    Setelah itu kamu tetap mendapatkan komisi referral sebesar
+    <span>8%</span>.
+</div>
 
-        <ul>
-            <li>10% referral langsung</li>
-            <li>3% level 2</li>
-            <li>1% level berikutnya</li>
-        </ul>
+        <button
+        id="btnCairkanReferral"
+        class="btn"
+        onclick="cairkanReferral()">
+            Cairkan ke Saldo Utama
+        </button>
     </div>
 
-    <!-- PROGRESS -->
+<div class="card">
+
+    <div class="level-header">
+
+        <div class="title">
+            Level Referral
+        </div>
+
+        <div
+        class="level-badge rookie"
+        id="levelBadge"
+        onclick="openLevelPopup()">
+
+            🌱 Rookie
+
+        </div>
+
+    </div>
+
+   <div class="ref-total-box">
+
+    <div class="ref-total-label">
+        TOTAL REFERRAL
+    </div>
+
+    <div
+    id="levelText"
+    class="ref-total-value">
+
+        0 Pengguna
+
+    </div>
+
+</div>
+
+    <div
+    id="referralList"
+    class="referral-list">
+
+        <div class="empty-ref">
+            Belum ada pengguna yang memakai referral kamu
+        </div>
+
+    </div>
+
+</div>
+
+<div id="levelPopup" class="level-popup">
+    <div class="level-popup-box">
+
+        <h3>Level Referral</h3>
+
+        <div class="level-row">🌱 Rookie <span>0 Referral</span></div>
+        <div class="level-row">🥉 Bronze I <span>3 Referral</span></div>
+        <div class="level-row">🥉 Bronze II <span>5 Referral</span></div>
+        <div class="level-row">🥈 Silver I <span>12 Referral</span></div>
+        <div class="level-row">🥈 Silver II <span>20 Referral</span></div>
+        <div class="level-row">🥇 Gold I <span>35 Referral</span></div>
+        <div class="level-row">🥇 Gold II <span>50 Referral</span></div>
+        <div class="level-row">💎 Diamond I <span>75 Referral</span></div>
+        <div class="level-row">💎 Diamond II <span>100 Referral</span></div>
+        <div class="level-row">👑 Elite Partner <span>120 Referral</span></div>
+
+        <button class="btn" onclick="closeLevelPopup()">
+            Tutup
+        </button>
+
+    </div>
+</div>
+
+    <div class="card">
+        <div class="title">🏆 Program Referral Pertamina Investasi</div>
+
+        <div class="badge">🔥 Komisi Tinggi</div>
+        <div class="badge">💎 Komisi Instan</div>
+
+        <p class="ref-note">
+            Undang teman menggunakan kode referral kamu dan dapatkan komisi dari top up pertama mereka.
+        </p>
+
+        <div class="ref-grid">
+
+           <div class="ref-tier gold">
+    <h3>
+        <i class="fas fa-crown"></i>
+        Referral Pertama • 30%
+    </h3>
+
+    <p>Top Up Rp1.000.000 → <b>Komisi Rp300.000</b></p>
+    <p>Top Up Rp500.000 → <b>Komisi Rp150.000</b></p>
+    <p>Top Up Rp400.000 → <b>Komisi Rp120.000</b></p>
+</div>
+
+<div class="ref-tier silver">
+    <h3>
+        <i class="fas fa-medal"></i>
+        Referral Kedua • 20%
+    </h3>
+
+    <p>Top Up Rp1.000.000 → <b>Komisi Rp200.000</b></p>
+    <p>Top Up Rp500.000 → <b>Komisi Rp100.000</b></p>
+    <p>Top Up Rp400.000 → <b>Komisi Rp80.000</b></p>
+</div>
+
+<div class="ref-tier bronze">
+    <h3>
+        <i class="fas fa-award"></i>
+        Referral Ketiga • 10%
+    </h3>
+
+    <p>Top Up Rp1.000.000 → <b>Komisi Rp100.000</b></p>
+    <p>Top Up Rp500.000 → <b>Komisi Rp50.000</b></p>
+    <p>Top Up Rp400.000 → <b>Komisi Rp40.000</b></p>
+</div>
+
+<div class="ref-tier diamond">
+    <h3>
+        <i class="fas fa-gem"></i>
+        Referral Selanjutnya • 8%
+    </h3>
+
+    <p>Dapatkan <b>8%</b> dari top up pertama referral berikutnya.</p>
+</div>
+
+        </div>
+
+        <p class="ref-note">
+            ⚠️ Komisi referral hanya diberikan satu kali pada top up pertama setiap referral yang berhasil terverifikasi.
+        </p>
+    </div>
+
     <div class="card">
         <div class="title">Progress Undangan</div>
 
@@ -496,18 +1160,15 @@ small{
         </div>
 
         <p style="margin-top:10px">
-            🎁 Bonus target: <b style="color:#00ff88">Rp 300.000</b>
+            🎯 Target awal: <b style="color:#00ff88">3 referral aktif</b>
         </p>
     </div>
 
 </div>
 
 <script src="utils.js"></script>
-<script>
 
-// =========================
-// LOAD USER SAFE
-// =========================
+<script>
 let currentUser = localStorage.getItem("currentUser");
 let user = currentUser ? JSON.parse(localStorage.getItem(currentUser)) : null;
 
@@ -516,52 +1177,61 @@ if(!user){
     throw new Error("No user");
 }
 
-// =========================
-// GENERATE REFERRAL CODE
-// =========================
 function generateRef(){
     if(!user.referralCode){
-        user.referralCode = "PRTMNA" + Math.floor(100000 + Math.random() * 900000);
+        user.referralCode =
+        "PRTMNA" + Math.floor(100000 + Math.random() * 900000);
+
         saveUser();
     }
 }
 
-// =========================
-// SAVE USER
-// =========================
 function saveUser(){
-    localStorage.setItem(currentUser, JSON.stringify(user));
+    localStorage.setItem(
+        currentUser,
+        JSON.stringify(user)
+    );
 }
 
-// =========================
-// RENDER UI
-// =========================
 function render(){
 
     generateRef();
 
     document.getElementById("refCode").innerText =
-        user.referralCode;
+    user.referralCode;
 
     const link =
-        window.location.origin +
-        "/register.html?ref=" +
-        user.referralCode;
+    window.location.origin +
+    "/register.html?ref=" +
+    user.referralCode;
 
-    document.getElementById("refLink").innerText = link;
+    document.getElementById("refLink").innerText =
+    link;
 
-    let count = user.referralCount || 0;
+    let count =
+    Number(user.referralCount || 0);
 
     document.getElementById("progressText").innerText =
-        count + " / 3 undangan";
+    count + " / 3 undangan";
 
     document.getElementById("bar").style.width =
-        (count / 3 * 100) + "%";
+    Math.min((count / 3) * 100, 100) + "%";
+
+    document.getElementById("saldoReferral").innerText =
+    "Rp " + Number(user.saldoReferral || 0).toLocaleString("id-ID");
+
+    const btnCair =
+    document.getElementById("btnCairkanReferral");
+
+    if(Number(user.saldoReferral || 0) < 500000){
+        btnCair.disabled = true;
+        btnCair.innerText = "Minimal Cair Rp 500.000";
+    }else{
+        btnCair.disabled = false;
+        btnCair.innerText = "💸 Cairkan ke Saldo Utama";
+    }
 }
 
-// =========================
-// COPY LINK
-// =========================
 function copyRef(){
     navigator.clipboard.writeText(
         document.getElementById("refLink").innerText
@@ -570,84 +1240,45 @@ function copyRef(){
     alert("Link referral disalin!");
 }
 
-// =========================
-// BONUS REFERRAL SYSTEM PRO
-// =========================
-// dipanggil saat user lain daftar pakai kode referral
+function cairkanReferral(){
 
-function processReferral(refCode){
+    const saldoReferral =
+    Number(user.saldoReferral || 0);
 
-    let ownerKey = null;
-    let owner = null;
-
-    // cari user pemilik referral
-    for(let i=0;i<localStorage.length;i++){
-        let key = localStorage.key(i);
-
-        if(key === "currentUser") continue;
-
-        try{
-            let u = JSON.parse(localStorage.getItem(key));
-
-            if(u && u.referralCode === refCode){
-                ownerKey = key;
-                owner = u;
-                break;
-            }
-        }catch(e){}
+    if(saldoReferral < 500000){
+        alert("Minimal pencairan referral Rp 500.000");
+        return;
     }
 
-    if(!owner) return;
+    user.saldo =
+    Number(user.saldo || 0) + saldoReferral;
 
-    if(!owner.referralCount) owner.referralCount = 0;
-    owner.referralCount++;
+    user.saldoReferral = 0;
 
-    let bonus = 0;
-    let level = owner.referralCount;
+    saveUser();
+    render();
 
-    // =========================
-    // BONUS 3 LEVEL
-    // =========================
-    if(level === 1) bonus = 50000;
-    if(level === 2) bonus = 30000;
-    if(level === 3) bonus = 20000;
+    if(typeof sendMessage === "function"){
+        sendMessage(
+            "success",
 
-    if(bonus > 0){
-        owner.saldo = (owner.saldo || 0) + bonus;
-
-        // =========================
-        // MASUK PESAN SYSTEM
-        // =========================
-        if(typeof sendMessage === "function"){
-            sendMessage(
-    "success",
-
-`🏆 KOMISI REFERRAL BERHASIL
+`💸 KOMISI REFERRAL DICAIRKAN
 
 ━━━━━━━━━━━━━━
 
-👥 Referral Level : ${level}
-💸 Komisi Bonus   : Rp ${Number(bonus).toLocaleString("id-ID")}
+💰 Nominal : Rp ${saldoReferral.toLocaleString("id-ID")}
+📥 Status  : Masuk ke Saldo Utama
 
 ━━━━━━━━━━━━━━
 
-🎉 Selamat!
-
-Bonus referral telah berhasil masuk ke saldo utama akun Anda.
-
-Semakin banyak referral aktif, semakin besar potensi bonus yang dapat Anda peroleh.`
-);
-        }
+Komisi referral berhasil dicairkan ke saldo utama Anda.`
+        );
     }
 
-    localStorage.setItem(ownerKey, JSON.stringify(owner));
+    alert("Komisi referral berhasil dicairkan ke saldo utama");
 }
 
-// =========================
-// INIT
-// =========================
 render();
-
 </script>
 
 </body>
