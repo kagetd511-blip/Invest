@@ -20,7 +20,7 @@ body{
     font-family:Arial,sans-serif;
     background:linear-gradient(135deg,#050b18,#0b1220,#020617);
     color:#f1f5f9;
-    min-height:420vh;
+    min-height:100vh;
     overflow-y:auto;
 }
 
@@ -964,6 +964,24 @@ p{
     }
 }
 
+    .toast{
+    position:fixed;
+    bottom:80px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#16a34a;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:12px;
+    font-size:14px;
+    z-index:9999;
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+}
 </style>
 </head>
 
@@ -995,6 +1013,10 @@ p{
         <p style="margin-top:12px">Link Referral:</p>
         <small class="ref-link" id="refLink">-</small>
     </div>
+
+    <div id="toast" class="toast">
+    ✅ Link referral berhasil disalin
+</div>
 
     <div class="card">
 
@@ -1321,7 +1343,20 @@ function copyRef(){
         document.getElementById("refLink").innerText
     );
 
-    alert("Link referral disalin!");
+    showToast("✅ Link referral berhasil disalin");
+}
+
+    function showToast(text){
+
+    const toast =
+    document.getElementById("toast");
+
+    toast.innerText = text;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2000);
 }
 
 function openLevelPopup(){
