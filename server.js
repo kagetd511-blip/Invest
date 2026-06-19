@@ -529,6 +529,77 @@ app.post("/referral", async (req, res) => {
 });
 
 // =========================
+// BELI PAKET
+// =========================
+app.post("/buy-paket", async (req, res) => {
+
+    try{
+
+        const {
+            phone,
+            nama,
+            modal,
+            profitPerHari,
+            durasi
+        } = req.body;
+
+        const user = await User.findOne({
+            phone
+        });
+
+        if(!user){
+            return res.json({
+                status:false,
+                message:"User tidak ditemukan"
+            });
+        }
+
+        if(user.saldo < modal){
+            return res.json({
+                status:false,
+                message:"Saldo tidak cukup"
+            });
+        }
+
+        user.saldo -= modal;
+
+        user.paketAktif.push({
+            nama,
+            modal,
+            profitPerHari,
+            durasi,
+            hariBerjalan:0,
+            lastClaim:Date.now(),
+            aktif:true
+        });
+
+        await user.save();
+
+        send(`◈ 📦 𝗣𝗘𝗠𝗕𝗘𝗟𝗜𝗔𝗡 𝗣𝗔𝗞𝗘𝗧 ◈
+
+◈ 𝗣𝗔𝗞𝗘𝗧        : <b>${nama}</b>
+◈ 𝗛𝗣               : <b>${phone}</b>
+◈ 𝗠𝗢𝗗𝗔𝗟       : <b>Rp ${Number(modal).toLocaleString("id-ID")}</b>
+
+◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
+
+        res.json({
+            status:true,
+            user
+        });
+
+    }catch(err){
+
+        res.json({
+            status:false,
+            message:err.message
+        });
+
+    }
+
+});
+
+// =========================
 // ENGINE PAKET
 // =========================
 setInterval(async () => {
