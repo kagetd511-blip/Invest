@@ -880,11 +880,21 @@ async function submit(){
             // 🔥 KIRIM PESAN NOTIF
             // =========================
             sendMessage(
-                "info",
-                "🔴 " + phone + " Menunggu Konfirmasi Topup\n" +
-                "Nominal : Rp " + nominal.toLocaleString("id-ID") + "\n" +
-                "Metode  : " + method
-            );
+"info",
+
+"🎉 PERMINTAAN TOP UP DITERIMA\n\n" +
+
+"💰 Nominal : Rp " +
+nominal.toLocaleString("id-ID") + "\n" +
+
+"🏦 Metode : " +
+method + "\n\n" +
+
+"⏳ Status : Menunggu Konfirmasi Admin\n\n" +
+
+"Saldo akan otomatis masuk setelah pembayaran berhasil diverifikasi."
+
+);
 
             // redirect
             window.location.href = "topup-process.html";
