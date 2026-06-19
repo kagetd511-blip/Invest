@@ -1169,12 +1169,39 @@ p{
 <script src="utils.js"></script>
 
 <script>
-let currentUser = localStorage.getItem("currentUser");
-let user = currentUser ? JSON.parse(localStorage.getItem(currentUser)) : null;
+const API = "https://invest-production-366e.up.railway.app";
 
-if(!user){
+let currentUser = localStorage.getItem("currentUser");
+let user = null;
+
+if(!currentUser){
     alert("User tidak ditemukan");
-    throw new Error("No user");
+    window.location.href = "login.html";
+}
+
+async function loadUser(){
+    try{
+        const res = await fetch(API + "/user/" + currentUser);
+        const data = await res.json();
+
+        if(data.status){
+            user = data.user;
+            localStorage.setItem(currentUser, JSON.stringify(user));
+        }else{
+            throw new Error("User tidak ditemukan");
+        }
+    }catch(err){
+        user = JSON.parse(localStorage.getItem(currentUser));
+    }
+
+    if(!user){
+        alert("User tidak ditemukan");
+        throw new Error("No user");
+    }
+}
+
+function saveUser(){
+    localStorage.setItem(currentUser, JSON.stringify(user));
 }
 
 function generateRef(){
@@ -1186,50 +1213,107 @@ function generateRef(){
     }
 }
 
-function saveUser(){
-    localStorage.setItem(
-        currentUser,
-        JSON.stringify(user)
-    );
+function getReferralAktif(){
+    return (user.referrals || [])
+    .filter(r => r.active === true || r.status === "AKTIF")
+    .length;
+}
+
+function getLevel(total){
+    if(total >= 120) return { name:"👑 Elite Partner", class:"elite" };
+    if(total >= 100) return { name:"💎 Diamond II", class:"diamond" };
+    if(total >= 75) return { name:"💎 Diamond I", class:"diamond" };
+    if(total >= 50) return { name:"🥇 Gold II", class:"gold" };
+    if(total >= 35) return { name:"🥇 Gold I", class:"gold" };
+    if(total >= 20) return { name:"🥈 Silver II", class:"silver" };
+    if(total >= 12) return { name:"🥈 Silver I", class:"silver" };
+    if(total >= 5) return { name:"🥉 Bronze II", class:"bronze" };
+    if(total >= 3) return { name:"🥉 Bronze I", class:"bronze" };
+
+    return { name:"🌱 Rookie", class:"rookie" };
+}
+
+function renderReferralList(){
+    const box = document.getElementById("referralList");
+    if(!box) return;
+
+    const referrals = user.referrals || [];
+
+    if(referrals.length === 0){
+        box.innerHTML = `
+            <div class="empty-ref">
+                Belum ada pengguna yang memakai referral kamu
+            </div>
+        `;
+        return;
+    }
+
+    box.innerHTML = referrals.map(r => `
+        <div class="ref-user">
+            <div class="ref-user-left">
+                <b>${r.username || "Pengguna Baru"}</b>
+                <small>${r.phone || "-"}</small>
+                <small>
+                    Top Up Pertama:
+                    Rp ${Number(r.topupPertama || 0).toLocaleString("id-ID")}
+                </small>
+                <small>
+                    Komisi:
+                    Rp ${Number(r.komisi || 0).toLocaleString("id-ID")}
+                </small>
+            </div>
+
+            <div class="ref-status" style="
+                background:${r.active ? "#00ff88" : "#64748b"};
+                color:${r.active ? "#04130c" : "#fff"};
+            ">
+                ${r.active ? "AKTIF" : "MENUNGGU"}
+            </div>
+        </div>
+    `).join("");
 }
 
 function render(){
-
     generateRef();
 
-    document.getElementById("refCode").innerText =
-    user.referralCode;
+    document.getElementById("refCode").innerText = user.referralCode;
 
     const link =
-    window.location.origin +
-    "/register.html?ref=" +
-    user.referralCode;
+    window.location.origin + "/register.html?ref=" + user.referralCode;
 
-    document.getElementById("refLink").innerText =
-    link;
+    document.getElementById("refLink").innerText = link;
 
-    let count =
-    Number(user.referralCount || 0);
+    const referralAktif = getReferralAktif();
+
+    const level = getLevel(referralAktif);
+    const badge = document.getElementById("levelBadge");
+
+    badge.innerText = level.name;
+    badge.className = "level-badge " + level.class;
+
+    document.getElementById("levelText").innerHTML =
+    `<span>${referralAktif}</span> Referral Aktif`;
 
     document.getElementById("progressText").innerText =
-    count + " / 3 undangan";
+    referralAktif + " / 3 referral aktif";
 
     document.getElementById("bar").style.width =
-    Math.min((count / 3) * 100, 100) + "%";
+    Math.min((referralAktif / 3) * 100, 100) + "%";
 
     document.getElementById("saldoReferral").innerText =
     "Rp " + Number(user.saldoReferral || 0).toLocaleString("id-ID");
 
-    const btnCair =
-    document.getElementById("btnCairkanReferral");
+    const btnCair = document.getElementById("btnCairkanReferral");
 
-    if(Number(user.saldoReferral || 0) < 500000){
+    if(Number(user.saldoReferral || 0) < 1000000){
         btnCair.disabled = true;
-        btnCair.innerText = "Minimal Cair Rp 500.000";
+        btnCair.innerText = "Minimal Cair Rp 1.000.000";
     }else{
         btnCair.disabled = false;
         btnCair.innerText = "💸 Cairkan ke Saldo Utama";
     }
+
+    renderReferralList();
 }
 
 function copyRef(){
@@ -1240,45 +1324,45 @@ function copyRef(){
     alert("Link referral disalin!");
 }
 
+function openLevelPopup(){
+    document.getElementById("levelPopup").classList.add("show");
+}
+
+function closeLevelPopup(){
+    document.getElementById("levelPopup").classList.remove("show");
+}
+
 function cairkanReferral(){
+    const saldoReferral = Number(user.saldoReferral || 0);
 
-    const saldoReferral =
-    Number(user.saldoReferral || 0);
-
-    if(saldoReferral < 500000){
-        alert("Minimal pencairan referral Rp 500.000");
+    if(saldoReferral < 1000000){
+        alert("Minimal pencairan referral Rp 1.000.000");
         return;
     }
 
-    user.saldo =
-    Number(user.saldo || 0) + saldoReferral;
-
+    user.saldo = Number(user.saldo || 0) + saldoReferral;
     user.saldoReferral = 0;
 
     saveUser();
     render();
 
-    if(typeof sendMessage === "function"){
-        sendMessage(
-            "success",
-
+    sendMessage(
+        "success",
 `💸 KOMISI REFERRAL DICAIRKAN
 
-━━━━━━━━━━━━━━
+Nominal : Rp ${saldoReferral.toLocaleString("id-ID")}
+Status  : Masuk ke Saldo Utama
 
-💰 Nominal : Rp ${saldoReferral.toLocaleString("id-ID")}
-📥 Status  : Masuk ke Saldo Utama
-
-━━━━━━━━━━━━━━
-
-Komisi referral berhasil dicairkan ke saldo utama Anda.`
-        );
-    }
+Komisi referral berhasil dicairkan.`
+    );
 
     alert("Komisi referral berhasil dicairkan ke saldo utama");
 }
 
-render();
+window.addEventListener("load", async () => {
+    await loadUser();
+    render();
+});
 </script>
 
 </body>
