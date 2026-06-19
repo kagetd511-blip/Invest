@@ -226,11 +226,16 @@ function tampilkanPaketAktif(){
 
     if(!user || !Array.isArray(user.paketAktif)) return;
 
+    // hapus semua status aktif lama dulu
+    document.querySelectorAll(".status-aktif")
+    .forEach(el => el.remove());
+
     user.paketAktif.forEach(p => {
 
         if(!p.aktif) return;
 
         let nomorPaket = "";
+
         if(p.nama){
             nomorPaket = p.nama.replace(/[^0-9]/g, "");
         }
@@ -238,15 +243,18 @@ function tampilkanPaketAktif(){
         const box = document.getElementById("paket" + nomorPaket);
         if(!box) return;
 
-        const old = box.querySelector(".status-aktif");
-        if(old) old.remove();
-
-        const profit = Number(p.profitPerHari || 0);
         const modal = Number(p.modal || 0);
+        const profit = Number(p.profitPerHari || 0);
         const hari = Number(p.hariBerjalan || 0);
         const durasi = Number(p.durasi || 14);
 
-        const persenHari = (hari / durasi) * 100;
+        let saldoPaket = Number(p.saldoPaket);
+
+        if(!saldoPaket || isNaN(saldoPaket)){
+            saldoPaket = modal;
+        }
+
+        const persenHari = Math.min((hari / durasi) * 100, 100);
 
         box.insertAdjacentHTML("beforeend", `
             <div class="status-aktif">
@@ -254,11 +262,15 @@ function tampilkanPaketAktif(){
 
                 <p>Modal: Rp ${modal.toLocaleString("id-ID")}</p>
 
-                <h4>
-                    +Rp ${profit.toLocaleString("id-ID")} / hari
+                <h4 style="color:#00ff88;">
+                    Saldo: Rp ${saldoPaket.toLocaleString("id-ID")}
                 </h4>
 
-                <p>Hari Berjalan: ${hari} / ${durasi}</p>
+                <p style="color:#00ff88;font-size:12px;">
+                    +Rp ${profit.toLocaleString("id-ID")} / hari
+                </p>
+
+                <p>Hari berjalan: ${hari} / ${durasi}</p>
 
                 <div class="progress">
                     <div class="progress-fill" style="width:${persenHari}%"></div>
