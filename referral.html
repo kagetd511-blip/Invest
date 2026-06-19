@@ -1301,7 +1301,9 @@ function render(){
     document.getElementById("refCode").innerText = user.referralCode;
 
     const link =
-    window.location.origin + "/register.html?ref=" + user.referralCode;
+window.location.origin +
+"/Invest/register.html?ref=" +
+user.referralCode;
 
     document.getElementById("refLink").innerText = link;
 
