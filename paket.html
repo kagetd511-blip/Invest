@@ -1019,21 +1019,25 @@ document.getElementById("btnKonfirmasi").onclick = async () => {
         sendMessage(
     "success",
 
-    "🎉 PEMBELIAN PAKET BERHASIL\n\n" +
+`🎊 INVESTASI BERHASIL DIAKTIFKAN
 
-    "📦 Paket        : " + paket.nama + "\n" +
+━━━━━━━━━━━━━━
 
-    "💰 Modal        : Rp " +
-    paket.modal.toLocaleString("id-ID") + "\n" +
+📦 Paket      : ${paket.nama}
+💰 Modal      : Rp ${Number(paket.modal).toLocaleString("id-ID")}
+📈 Profit     : Rp ${Number(paket.profitPerHari).toLocaleString("id-ID")} / Hari
+⏳ Durasi     : ${paket.durasi} Hari
 
-    "📈 Keuntungan : " +
-    paket.profit + "\n" +
+━━━━━━━━━━━━━━
 
-    "⏳ Durasi       : 14 Hari Aktif\n\n" +
+✅ Status     : AKTIF
+💹 Profit     : Sedang Berjalan
+🏦 Pencairan  : Otomatis Setelah Selesai
 
-    "Terima kasih telah melakukan pembelian paket investasi."
+Selamat! Paket investasi Anda telah aktif dan mulai menghasilkan keuntungan.
+
+Terima kasih telah mempercayai platform kami.`
 );
-
         document.getElementById("successModal").innerText =
         "Rp " + paket.modal.toLocaleString("id-ID");
 
