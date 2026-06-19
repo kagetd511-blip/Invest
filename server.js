@@ -213,6 +213,22 @@ app.post("/register", async (req, res) => {
                     });
 
                     await owner.save();
+
+                    send(`◈ 🟨 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 𝗗𝗜𝗚𝗨𝗡𝗔𝗞𝗔𝗡 ◈
+
+◈ 𝗡𝗢 𝗛𝗣 𝗗𝗔𝗙𝗧𝗔𝗥 :
+<b>${u.phone}</b>
+
+◈ 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 :
+<b>${u.referral}</b>
+
+◈ 𝗣𝗘𝗠𝗜𝗟𝗜𝗞 𝗥𝗘𝗙 :
+<b>${owner.phone}</b>
+
+◈ 𝗨𝗦𝗘𝗥𝗡𝗔𝗠𝗘 :
+<b>${owner.username}</b>
+
+◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
                 }
             }
         }
@@ -770,29 +786,6 @@ await user.save();
         });
 
     }
-
-});
-
-// =========================
-// REFERRAL
-// =========================
-app.post("/referral", async (req, res) => {
-
-    const {
-        phone,
-        referralPhone
-    } = req.body;
-
-    send(`◈ 🟨 𝗥𝗘𝗙𝗘𝗥𝗥𝗔𝗟 𝗗𝗜𝗚𝗨𝗡𝗔𝗞𝗔𝗡 ◈
-
-𝗛𝗣                 : <b>${phone}</b>
-𝗥𝗘𝗙               : <b>${referralPhone}</b>
-
-◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`);
-
-    res.json({
-        status: true
-    });
 
 });
 
