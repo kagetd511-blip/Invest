@@ -925,7 +925,7 @@ if(!currentUser || !userData){
     throw new Error("user undefined");
 }
 
-const user = JSON.parse(userData);
+let user = JSON.parse(userData);
 
 /* =========================
    TAMPIL DATA
@@ -974,65 +974,89 @@ if(user.saldo < paket.modal){
 ========================= */
 document.getElementById("btnKonfirmasi").onclick = async () => {
 
-    document.getElementById("popupConfirm").classList.remove("active");
+    document.getElementById("popupConfirm")
+    .classList.remove("active");
 
-    // loading logo only
-    document.getElementById("miniLoader").classList.add("active");
+    document.getElementById("miniLoader")
+    .classList.add("active");
 
-    setTimeout(() => {
+    try{
 
-        document.getElementById("miniLoader").classList.remove("active");
+        const res = await fetch(
+            "https://invest-production-366e.up.railway.app/buy-paket",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    phone: currentUser,
+                    nama: paket.nama,
+                    modal: paket.modal,
+                    profitPerHari: paket.profitPerHari,
+                    durasi: 14
+                })
+            }
+        );
 
-        // proses saldo
-        user.saldo -= paket.modal;
+        const data = await res.json();
 
-        if(!user.paketAktif) user.paketAktif = [];
-        if(!user.riwayatPaket) user.riwayatPaket = [];
+        document.getElementById("miniLoader")
+        .classList.remove("active");
 
-        user.riwayatPaket.unshift({
-            nama: paket.nama,
-            modal: paket.modal,
-            profit: paket.profit,
-            tanggal: new Date().toLocaleString("id-ID"),
-            status: "AKTIF"
-        });
+        if(!data.status){
+            alert(data.message || "Pembelian gagal");
+            return;
+        }
 
-        user.paketAktif.push({
-            id: Number(paketId),
-            nama: paket.nama,
-            modal: paket.modal,
-            saldoPaket: paket.modal,
-            profit: paket.profit,
-            gambar: paket.gambar,
-            durasi: 14,
-            hariBerjalan: 0,
-            lastTick: Date.now()
-        });
-
+        user = data.user;
+        
         localStorage.setItem(
-    currentUser,
-    JSON.stringify(user)
-);
+            currentUser,
+            JSON.stringify(data.user)
+        );
 
-        // PESAN MASUK
-sendMessage(
+        sendMessage(
     "success",
-    "Pembelian " + paket.nama + " berhasil. Paket aktif selama 14 hari."
+
+    "🎉 PEMBELIAN PAKET BERHASIL\n\n" +
+
+    "📦 Paket        : " + paket.nama + "\n" +
+
+    "💰 Modal        : Rp " +
+    paket.modal.toLocaleString("id-ID") + "\n" +
+
+    "📈 Keuntungan : " +
+    paket.profit + "\n" +
+
+    "⏳ Durasi       : 14 Hari Aktif\n\n" +
+
+    "Terima kasih telah melakukan pembelian paket investasi."
 );
 
-        // ===== isi popup success (INI YANG KURANG DI KAMU) =====
         document.getElementById("successModal").innerText =
-            "Rp " + paket.modal.toLocaleString("id-ID");
+        "Rp " + paket.modal.toLocaleString("id-ID");
 
         document.getElementById("successProfit").innerText =
-            paket.profit;
+        paket.profit;
 
         document.getElementById("successDurasi").innerText =
-            paket.durasi;
+        paket.durasi;
 
-        document.getElementById("popupSuccess").classList.add("active");
+        document.getElementById("popupSuccess")
+        .classList.add("active");
 
-    }, 1500);
+    }catch(err){
+
+        document.getElementById("miniLoader")
+        .classList.remove("active");
+
+        alert("Server tidak merespon");
+
+        console.log(err);
+
+    }
+
 };
 
 /* =========================
