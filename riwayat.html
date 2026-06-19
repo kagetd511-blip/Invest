@@ -392,12 +392,12 @@ const semuaRiwayat = [
 
 ...(user.riwayatDeposit || []).map(item => ({
     ...item,
-    tipe:"Top Up"
+    tipe:"TOP UP"
 })),
 
 ...(user.riwayatWithdraw || []).map(item => ({
     ...item,
-    tipe:"Tarik Saldo"
+    tipe:"TARIK SALDO"
 }))
 
 ];
@@ -412,9 +412,9 @@ list.innerHTML += `
 ${
 item.tipe === "TOP UP"
 ?
-'<i class="fas fa-wallet"></i> Top Upt'
+'<i class="fas fa-wallet"></i> TOP UP'
 :
-'<i class="fas fa-money-bill-wave"></i> Tarik Saldo'
+'<i class="fas fa-money-bill-wave"></i> TARIK SALDO'
 }
 </h3>
 
