@@ -373,10 +373,23 @@ async function cekPembayaran(){
         if(result.topup.status === "success"){
 
             sendMessage(
-                "success",
-                "Deposit Rp " + data.nominal.toLocaleString("id-ID") + " telah dikonfirmasi dan masuk ke saldo"
-            );
+    "success",
 
+`✅ TOP UP BERHASIL
+
+━━━━━━━━━━━━━━
+
+💰 Nominal    : Rp ${Number(data.nominal).toLocaleString("id-ID")}
+📥 Status     : Berhasil Dikonfirmasi
+
+━━━━━━━━━━━━━━
+
+🎉 Dana telah berhasil masuk ke saldo utama Anda.
+
+Silakan gunakan saldo untuk melakukan pembelian paket investasi atau transaksi lainnya.
+
+Terima kasih telah menggunakan layanan kami.`
+);
             document.getElementById("status").innerText =
             "Pembayaran berhasil ✔";
 
