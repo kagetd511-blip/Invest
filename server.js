@@ -232,6 +232,7 @@ const topup = await Topup.create({
 
 ◈ ━━━ 𝗣𝘅𝘅𝗦𝘁𝘂𝗱𝗶𝘅 ━━━ ◈`,
     {
+        parse_mode: "HTML",
         reply_markup: {
             inline_keyboard: [
                 [
@@ -390,7 +391,9 @@ bot.on("callback_query", async (query) => {
             query.message.chat.id,
 
             message_id:
-            query.message.message_id
+            query.message.message_id,
+
+            parse_mode: "HTML"
         });
 
         bot.answerCallbackQuery(
