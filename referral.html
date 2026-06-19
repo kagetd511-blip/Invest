@@ -1332,7 +1332,8 @@ function closeLevelPopup(){
     document.getElementById("levelPopup").classList.remove("show");
 }
 
-function cairkanReferral(){
+async function cairkanReferral(){
+
     const saldoReferral = Number(user.saldoReferral || 0);
 
     if(saldoReferral < 1000000){
@@ -1340,29 +1341,49 @@ function cairkanReferral(){
         return;
     }
 
-    user.saldo = Number(user.saldo || 0) + saldoReferral;
-    user.saldoReferral = 0;
+    try{
 
-    saveUser();
-    render();
+        const res = await fetch(API + "/cairkan-referral", {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                phone: currentUser
+            })
+        });
 
-    sendMessage(
-        "success",
+        const data = await res.json();
+
+        if(!data.status){
+            alert(data.message || "Gagal mencairkan referral");
+            return;
+        }
+
+        user = data.user;
+        saveUser();
+        render();
+
+        if(typeof sendMessage === "function"){
+            sendMessage(
+                "success",
 `💸 KOMISI REFERRAL DICAIRKAN
 
 Nominal : Rp ${saldoReferral.toLocaleString("id-ID")}
 Status  : Masuk ke Saldo Utama
 
 Komisi referral berhasil dicairkan.`
-    );
+            );
+        }
 
-    alert("Komisi referral berhasil dicairkan ke saldo utama");
+        alert("Komisi referral berhasil dicairkan ke saldo utama");
+
+    }catch(err){
+
+        alert("Server error, coba lagi nanti");
+
+    }
 }
-
-window.addEventListener("load", async () => {
-    await loadUser();
-    render();
-});
 </script>
 
 </body>
