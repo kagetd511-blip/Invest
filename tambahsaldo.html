@@ -880,20 +880,25 @@ async function submit(){
             // 🔥 KIRIM PESAN NOTIF
             // =========================
             sendMessage(
-"info",
+    "info",
 
-"🎉 PERMINTAAN TOP UP DITERIMA\n\n" +
+`💳 PERMINTAAN TOP UP DITERIMA
 
-"💰 Nominal : Rp " +
-nominal.toLocaleString("id-ID") + "\n" +
+━━━━━━━━━━━━━━
 
-"🏦 Metode : " +
-method + "\n\n" +
+💰 Nominal    : Rp ${Number(nominal).toLocaleString("id-ID")}
+🏦 Metode     : ${method}
 
-"⏳ Status : Menunggu Konfirmasi Admin\n\n" +
+━━━━━━━━━━━━━━
 
-"Saldo akan otomatis masuk setelah pembayaran berhasil diverifikasi."
+⏳ Status     : Menunggu Konfirmasi Admin
+🔍 Verifikasi : Sedang Diproses
 
+Pembayaran Anda telah berhasil dikirim ke sistem dan sedang menunggu proses verifikasi.
+
+Saldo akan otomatis masuk ke akun setelah pembayaran berhasil dikonfirmasi oleh admin.
+
+Terima kasih atas kepercayaan Anda.`
 );
 
             // redirect
