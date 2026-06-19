@@ -896,14 +896,14 @@ Selesai
 <script>
 
 const paketData = {
-1:{nama:"Paket 1",modal:416000,profit:"Rp50.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett1.jpg"},
-2:{nama:"Paket 2",modal:1200000,profit:"Rp150.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett2.jpg"},
-3:{nama:"Paket 3",modal:3500000,profit:"Rp550.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett3.jpg"},
-4:{nama:"Paket 4",modal:9600000,profit:"Rp1.600.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett4.jpg"},
-5:{nama:"Paket 5",modal:22200000,profit:"Rp4.400.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett5.jpg"},
-6:{nama:"Paket 6",modal:45300000,profit:"Rp11.500.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett6.jpg"},
-7:{nama:"Paket 7",modal:85600000,profit:"Rp24.000.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett7.jpg"},
-8:{nama:"Paket 8",modal:100000000,profit:"Rp30.000.000 / Hari",durasi:"14 Hari",gambar:"assets/pakett8.jpg"}
+1:{nama:"Paket 1",modal:416000,profit:"Rp50.000 / Hari",profitPerHari:50000,durasi:"14 Hari",gambar:"assets/pakett1.jpg"},
+2:{nama:"Paket 2",modal:1200000,profit:"Rp150.000 / Hari",profitPerHari:150000,durasi:"14 Hari",gambar:"assets/pakett2.jpg"},
+3:{nama:"Paket 3",modal:3500000,profit:"Rp550.000 / Hari",profitPerHari:550000,durasi:"14 Hari",gambar:"assets/pakett3.jpg"},
+4:{nama:"Paket 4",modal:9600000,profit:"Rp1.600.000 / Hari",profitPerHari:1600000,durasi:"14 Hari",gambar:"assets/pakett4.jpg"},
+5:{nama:"Paket 5",modal:22200000,profit:"Rp4.400.000 / Hari",profitPerHari:4400000,durasi:"14 Hari",gambar:"assets/pakett5.jpg"},
+6:{nama:"Paket 6",modal:45300000,profit:"Rp11.500.000 / Hari",profitPerHari:11500000,durasi:"14 Hari",gambar:"assets/pakett6.jpg"},
+7:{nama:"Paket 7",modal:85600000,profit:"Rp24.000.000 / Hari",profitPerHari:24000000,durasi:"14 Hari",gambar:"assets/pakett7.jpg"},
+8:{nama:"Paket 8",modal:100000000,profit:"Rp30.000.000 / Hari",profitPerHari:30000000,durasi:"14 Hari",gambar:"assets/pakett8.jpg"}
 };
 
 /* =========================
@@ -972,7 +972,7 @@ if(user.saldo < paket.modal){
 /* =========================
    KONFIRMASI BELI
 ========================= */
-document.getElementById("btnKonfirmasi").onclick = () => {
+document.getElementById("btnKonfirmasi").onclick = async () => {
 
     document.getElementById("popupConfirm").classList.remove("active");
 
