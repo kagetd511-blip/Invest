@@ -1188,7 +1188,7 @@ function tutupPopup(){
 /* =========================
    PROSES WITHDRAW (FINAL)
 ========================= */
-function prosesWithdraw(){
+async function prosesWithdraw(){
 
     const nominal = Number(
         document.getElementById("nominal").value.replace(/[^0-9]/g,'')
@@ -1197,52 +1197,86 @@ function prosesWithdraw(){
     const rekening = document.getElementById("rekening").value;
     const namaRek = document.getElementById("namaRek").value;
 
-    // update saldo
-    user.saldo = Number(user.saldo) - nominal;
+    document.getElementById("popupKonfirmasi")
+    .classList.remove("active");
 
-    if(!user.riwayatWithdraw){
-        user.riwayatWithdraw = [];
-    }
-
-    user.riwayatWithdraw.unshift({
-        nominal: nominal,
-        bank: bankTerpilih,
-        rekening: rekening,
-        nama: namaRek,
-        tanggal: new Date().toLocaleString("id-ID"),
-        status: "PENDING"
-    });
-
-    localStorage.setItem(currentUser, JSON.stringify(user));
-
-    /* =========================
-       🔥 SEND NOTIF KE PESAN
-    ========================= */
-    sendMessage(
-        "warning",
-        "🔴 " + (user.phone || currentUser) + " Menunggu Penarikan Saldo\n" +
-        "Nominal : Rp " + nominal.toLocaleString("id-ID") + "\n" +
-        "Bank    : " + bankTerpilih + "\n" +
-        "Rekening: " + rekening
-    );
-
-    // update UI saldo
-    document.getElementById("saldoUser").innerText =
-    "Rp " + Number(user.saldo).toLocaleString("id-ID");
-
-    // tutup popup
-    document.getElementById("popupKonfirmasi").classList.remove("active");
-
-    // loading
     showLoading();
 
-    setTimeout(()=>{
+    try{
+
+        let res = await fetch(
+            "https://invest-production-366e.up.railway.app/withdraw",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    phone: currentUser,
+                    nominal: nominal,
+                    bank: bankTerpilih,
+                    rekening: rekening,
+                    namaRek: namaRek
+                })
+            }
+        );
+
+        let data = await res.json();
 
         hideLoading();
 
-        document.getElementById("popupSukses").classList.add("active");
+        if(data.status){
 
-    },2000);
+            // update data user dari server
+            user = data.user;
+
+            localStorage.setItem(
+                currentUser,
+                JSON.stringify(user)
+            );
+
+            // notif inbox pesan
+            sendMessage(
+                "warning",
+                "🔴 " + (user.phone || currentUser) +
+                " Menunggu Penarikan Saldo\n" +
+                "Nominal : Rp " +
+                nominal.toLocaleString("id-ID") + "\n" +
+                "Bank    : " +
+                bankTerpilih + "\n" +
+                "Rekening: " +
+                rekening
+            );
+
+            // update saldo
+            document.getElementById("saldoUser").innerText =
+            "Rp " +
+            Number(user.saldo).toLocaleString("id-ID");
+
+            // popup sukses
+            document.getElementById("popupSukses")
+            .classList.add("active");
+
+        }else{
+
+            showAlert(
+                data.message || "Withdraw gagal"
+            );
+
+        }
+
+    }catch(err){
+
+        hideLoading();
+
+        showAlert(
+            "Server tidak merespon"
+        );
+
+        console.log(err);
+
+    }
+
 }
 
 /* =========================
