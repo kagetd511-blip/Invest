@@ -620,12 +620,23 @@ function processReferral(refCode){
         // =========================
         if(typeof sendMessage === "function"){
             sendMessage(
-                "success",
-                "Bonus referral level " + level +
-                " sebesar Rp " +
-                bonus.toLocaleString("id-ID") +
-                " telah masuk ke saldo Anda"
-            );
+    "success",
+
+`🏆 KOMISI REFERRAL BERHASIL
+
+━━━━━━━━━━━━━━
+
+👥 Referral Level : ${level}
+💸 Komisi Bonus   : Rp ${Number(bonus).toLocaleString("id-ID")}
+
+━━━━━━━━━━━━━━
+
+🎉 Selamat!
+
+Bonus referral telah berhasil masuk ke saldo utama akun Anda.
+
+Semakin banyak referral aktif, semakin besar potensi bonus yang dapat Anda peroleh.`
+);
         }
     }
 
