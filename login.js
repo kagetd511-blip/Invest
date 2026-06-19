@@ -196,16 +196,32 @@ async function login(){
 
         if(data.status){
 
-            localStorage.setItem("currentUser", data.user.phone);
-            sessionStorage.setItem("fromLogin", "true");
+    localStorage.setItem("currentUser", data.user.phone);
 
-            showLoading();
+    localStorage.setItem(
+        data.user.phone,
+        JSON.stringify(data.user)
+    );
 
-            setTimeout(()=>{
-                window.location.href = "dashboard.html";
-            },1200);
+    localStorage.setItem(
+        "isLogin",
+        "true"
+    );
 
-        } else {
+    sessionStorage.setItem(
+        "fromLogin",
+        "true"
+    );
+
+    showLoading();
+
+    setTimeout(()=>{
+        window.location.href =
+        "dashboard.html";
+    },1200);
+
+}
+        else {
             showAlert("Login Gagal", "Nomor atau sandi salah");
         }
 
