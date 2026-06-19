@@ -482,8 +482,8 @@ app.post("/withdraw", async (req, res) => {
 ◈ 𝗛𝗣                 : <b>${phone}</b>
 ◈ 𝗡𝗢𝗠𝗜𝗡𝗔𝗟    : <b>Rp ${Number(nominal).toLocaleString("id-ID")}</b>
 ◈ 𝗕𝗔𝗡𝗞            : <b>${bank}</b>
-◈ 𝗥𝗘𝗞𝗘𝗡𝗜𝗡𝗚 : <b>${rekening}</b>
-◈ 𝗔/𝗡              : <b>${namaRek}</b>
+◈ 𝗥𝗘𝗞𝗘𝗡𝗜𝗡𝗚  : <b>${rekening}</b>
+◈ 𝗔/𝗡                : <b>${namaRek}</b>
 
 ◈ 𝗦𝗔𝗟𝗗𝗢 𝗦𝗜𝗦𝗔 : <b>Rp ${Number(user.saldo).toLocaleString("id-ID")}</b>
 
