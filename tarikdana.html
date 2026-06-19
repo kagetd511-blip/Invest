@@ -1237,16 +1237,18 @@ async function prosesWithdraw(){
 
             // notif inbox pesan
             sendMessage(
-                "warning",
-                "🔴 " + (user.phone || currentUser) +
-                " Menunggu Penarikan Saldo\n" +
-                "Nominal : Rp " +
-                nominal.toLocaleString("id-ID") + "\n" +
-                "Bank    : " +
-                bankTerpilih + "\n" +
-                "Rekening: " +
-                rekening
-            );
+    "info",
+
+`💸 PENARIKAN SALDO DIAJUKAN
+
+💰 Nominal : Rp ${Number(nominal).toLocaleString("id-ID")}
+🏦 Bank    : ${bankTerpilih}
+📄 Rekening: ${rekening}
+
+⏳ Status : Menunggu Persetujuan Admin
+
+Mohon menunggu proses verifikasi. Dana akan dikirim ke rekening tujuan setelah disetujui.`
+);
 
             // update saldo
             document.getElementById("saldoUser").innerText =
