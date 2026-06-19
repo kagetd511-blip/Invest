@@ -325,7 +325,11 @@ app.post("/approve-topup", async (req, res) => {
 
         user.saldo += topup.nominal;
 
-user.riwayatDeposit.push({
+if(!user.riwayatDeposit){
+    user.riwayatDeposit = [];
+}
+        
+        user.riwayatDeposit.push({
     nominal: topup.nominal,
     method: topup.method,
     tanggal: new Date().toLocaleString("id-ID"),
