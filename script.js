@@ -436,3 +436,126 @@ function goWithLoading(url){
     }, 1000);
 
 }
+
+const paketRandom = [
+{
+    nama:"Executive",
+    modal:"Rp 5.000.000"
+},
+{
+    nama:"Platinum",
+    modal:"Rp 10.000.000"
+},
+{
+    nama:"1",
+    modal:"Rp 416.000"
+},
+{
+    nama:"2",
+    modal:"Rp 1.200.000"
+},
+{
+    nama:"3",
+    modal:"Rp 3.500.000"
+},
+{
+    nama:"4",
+    modal:"Rp 9.600.000"
+},
+{
+    nama:"5",
+    modal:"Rp 22.200.000"
+},
+
+{
+    nama:"6",
+    modal:"Rp 45.300.000"
+},
+{
+    nama:"7",
+    modal:"Rp 85.600.000"
+},
+{
+    nama:"8",
+    modal:"Rp 100.000.000"
+}
+];
+
+function generatePhone(){
+
+    const prefixList = [
+        "0811",
+        "0812",
+        "0813",
+        "0821",
+        "0822",
+        "0823",
+        "0851",
+        "0852",
+        "0853",
+        "0877",
+        "0878",
+        "0881"
+    ];
+
+    const prefix =
+    prefixList[
+        Math.floor(
+            Math.random() *
+            prefixList.length
+        )
+    ];
+
+    const belakang =
+    String(
+        Math.floor(
+            1000 +
+            Math.random() * 9000
+        )
+    );
+
+    return prefix + "****" + belakang;
+}
+
+function showLiveNotif(){
+
+    const notif =
+    document.getElementById("liveNotif");
+
+    const title =
+    document.getElementById("liveTitle");
+
+    const sub =
+    document.getElementById("liveSub");
+
+    const phone =
+    generatePhone();
+
+    const paket =
+    paketRandom[
+        Math.floor(
+            Math.random() *
+            paketRandom.length
+        )
+    ];
+
+    title.innerHTML =
+    `${phone} membeli paket <b>${paket.nama}</b>`;
+
+    sub.innerHTML =
+    `💰 Modal ${paket.modal}`;
+
+    notif.classList.add("show");
+
+    setTimeout(() => {
+        notif.classList.remove("show");
+    }, 5000);
+}
+
+setTimeout(() => {
+    showLiveNotif();
+}, 3000);
+
+setInterval(() => {
+    showLiveNotif();
+}, 15000);
