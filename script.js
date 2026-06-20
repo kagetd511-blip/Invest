@@ -1,7 +1,7 @@
 /* ===============================
    API BACKEND RAILWAY
 ================================ */
-const API = "https://invest-production-366e.up.railway.app";
+const API = "https://invest-production-dfd6.up.railway.app";
 
 
 /* ===============================
