@@ -4353,3 +4353,34 @@ translateX(8px);
     border:1px solid #ffe082;
     box-shadow:0 0 10px rgba(255,215,0,.4);
 }
+
+.popup-badge-row{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:14px;
+    flex-wrap:wrap;
+}
+
+.popup-badge{
+    border:none;
+    padding:11px 18px;
+    border-radius:18px;
+    color:#fff;
+    font-weight:800;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);
+    backdrop-filter:blur(12px);
+}
+
+.popup-badge.active{
+    background:rgba(0,255,140,.15);
+    border-color:rgba(0,255,140,.45);
+    color:#35ff91;
+}
+
+.popup-badge.tutorial{
+    background:linear-gradient(135deg,#0b7cff,#00e676);
+    color:#fff;
+    box-shadow:0 0 18px rgba(0,255,140,.35);
+}
