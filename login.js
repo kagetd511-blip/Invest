@@ -1,3 +1,16 @@
+async function login(){
+
+    alert("LOGIN JALAN");
+
+    let phone =
+    document.getElementById("phone").value.trim();
+
+    let password =
+    document.getElementById("password").value;
+
+    ...
+}
+
 function showAlert(title, message){
 
 document.getElementById(
