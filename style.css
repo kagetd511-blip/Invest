@@ -4053,64 +4053,91 @@ translateX(8px);
 }
 
 .account-badge{
+    position:relative;
+    overflow:hidden;
     display:inline-flex;
     align-items:center;
     justify-content:center;
-
-    padding:6px 12px;
-
+    padding:8px 16px;
     border-radius:999px;
-
     font-size:11px;
     font-weight:900;
+    letter-spacing:.5px;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+/* SHINE SEMUA LEVEL */
+.account-badge::before{
+    content:"";
+    position:absolute;
+    top:-60%;
+    left:-80%;
+    width:45%;
+    height:220%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.45),
+        transparent
+    );
+    transform:rotate(25deg);
+    animation:badgeShine 3.2s linear infinite;
+}
+
+@keyframes badgeShine{
+    0%{ left:-90%; }
+    100%{ left:160%; }
 }
 
 /* BASIC */
 .account-badge.basic{
-    background:rgba(148,163,184,.15);
-    color:#e2e8f0;
+    background:linear-gradient(135deg,#334155,#64748b);
+    color:#fff;
 }
 
 /* BRONZE */
 .account-badge.bronze{
-    background:rgba(205,127,50,.15);
-    color:#d99058;
+    background:linear-gradient(135deg,#7c3f16,#cd7f32);
+    color:#fff;
 }
 
 /* SILVER */
 .account-badge.silver{
-    background:rgba(226,232,240,.15);
-    color:#f8fafc;
+    background:linear-gradient(135deg,#94a3b8,#f8fafc);
+    color:#06111f;
 }
 
 /* GOLD */
 .account-badge.gold{
-    background:rgba(255,215,0,.15);
-    color:#ffd700;
+    background:linear-gradient(135deg,#f59e0b,#ffd700);
+    color:#211400;
 }
 
 /* PLATINUM */
 .account-badge.platinum{
-    background:rgba(59,130,246,.15);
-    color:#60a5fa;
+    background:linear-gradient(135deg,#1d4ed8,#60a5fa);
+    color:#fff;
 }
 
 /* DIAMOND */
 .account-badge.diamond{
-    background:rgba(0,255,136,.15);
-    color:#00ff88;
+    background:linear-gradient(135deg,#00ff88,#16a34a);
+    color:#03140d;
 }
 
 /* EMERALD */
 .account-badge.emerald{
-    background:rgba(16,185,129,.15);
-    color:#34d399;
+    background:linear-gradient(135deg,#047857,#34d399);
+    color:#03140d;
 }
 
 /* ROYAL */
 .account-badge.royal{
-    background:rgba(168,85,247,.15);
-    color:#c084fc;
+    background:linear-gradient(135deg,#6d28d9,#c084fc);
+    color:#fff;
 }
 
 /* LEGEND */
@@ -4118,11 +4145,36 @@ translateX(8px);
     background:linear-gradient(
         135deg,
         #ffd700,
-        #ff8a00
+        #ffb300,
+        #ff7b00,
+        #ffd700
     );
-
+    background-size:300% 300%;
     color:#04130c;
-
+    border:none;
     box-shadow:
-        0 0 15px rgba(255,215,0,.3);
+        0 0 18px rgba(255,215,0,.45),
+        0 0 38px rgba(255,140,0,.35);
+    animation:
+        legendMove 4s linear infinite,
+        legendFloat 1.8s ease-in-out infinite;
+}
+
+/* shine khusus legend lebih cepat */
+.account-badge.legend::before{
+    animation:badgeShine 1.8s linear infinite;
+}
+
+@keyframes legendMove{
+    0%{ background-position:0% 50%; }
+    100%{ background-position:100% 50%; }
+}
+
+@keyframes legendFloat{
+    0%,100%{
+        transform:translateY(0) scale(1);
+    }
+    50%{
+        transform:translateY(-2px) scale(1.05);
+    }
 }
