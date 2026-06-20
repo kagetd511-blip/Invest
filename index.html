@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pertamina</title>
+
+ <link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#00ff88">
+
+<link rel="apple-touch-icon"
+href="assets/icon-192.png">
  
 <style>
 
@@ -1114,5 +1121,11 @@ window.location.href =
 
 </script>
 
+ <script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+}
+</script>
+ 
 </body>
 </html>
