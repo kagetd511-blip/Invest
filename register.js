@@ -109,7 +109,7 @@ async function register() {
     showLoading();
 
     try {
-        let res = await fetch("https://invest-production-366e.up.railway.app/register", {
+        let res = await fetch("https://invest-production-dfd6.up.railway.app/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
