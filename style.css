@@ -4261,8 +4261,9 @@ translateX(8px);
 }
 
 .live-icon{
-    width:46px;
-    height:46px;
+
+    width:50px;
+    height:50px;
 
     flex-shrink:0;
 
@@ -4270,22 +4271,30 @@ translateX(8px);
     align-items:center;
     justify-content:center;
 
-    border-radius:50%;
+    border-radius:14px;
 
     background:
     linear-gradient(
         135deg,
-        #00ff88,
-        #22c55e
+        rgba(255,255,255,.08),
+        rgba(255,255,255,.03)
     );
 
-    color:#04130c;
-
-    font-size:20px;
-    font-weight:900;
+    border:1px solid
+    rgba(255,255,255,.08);
 
     box-shadow:
-        0 0 15px rgba(0,255,136,.3);
+        0 8px 20px rgba(0,0,0,.25);
+
+    overflow:hidden;
+}
+
+.live-icon img{
+
+    width:34px;
+    height:34px;
+
+    object-fit:contain;
 }
 
 .live-content{
