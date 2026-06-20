@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Tutorial</title>
+
+<link rel="stylesheet" href="tutorial.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<header class="tutorial-header">
+    <button onclick="history.back()">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <h2>TUTORIAL</h2>
+</header>
+
+<div class="tutorial-tabs">
+    <button class="tab-btn active" onclick="showTutorial('topup', this)">
+        Top Up + Paket
+        <span>10 Step</span>
+    </button>
+
+    <button class="tab-btn" onclick="showTutorial('referral', this)">
+        Referral
+        <span>Segera</span>
+    </button>
+</div>
+
+<section id="topup" class="tutorial-section active">
+
+    <div class="step-card">
+        <div class="step-badge">STEP 1</div>
+        <div class="text-card">
+            <h3>Buka Menu Navigasi</h3>
+            <p>Tekan ikon garis tiga di pojok kanan atas halaman utama.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup1.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 2</div>
+        <div class="text-card">
+            <h3>Pilih Top Up Saldo</h3>
+            <p>Pilih menu Top Up Saldo pada menu navigasi aplikasi.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup2.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 3</div>
+        <div class="text-card">
+            <h3>Masukkan Nominal</h3>
+            <p>Masukkan jumlah saldo yang ingin ditambahkan ke akun Anda.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup3.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 4</div>
+        <div class="text-card">
+            <h3>Pilih Metode Pembayaran</h3>
+            <p>Pilih metode pembayaran yang tersedia, seperti QRIS, BRI, atau BCA.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup4.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 5</div>
+        <div class="text-card">
+            <h3>Lakukan Pembayaran</h3>
+            <p>Lakukan pembayaran sesuai nominal yang tertera pada halaman pembayaran.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup5.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 6</div>
+        <div class="text-card">
+            <h3>Saldo Berhasil Masuk</h3>
+            <p>Jika pembayaran berhasil, saldo akan masuk ke akun Anda secara otomatis.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup6.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 7</div>
+        <div class="text-card">
+            <h3>Pilih Paket Investasi</h3>
+            <p>Pilih paket investasi sesuai saldo dan kebutuhan Anda.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup7.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 8</div>
+        <div class="text-card">
+            <h3>Periksa Detail Paket</h3>
+            <p>Pastikan modal, keuntungan harian, dan masa pencairan sudah sesuai.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup8.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 9</div>
+        <div class="text-card">
+            <h3>Konfirmasi Pembelian</h3>
+            <p>Tekan tombol Konfirmasi Pembelian untuk mengaktifkan paket.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup9.png">
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-badge">STEP 10</div>
+        <div class="text-card">
+            <h3>Paket Aktif</h3>
+            <p>Paket berhasil aktif. Pantau keuntungan harian dan progres pencairan.</p>
+        </div>
+        <div class="image-card">
+            <img src="assets/tutorial/topup10.png">
+        </div>
+    </div>
+
+</section>
+
+<section id="referral" class="tutorial-section">
+
+    <div class="empty-card">
+        <i class="fas fa-users"></i>
+        <h3>Tutorial Referral</h3>
+        <p>Bagian tutorial referral bisa ditambahkan setelah foto step referral sudah siap.</p>
+    </div>
+
+</section>
+
+<div id="imagePreview" class="image-preview" onclick="closePreview()">
+    <img id="previewImg">
+</div>
+
+<script>
+function showTutorial(id, btn){
+
+    document.querySelectorAll(".tutorial-section")
+    .forEach(section => section.classList.remove("active"));
+
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".tab-btn")
+    .forEach(tab => tab.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+document.querySelectorAll(".image-card img")
+.forEach(img => {
+    img.addEventListener("click", () => {
+        document.getElementById("previewImg").src = img.src;
+        document.getElementById("imagePreview").classList.add("active");
+    });
+});
+
+function closePreview(){
+    document.getElementById("imagePreview").classList.remove("active");
+}
+</script>
+
+</body>
+</html>
