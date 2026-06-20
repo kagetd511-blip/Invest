@@ -191,7 +191,7 @@ let level = {
 };
 
 if(totalInvestasi >= 100000000){
-    level = {name:"👑 Legend", class:"legend"};
+    level = {name:"👑 Investor", class:"legend"};
 }
 else if(totalInvestasi >= 85600000){
     level = {name:"💜 Royal", class:"royal"};
