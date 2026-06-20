@@ -1279,15 +1279,6 @@ function saveUser(){
     localStorage.setItem(currentUser, JSON.stringify(user));
 }
 
-function generateRef(){
-    if(!user.referralCode){
-        user.referralCode =
-        "PRTMNA" + Math.floor(100000 + Math.random() * 900000);
-
-        saveUser();
-    }
-}
-
 function getReferralAktif(){
     return (user.referrals || [])
     .filter(r => r.active === true || r.status === "AKTIF")
@@ -1349,14 +1340,14 @@ function renderReferralList(){
 }
 
 function render(){
-    generateRef();
 
-    document.getElementById("refCode").innerText = user.referralCode;
+    document.getElementById("refCode").innerText =
+    user.referralCode || "-";
 
     const link =
 window.location.origin +
 "/Invest/register.html?ref=" +
-user.referralCode;
+(user.referralCode || "");
 
     document.getElementById("refLink").innerText = link;
 
