@@ -181,10 +181,48 @@ function renderUser(){
         "Nomor HP : " + (user.phone || "-")
     );
 
-    set(
-        "userLevel",
-        "Level : " + (user.level || "Basic")
-    );
+    const totalInvestasi =
+(user.riwayatPaket || [])
+.reduce((a,b) => a + Number(b.modal || 0), 0);
+
+let level = {
+    name:"🌱 Basic",
+    class:"basic"
+};
+
+if(totalInvestasi >= 100000000){
+    level = {name:"👑 Legend", class:"legend"};
+}
+else if(totalInvestasi >= 85600000){
+    level = {name:"💜 Royal", class:"royal"};
+}
+else if(totalInvestasi >= 45300000){
+    level = {name:"💚 Emerald", class:"emerald"};
+}
+else if(totalInvestasi >= 22200000){
+    level = {name:"💎 Diamond", class:"diamond"};
+}
+else if(totalInvestasi >= 9600000){
+    level = {name:"🔷 Platinum", class:"platinum"};
+}
+else if(totalInvestasi >= 3500000){
+    level = {name:"🥇 Gold", class:"gold"};
+}
+else if(totalInvestasi >= 1200000){
+    level = {name:"🥈 Silver", class:"silver"};
+}
+else if(totalInvestasi >= 416000){
+    level = {name:"🥉 Bronze", class:"bronze"};
+}
+
+const levelEl =
+document.getElementById("userLevel");
+
+if(levelEl){
+    levelEl.innerText = level.name;
+    levelEl.className =
+    "account-badge " + level.class;
+}
 
     set(
         "userReferral",
