@@ -142,3 +142,20 @@ async function register() {
         showAlert("Error", "Server tidak merespon");
     }
 }
+
+window.addEventListener("load", () => {
+
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+
+    if(ref){
+        const referralInput =
+        document.getElementById("referral");
+
+        if(referralInput){
+            referralInput.value = ref;
+            referralInput.readOnly = true;
+        }
+    }
+
+});
