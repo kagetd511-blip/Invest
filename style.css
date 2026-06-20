@@ -4182,7 +4182,7 @@ translateX(8px);
 .live-notif{
     position:fixed;
 
-    top:90px;
+    top:10px;
     left:50%;
 
     transform:
@@ -4196,7 +4196,7 @@ translateX(8px);
     align-items:center;
     gap:12px;
 
-    padding:14px;
+    padding:8px;
 
     border-radius:18px;
 
