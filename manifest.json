@@ -1,20 +1,20 @@
 {
   "name": "Investasi Cerdas",
   "short_name": "Investasi",
-  "start_url": "/Invest/index.html",
-  "scope": "/Invest/",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#03132b",
   "theme_color": "#00ff88",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/Invest/assets/icon-192.png",
+      "src": "/assets/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Invest/assets/icon-512.png",
+      "src": "/assets/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
