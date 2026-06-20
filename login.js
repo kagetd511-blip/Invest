@@ -179,7 +179,7 @@ async function login(){
 
     try {
 
-        let res = await fetch("invest-production-dfd6.up.railway.app/login", {
+        let res = await fetch("https://invest-production-dfd6.up.railway.app/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
