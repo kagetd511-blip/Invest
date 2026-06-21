@@ -393,7 +393,7 @@ setInterval(async () => {
    ADMIN WHATSAPP
 ================================ */
 function adminWhatsapp(){
-    window.open("https://wa.me/6281234567890", "_blank");
+    window.open("https://wa.me/6283150347178", "_blank");
 }
 
 function hubungiAdmin(){
