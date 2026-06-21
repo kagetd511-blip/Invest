@@ -478,7 +478,10 @@ async function cekNominalFlip(){
 cekNominalFlip();
 setInterval(cekNominalFlip,3000);
 
-let buktiSudahDikirim = false;
+let buktiSudahDikirim =
+localStorage.getItem(
+    "bukti_" + data.topupId
+) === "true";
 
 /* TOAST */
 function toast(msg){
@@ -553,6 +556,10 @@ localStorage.removeItem(
     "expiredAt_" + data.topupId
 );
 
+         localStorage.removeItem(
+    "bukti_" + data.topupId
+);
+
             setTimeout(() => {
                 window.location.href = "dashboard.html";
             }, 1500);
@@ -604,9 +611,16 @@ async function uploadBukti(){
             let result = await res.json();
 
             if(result.status){
-                buktiSudahDikirim = true;
-                toast("Bukti berhasil dikirim");
-            }else{
+
+    buktiSudahDikirim = true;
+
+    localStorage.setItem(
+        "bukti_" + data.topupId,
+        "true"
+    );
+
+    toast("Bukti berhasil dikirim");
+}else{
                 toast(result.message || "Gagal kirim bukti");
             }
 
@@ -626,6 +640,10 @@ function batal(){
     localStorage.removeItem(
         "expiredAt_" + data.topupId
     );
+
+   localStorage.removeItem(
+    "bukti_" + data.topupId
+);
 
     window.location.href =
     "tambahsaldo.html";
