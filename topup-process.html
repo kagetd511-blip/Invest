@@ -401,7 +401,7 @@ if(data.method === "QRIS"){
     info.innerHTML = `
         <div class="badge">QRIS PAYMENT</div>
         <div class="qr">
-            <img src="assets/qriss.png">
+            <img src="assets/qrisss.png">
         </div>
     `;
 }else{
@@ -653,7 +653,7 @@ async function cekNominalFlip(){
         }else{
 
             document.getElementById("status").innerText =
-            "Menunggu nominal diterbitkan...";
+            "Menunggu nominal diterbitkan dalam waktu 1 menit...";
         }
 
     }catch(err){
@@ -753,7 +753,7 @@ localStorage.removeItem(
         }else{
             document.getElementById("status").innerText =
             "Pembayaran masih pending ⏳";
-            toast("Menunggu konfirmasi admin");
+            toast("Transaksimu sedang diverifikasi");
         }
 
     }catch(err){
