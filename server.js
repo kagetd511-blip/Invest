@@ -856,14 +856,26 @@ app.post("/upload-bukti", async (req, res) => {
             });
         }
 
+        const base64Data =
+        bukti.replace(
+            /^data:image\/\w+;base64,/,
+            ""
+        );
+
+        const imageBuffer =
+        Buffer.from(
+            base64Data,
+            "base64"
+        );
+
         topup.buktiTransfer = true;
-        topup.buktiImage = bukti;
+        topup.buktiImage = "TERKIRIM";
 
         await topup.save();
 
         await bot.sendPhoto(
             process.env.CHAT_ID,
-            bukti,
+            imageBuffer,
             {
                 caption:
 `📤 BUKTI TRANSFER
@@ -871,7 +883,9 @@ app.post("/upload-bukti", async (req, res) => {
 ID : ${topup.topupId}
 HP : ${topup.phone}
 METODE : ${topup.method}
-NOMINAL : Rp ${Number(topup.nominalUnik || topup.nominal).toLocaleString("id-ID")}`
+NOMINAL : Rp ${Number(
+topup.nominalUnik || topup.nominal
+).toLocaleString("id-ID")}`
             }
         );
 
