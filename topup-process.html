@@ -265,49 +265,73 @@ body{
     margin-top:14px;
 }
 
-.tutorial-box{
-    margin-top:14px;
-    padding:14px;
-    border-radius:14px;
+.tutorial-card{
+    margin:16px;
+    padding:18px;
+    border-radius:22px;
+    background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 18px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+    backdrop-filter:blur(18px);
     text-align:left;
-    background:rgba(255,255,255,.03);
-    border:1px solid rgba(255,255,255,.08);
 }
 
 .tutorial-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
     color:#00ff88;
-    font-weight:800;
-    margin-bottom:10px;
+    font-size:20px;
+    font-weight:900;
+    margin-bottom:18px;
 }
 
-.tutorial-box ol{
-    margin:0;
-    padding-left:18px;
+.tutorial-icon{
+    font-size:28px;
 }
 
-.tutorial-box li{
-    margin-bottom:8px;
-    font-size:13px;
-    color:rgba(255,255,255,.78);
-    line-height:1.4;
+.step-row{
+    display:grid;
+    grid-template-columns:52px 1fr;
+    gap:14px;
+    align-items:center;
+    position:relative;
 }
 
-.tutorial-card{
-    text-align:left;
+.step-row:not(:last-child){
+    padding-bottom:18px;
+    margin-bottom:18px;
+    border-bottom:1px solid rgba(255,255,255,.07);
 }
 
-.tutorial-card h3{
+.step-num{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     color:#00ff88;
-    margin:0 0 12px;
-    font-size:17px;
+    font-weight:900;
+    border:1px solid rgba(0,255,136,.35);
+    background:rgba(0,255,136,.08);
+    box-shadow:0 0 14px rgba(0,255,136,.12);
 }
 
-.tutorial-card ol{
-    margin:0;
-    padding-left:22px;
-    color:rgba(255,255,255,.72);
-    line-height:1.7;
+.step-row:not(:last-child)::before{
+    content:"";
+    position:absolute;
+    left:16px;
+    top:35px;
+    width:1px;
+    height:calc(100% - 17px);
+    background:rgba(0,255,136,.25);
+}
+
+.step-text{
+    color:rgba(255,255,255,.82);
     font-size:14px;
+    line-height:1.5;
 }
     
 </style>
@@ -445,34 +469,85 @@ document.getElementById("tutorialBox");
 if(data.method === "QRIS"){
 
     tutorialBox.innerHTML = `
-        <div class="tutorial-title">
-            Cara Pembayaran QRIS
-        </div>
+<div class="tutorial-title">
+    <span class="tutorial-icon">▣</span>
+    <span>Cara Pembayaran QRIS</span>
+</div>
 
-        <ol>
-            <li>Buka aplikasi e-wallet atau mobile banking.</li>
-            <li>Pilih menu scan QRIS.</li>
-            <li>Scan kode QR yang tersedia di halaman ini.</li>
-            <li>Pastikan nominal sesuai, lalu selesaikan pembayaran.</li>
-            <li>Klik Cek Pembayaran setelah transfer berhasil.</li>
-        </ol>
-    `;
+<div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-text">
+        Buka aplikasi DANA, OVO, GoPay, ShopeePay atau Mobile Banking.
+    </div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-text">
+        Pilih menu Scan QR atau QRIS.
+    </div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-text">
+        Scan kode QRIS yang tersedia pada halaman pembayaran.
+    </div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">4</div>
+    <div class="step-text">
+        Pastikan nominal pembayaran sudah sesuai lalu selesaikan transaksi.
+    </div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">5</div>
+    <div class="step-text">
+        Setelah pembayaran berhasil, klik tombol Cek Pembayaran.
+    </div>
+</div>
+`;
 
 }else{
 
     tutorialBox.innerHTML = `
-        <div class="tutorial-title">
-            Cara Pembayaran Transfer Bank
-        </div>
+<div class="tutorial-title">
+    <span class="tutorial-icon">▣</span>
+    <span>Cara Pembayaran Transfer Bank</span>
+</div>
 
-        <ol>
-            <li>Tunggu nominal pembayaran diterbitkan.</li>
-            <li>Transfer ke nomor rekening yang muncul di halaman ini.</li>
-            <li>Pastikan nominal transfer sama persis.</li>
-            <li>Klik Kirim Bukti, lalu upload foto bukti transfer.</li>
-            <li>Setelah bukti terkirim, klik Cek Pembayaran.</li>
-        </ol>
-    `;
+<div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-text">Tunggu nominal pembayaran diterbitkan.</div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-text">Buka aplikasi Mobile Banking</div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-text">Transfer ke nomor rekening yang muncul di halaman ini.</div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">4</div>
+    <div class="step-text">Pastikan nominal transfer sama persis pada halaman pembayaran.</div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">5</div>
+    <div class="step-text">Klik Kirim Bukti, lalu upload foto bukti transfer.</div>
+</div>
+
+<div class="step-row">
+    <div class="step-num">6</div>
+    <div class="step-text">Setelah bukti terkirim, klik Cek Pembayaran.</div>
+</div>
+`;
 
 }
 
