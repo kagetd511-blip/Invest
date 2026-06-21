@@ -260,6 +260,37 @@ body{
 
     cursor:pointer;
 }
+
+   #info{
+    margin-top:14px;
+}
+
+.tutorial-box{
+    margin-top:14px;
+    padding:14px;
+    border-radius:14px;
+    text-align:left;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.tutorial-title{
+    color:#00ff88;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.tutorial-box ol{
+    margin:0;
+    padding-left:18px;
+}
+
+.tutorial-box li{
+    margin-bottom:8px;
+    font-size:13px;
+    color:rgba(255,255,255,.78);
+    line-height:1.4;
+}
     
 </style>
 </head>
@@ -295,6 +326,8 @@ body{
     <button class="btn btn-cancel" onclick="batal()">
         Batalkan
     </button>
+
+   <div id="tutorialBox" class="tutorial-box"></div>
 
 </div>
 
@@ -386,6 +419,43 @@ onchange="uploadBukti()">
 </div>
 `;
    
+}
+
+let tutorialBox =
+document.getElementById("tutorialBox");
+
+if(data.method === "QRIS"){
+
+    tutorialBox.innerHTML = `
+        <div class="tutorial-title">
+            Cara Pembayaran QRIS
+        </div>
+
+        <ol>
+            <li>Buka aplikasi e-wallet atau mobile banking.</li>
+            <li>Pilih menu scan QRIS.</li>
+            <li>Scan kode QR yang tersedia di halaman ini.</li>
+            <li>Pastikan nominal sesuai, lalu selesaikan pembayaran.</li>
+            <li>Klik Cek Pembayaran setelah transfer berhasil.</li>
+        </ol>
+    `;
+
+}else{
+
+    tutorialBox.innerHTML = `
+        <div class="tutorial-title">
+            Cara Pembayaran Transfer Bank
+        </div>
+
+        <ol>
+            <li>Tunggu nominal pembayaran diterbitkan.</li>
+            <li>Transfer ke nomor rekening yang muncul di halaman ini.</li>
+            <li>Pastikan nominal transfer sama persis.</li>
+            <li>Klik Kirim Bukti, lalu upload foto bukti transfer.</li>
+            <li>Setelah bukti terkirim, klik Cek Pembayaran.</li>
+        </ol>
+    `;
+
 }
 
 /* TIMER 4 JAM */
