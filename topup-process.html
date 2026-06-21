@@ -241,6 +241,25 @@ body{
 
     z-index:9999;
 }
+
+.btn-bukti{
+    margin-top:10px;
+
+    padding:8px 14px;
+
+    border:none;
+    border-radius:10px;
+
+    font-size:12px;
+    font-weight:700;
+
+    background:rgba(0,255,136,.12);
+    color:#00ff88;
+
+    border:1px solid rgba(0,255,136,.35);
+
+    cursor:pointer;
+}
     
 </style>
 </head>
@@ -272,14 +291,6 @@ body{
     <button class="btn btn-check" onclick="cekPembayaran()">
         Cek Pembayaran
     </button>
-
-   <button
-class="btn btn-check"
-onclick="kirimBukti()">
-
-📤 Kirim Bukti Transfer
-
-</button>
 
     <button class="btn btn-cancel" onclick="batal()">
         Batalkan
@@ -356,6 +367,21 @@ if(data.method === "QRIS"){
         </div>
 
     </div>
+
+    <button
+class="btn-bukti"
+onclick="kirimBukti()">
+
+📤 Kirim Bukti
+
+</button>
+
+<input
+type="file"
+id="buktiInput"
+accept="image/*"
+style="display:none"
+onchange="uploadBukti()">
 
 </div>
 `;
@@ -452,6 +478,8 @@ async function cekNominalFlip(){
 cekNominalFlip();
 setInterval(cekNominalFlip,3000);
 
+let buktiSudahDikirim = false;
+
 /* TOAST */
 function toast(msg){
     let t = document.createElement("div");
@@ -463,6 +491,11 @@ function toast(msg){
 
 /* CEK PEMBAYARAN */
 async function cekPembayaran(){
+
+if(data.method !== "QRIS" && !buktiSudahDikirim){
+    toast("Silahkan kirim bukti transfer");
+    return;
+}
 
     document.getElementById("status").innerText =
     "Mengecek status pembayaran...";
@@ -538,11 +571,51 @@ localStorage.removeItem(
 }
 
 function kirimBukti(){
+    document.getElementById("buktiInput").click();
+}
 
-    toast(
-        "Silakan kirim bukti transfer"
-    );
+async function uploadBukti(){
 
+    let file =
+    document.getElementById("buktiInput").files[0];
+
+    if(!file) return;
+
+    let reader = new FileReader();
+
+    reader.onload = async function(){
+
+        try{
+
+            let res = await fetch(
+                "https://invest-production-dfd6.up.railway.app/upload-bukti",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        topupId:data.topupId,
+                        bukti:reader.result
+                    })
+                }
+            );
+
+            let result = await res.json();
+
+            if(result.status){
+                buktiSudahDikirim = true;
+                toast("Bukti berhasil dikirim");
+            }else{
+                toast(result.message || "Gagal kirim bukti");
+            }
+
+        }catch(err){
+            toast("Server tidak merespon");
+        }
+    };
+
+    reader.readAsDataURL(file);
 }
    
 /* BATAL */
