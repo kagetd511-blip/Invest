@@ -406,8 +406,30 @@ if(data.method === "QRIS"){
     `;
 }else{
 
-    let bankName = data.method === "BRI" ? "BRI" : "BCA";
-    let rek = data.method === "BRI" ? "1234567890" : "0987654321";
+    let bankData = {
+    BRI:{
+        nama:"BRI",
+        rekening:""067201000360306
+    },
+    BCA:{
+        nama:"BCA",
+        rekening:"5465389238"
+    },
+    BNI:{
+        nama:"BNI",
+        rekening:"1000437442"
+    },
+    MANDIRI:{
+        nama:"MANDIRI",
+        rekening:"1570006217393"
+    }
+};
+
+let bankName =
+bankData[data.method].nama;
+
+let rek =
+bankData[data.method].rekening;
 
     info.innerHTML = `
 <div id="bankBox" style="display:none;">
@@ -438,7 +460,7 @@ if(data.method === "QRIS"){
             </span>
 
             <span class="bank-value">
-                PT Digital Indo
+                PT. Fliptech Lentera Ins
             </span>
         </div>
 
