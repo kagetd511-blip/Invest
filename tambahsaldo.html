@@ -692,8 +692,8 @@ body{
     <div class="method">
         <button onclick="select(this,'QRIS')">QRIS (Rekomendasi)</button>
 
-<button onclick="blockedMethod(this)">BRI</button>
-<button onclick="blockedMethod(this)">BCA</button>
+<button onclick="select(this,'BRI')">BRI</button>
+<button onclick="select(this,'BCA')">BCA</button>
     </div>
 
     <button class="btn" onclick="submit()">Konfirmasi Top Up</button>
@@ -779,16 +779,6 @@ function select(btn, m){
     .forEach(b => b.classList.remove("active"));
 
     btn.classList.add("active");
-}
-
-function blockedMethod(btn){
-    showAlert("⚠ Metode Pembayaran ini sedang maintenance. Silahkan gunakan Metode lain");
-
-    document.querySelectorAll(".method button")
-    .forEach(b => b.classList.remove("active"));
-
-    btn.classList.add("active");
-    method = "";
 }
 
 /* =========================
