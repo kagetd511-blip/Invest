@@ -273,6 +273,14 @@ body{
         Cek Pembayaran
     </button>
 
+   <button
+class="btn btn-check"
+onclick="kirimBukti()">
+
+📤 Kirim Bukti Transfer
+
+</button>
+
     <button class="btn btn-cancel" onclick="batal()">
         Batalkan
     </button>
@@ -288,8 +296,16 @@ if(!data){
 }
 
 /* NOMINAL */
-document.getElementById("nominal").innerText =
-"Rp " + data.nominal.toLocaleString("id-ID");
+if(data.method === "QRIS"){
+
+    document.getElementById("nominal").innerText =
+    "Rp " + data.nominal.toLocaleString("id-ID");
+
+}else{
+
+    document.getElementById("nominal").innerText =
+    "Menunggu nominal...";
+}
 
 /* METHOD DISPLAY */
 let info = document.getElementById("info");
@@ -326,21 +342,91 @@ if(data.method === "QRIS"){
 }
 
 /* TIMER 4 JAM */
-let timeLeft = 4 * 60 * 60;
+let expiredAt =
+localStorage.getItem(
+    "expiredAt_" + data.topupId
+);
+
+if(!expiredAt){
+
+    expiredAt =
+    Date.now() + (4 * 60 * 60 * 1000);
+
+    localStorage.setItem(
+        "expiredAt_" + data.topupId,
+        expiredAt
+    );
+}
 
 function update(){
-    let h = Math.floor(timeLeft/3600);
-    let m = Math.floor((timeLeft%3600)/60);
-    let s = timeLeft%60;
+
+    let sisa =
+    Math.floor(
+        (Number(expiredAt) - Date.now())
+        / 1000
+    );
+
+    if(sisa <= 0){
+
+        document.getElementById("timer")
+        .innerText = "00:00:00";
+
+        document.getElementById("status")
+        .innerText = "Pembayaran Kadaluarsa";
+
+        return;
+    }
+
+    let h = Math.floor(sisa / 3600);
+    let m = Math.floor((sisa % 3600) / 60);
+    let s = sisa % 60;
 
     document.getElementById("timer").innerText =
-    `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-
-    timeLeft--;
+    `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
 }
 
 setInterval(update,1000);
 update();
+
+async function cekNominalFlip(){
+
+    if(data.method === "QRIS") return;
+
+    try{
+
+        let res = await fetch(
+            "https://invest-production-dfd6.up.railway.app/topup-status/" +
+            data.topupId
+        );
+
+        let result = await res.json();
+
+        if(
+            result.status &&
+            result.topup.nominalUnik > 0
+        ){
+
+            document.getElementById("nominal").innerText =
+            "Rp " +
+            Number(result.topup.nominalUnik)
+            .toLocaleString("id-ID");
+
+            document.getElementById("status").innerText =
+            "Silakan transfer sesuai nominal";
+
+        }else{
+
+            document.getElementById("status").innerText =
+            "Menunggu nominal diterbitkan...";
+        }
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
+cekNominalFlip();
+setInterval(cekNominalFlip,3000);
 
 /* TOAST */
 function toast(msg){
@@ -379,7 +465,11 @@ async function cekPembayaran(){
 
 ━━━━━━━━━━━━━━
 
-💰 Nominal    : Rp ${Number(data.nominal).toLocaleString("id-ID")}
+💰 Nominal    : Rp ${
+Number(
+result.topup.nominalUnik || data.nominal
+).toLocaleString("id-ID")
+}
 📥 Status     : Berhasil Dikonfirmasi
 
 ━━━━━━━━━━━━━━
@@ -393,9 +483,18 @@ Terima kasih telah menggunakan layanan kami.`
             document.getElementById("status").innerText =
             "Pembayaran berhasil ✔";
 
-            toast("Saldo masuk +Rp " + data.nominal.toLocaleString("id-ID"));
+            toast(
+    "Saldo masuk +Rp " +
+    Number(
+        result.topup.nominalUnik || data.nominal
+    ).toLocaleString("id-ID")
+);
 
             localStorage.removeItem("topupData");
+
+localStorage.removeItem(
+    "expiredAt_" + data.topupId
+);
 
             setTimeout(() => {
                 window.location.href = "dashboard.html";
@@ -414,10 +513,25 @@ Terima kasih telah menggunakan layanan kami.`
     }
 }
 
+function kirimBukti(){
+
+    toast(
+        "Silakan kirim bukti transfer"
+    );
+
+}
+   
 /* BATAL */
 function batal(){
+
     localStorage.removeItem("topupData");
-    window.location.href = "tambahsaldo.html";
+
+    localStorage.removeItem(
+        "expiredAt_" + data.topupId
+    );
+
+    window.location.href =
+    "tambahsaldo.html";
 }
 </script>
 
