@@ -744,7 +744,11 @@ bot.on("message", async (msg) => {
         if(!topupId) return;
 
         const nominalInput =
-        Number(msg.text.replace(/\./g,""));
+Number(
+    String(msg.text)
+    .replace(/\./g,"")
+    .replace(/,/g,"")
+);
 
         if(isNaN(nominalInput)){
             return bot.sendMessage(
