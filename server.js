@@ -141,6 +141,14 @@ const Topup = mongoose.model("Topup", {
     topupId: String,
     phone: String,
     nominal: Number,
+
+    // -------- TAMBAHAN NOMINAL FLIP --------
+    nominalUnik:{
+        type:Number,
+        default:0
+    },
+    // -------- SELESAI --------
+
     method: String,
 
     status: {
@@ -355,14 +363,27 @@ const topup = await Topup.create({
     {
         parse_mode: "HTML",
         reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "✅ 𝗔𝗣𝗣𝗥𝗢𝗩𝗘",
-                        callback_data: `approve_${topup.topupId}`
-                    }
-                ]
-            ]
+            inline_keyboard: method === "QRIS" ? [
+    [
+        {
+            text: "✅ 𝗔𝗣𝗣𝗥𝗢𝗩𝗘",
+            callback_data: `approve_${topup.topupId}`
+        }
+    ]
+] : [
+    [
+        {
+            text: "💰 KIRIM NOMINAL",
+            callback_data: `unik_${topup.topupId}`
+        }
+    ],
+    [
+        {
+            text: "✅ 𝗔𝗣𝗣𝗥𝗢𝗩𝗘",
+            callback_data: `approve_${topup.topupId}`
+        }
+    ]
+]
         }
     }
 );
@@ -525,11 +546,37 @@ await user.save();
     }
 });
 
+// -------- TAMBAHAN MODE INPUT NOMINAL FLIP --------
+const waitingNominal = {};
+// -------- SELESAI --------
 bot.on("callback_query", async (query) => {
 
     try{
 
         const data = query.data;
+
+        // -------- TOMBOL KIRIM NOMINAL FLIP --------
+        if(data.startsWith("unik_")){
+
+            const topupId =
+            data.replace("unik_","");
+
+            waitingNominal[query.from.id] =
+            topupId;
+
+            await bot.sendMessage(
+                query.message.chat.id,
+                `Masukkan nominal dari Flip\n\nContoh:\n1000567`
+            );
+
+            return bot.answerCallbackQuery(
+                query.id,
+                {
+                    text:"Silahkan kirim nominal"
+                }
+            );
+        }
+        // -------- SELESAI --------
 
         if(!data.startsWith("approve_")) return;
 
@@ -685,6 +732,59 @@ await user.save();
     }
 
 });
+
+// -------- TERIMA NOMINAL FLIP DARI ADMIN --------
+bot.on("message", async (msg) => {
+
+    try{
+
+        const topupId =
+        waitingNominal[msg.from.id];
+
+        if(!topupId) return;
+
+        const nominalInput =
+        Number(msg.text.replace(/\./g,""));
+
+        if(isNaN(nominalInput)){
+            return bot.sendMessage(
+                msg.chat.id,
+                "❌ Nominal tidak valid"
+            );
+        }
+
+        const topup =
+        await Topup.findOne({
+            topupId
+        });
+
+        if(!topup){
+            delete waitingNominal[msg.from.id];
+
+            return bot.sendMessage(
+                msg.chat.id,
+                "❌ Topup tidak ditemukan"
+            );
+        }
+
+        topup.nominalUnik =
+        nominalInput;
+
+        await topup.save();
+
+        delete waitingNominal[msg.from.id];
+
+        await bot.sendMessage(
+            msg.chat.id,
+            `✅ Nominal Flip tersimpan\n\nTransfer:\nRp ${nominalInput.toLocaleString("id-ID")}`
+        );
+
+    }catch(err){
+        console.log("Nominal Error:", err);
+    }
+
+});
+// -------- SELESAI --------
 
 app.get("/topup-status/:id", async (req, res) => {
     try {
