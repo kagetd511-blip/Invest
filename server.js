@@ -149,6 +149,18 @@ const Topup = mongoose.model("Topup", {
     },
     // -------- SELESAI --------
 
+    // -------- TAMBAHAN BUKTI TRANSFER --------
+buktiTransfer:{
+    type:Boolean,
+    default:false
+},
+
+buktiImage:{
+    type:String,
+    default:""
+},
+// -------- SELESAI --------
+
     method: String,
 
     status: {
@@ -814,6 +826,60 @@ app.get("/topup-status/:id", async (req, res) => {
             message: err.message
         });
     }
+});
+
+// =========================
+// UPLOAD BUKTI TRANSFER
+// =========================
+app.post("/upload-bukti", async (req, res) => {
+
+    try{
+
+        const { topupId, bukti } = req.body;
+
+        const topup = await Topup.findOne({
+            topupId
+        });
+
+        if(!topup){
+            return res.json({
+                status:false,
+                message:"Topup tidak ditemukan"
+            });
+        }
+
+        topup.buktiTransfer = true;
+        topup.buktiImage = bukti;
+
+        await topup.save();
+
+        await bot.sendPhoto(
+            process.env.CHAT_ID,
+            bukti,
+            {
+                caption:
+`📤 BUKTI TRANSFER
+
+ID : ${topup.topupId}
+HP : ${topup.phone}
+METODE : ${topup.method}
+NOMINAL : Rp ${Number(topup.nominalUnik || topup.nominal).toLocaleString("id-ID")}`
+            }
+        );
+
+        res.json({
+            status:true
+        });
+
+    }catch(err){
+
+        res.json({
+            status:false,
+            message:err.message
+        });
+
+    }
+
 });
 
 // =========================
