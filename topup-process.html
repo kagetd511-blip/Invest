@@ -220,26 +220,62 @@ body{
 }
 
 /* =========================
-   TOAST PREMIUM
+   TOAST PREMIUM GLASS
 ========================= */
 .toast{
     position:fixed;
     top:20px;
     left:50%;
-    transform:translateX(-50%);
+    transform:translateX(-50%) scale(.9);
 
-    background:rgba(0,255,136,.95);
-    color:#04130c;
+    /* GLASS EFFECT */
+    background:linear-gradient(
+        135deg,
+        rgba(0,255,136,.25),
+        rgba(0,255,136,.08)
+    );
+    backdrop-filter:blur(18px);
 
-    padding:10px 16px;
+    color:#ffffff;
 
-    border-radius:12px;
+    padding:12px 18px;
 
-    font-weight:800;
+    border-radius:14px;
 
-    box-shadow:0 15px 35px rgba(0,0,0,.35);
+    font-weight:700;
+    letter-spacing:.3px;
+
+    border:1px solid rgba(0,255,136,.25);
+
+    /* SHADOW + GLOW */
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.4),
+        0 0 20px rgba(0,255,136,.25);
 
     z-index:9999;
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:all .35s ease;
+}
+
+/* SHOW STATE */
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
+}
+
+/* ANIMASI MASUK */
+@keyframes toastIn{
+    from{
+        opacity:0;
+        transform:translateX(-50%) translateY(-15px) scale(.9);
+    }
+    to{
+        opacity:1;
+        transform:translateX(-50%) translateY(0) scale(1);
+    }
 }
 
 .btn-bukti{
