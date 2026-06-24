@@ -1144,7 +1144,7 @@ setInterval(async () => {
 
                 const diff = now - (paket.lastClaim || now);
 
-                if (diff >= 5 * 1000) {
+                if (diff >= 24 * 60 * 60 * 1000) {
 
     if(!paket.saldoPaket || isNaN(paket.saldoPaket)){
         paket.saldoPaket = paket.modal;
@@ -1221,7 +1221,7 @@ if(riwayat){
 
     }
 
-}, 5 * 1000);
+}, 60 * 1000);
 
 // =========================
 // MONGODB + SERVER START
