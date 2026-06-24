@@ -412,6 +412,26 @@ body{
 
 <script src="utils.js"></script>
 <script>
+
+ window.toast = function(msg){
+    let t = document.createElement("div");
+
+    t.className = "toast";
+    t.innerText = msg;
+
+    document.body.appendChild(t);
+
+    requestAnimationFrame(()=>{
+        t.classList.add("show");
+    });
+
+    setTimeout(()=>{
+        t.classList.remove("show");
+        setTimeout(()=>t.remove(),300);
+    },2000);
+};
+
+   
 let data = JSON.parse(localStorage.getItem("topupData"));
 
 if(!data){
