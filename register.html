@@ -1087,6 +1087,166 @@ h2{
     }
 }
 
+  /* =========================
+   OTP POPUP EMAIL
+========================= */
+
+.otp-popup{
+    position:fixed;
+    inset:0;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(12px);
+
+    z-index:999999;
+}
+
+.otp-popup.show{
+    display:flex;
+}
+
+.otp-box{
+    width:90%;
+    max-width:380px;
+
+    padding:28px 24px;
+
+    border-radius:28px;
+
+    text-align:center;
+
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #020617
+    );
+
+    border:1px solid rgba(0,255,136,.15);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.55),
+        0 0 35px rgba(0,255,136,.12);
+}
+
+.otp-icon{
+    width:72px;
+    height:72px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(
+        135deg,
+        #00ff88,
+        #22c55e
+    );
+
+    color:#04130c;
+    font-size:30px;
+
+    box-shadow:
+        0 0 25px rgba(0,255,136,.35);
+}
+
+.otp-box h3{
+    margin-top:18px;
+    margin-bottom:10px;
+
+    color:#fff;
+
+    font-size:22px;
+    font-weight:900;
+}
+
+.otp-box p{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.otp-inputs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+
+    margin-top:22px;
+    margin-bottom:22px;
+}
+
+.otp-input{
+    width:46px;
+    height:56px;
+
+    border:none;
+    outline:none;
+
+    text-align:center;
+
+    font-size:22px;
+    font-weight:900;
+
+    color:#fff;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.10);
+
+    transition:.2s;
+}
+
+.otp-input:focus{
+    border-color:#00ff88;
+
+    box-shadow:
+        0 0 15px rgba(0,255,136,.25);
+}
+
+.otp-btn{
+    width:100%;
+    height:52px;
+
+    border:none;
+    border-radius:14px;
+
+    font-weight:900;
+    font-size:14px;
+
+    color:#04130c;
+
+    background:linear-gradient(
+        135deg,
+        #00ff88,
+        #22c55e
+    );
+
+    box-shadow:
+        0 10px 25px rgba(0,255,136,.18);
+}
+
+.otp-resend{
+    margin-top:15px;
+
+    color:#94a3b8;
+    font-size:12px;
+}
+
+.otp-resend span{
+    color:#00ff88;
+    font-weight:800;
+    cursor:pointer;
+}
+
 </style>
 
 </head>
@@ -1201,6 +1361,47 @@ Login
         </div>
 
         <p>Memuat...</p>
+
+    </div>
+
+</div>
+
+  <!-- OTP EMAIL POPUP -->
+<div id="otpPopup" class="otp-popup">
+
+    <div class="otp-box">
+
+        <div class="otp-icon">
+            <i class="fas fa-envelope"></i>
+        </div>
+
+        <h3>Verifikasi Email</h3>
+
+        <p id="otpText">
+            Kode OTP telah dikirim ke email kamu
+        </p>
+
+        <div class="otp-inputs">
+
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
+
+        </div>
+
+        <button class="otp-btn" onclick="verifyOTP()">
+            Verifikasi OTP
+        </button>
+
+        <div class="otp-resend">
+            Tidak menerima kode?
+            <span onclick="resendOTP()">
+                Kirim Ulang
+            </span>
+        </div>
 
     </div>
 
