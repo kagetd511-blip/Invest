@@ -95,6 +95,13 @@ async function register() {
     if (!username) return showAlert("Peringatan", "Username wajib diisi");
     if (!phone) return showAlert("Peringatan", "Nomor HP wajib diisi");
 
+   if(!email){
+    return showAlert(
+        "Peringatan",
+        "Email wajib diisi"
+    );
+}
+
     if (!/^0\d{9,}$/.test(phone)) {
         return showAlert("Peringatan", "Nomor HP tidak valid");
     }
