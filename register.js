@@ -82,6 +82,7 @@ if(password.type === "password"){
 /* =========================
    REGISTER
 ========================= */
+let registerData = null;
 async function register() {
 
     let username = document.getElementById("username").value.trim();
@@ -109,7 +110,7 @@ async function register() {
     showLoading();
 
     try {
-        let res = await fetch("https://invest-production-dfd6.up.railway.app/register", {
+        let res = await fetch("https://invest-production-dfd6.up.railway.app/send-otp", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -127,20 +128,39 @@ async function register() {
 
         hideLoading();
 
-        if (data.status) {
-            showAlert("Berhasil", "Pendaftaran Sukses");
+        if(data.status){
 
-            setTimeout(() => {
-                window.location.href = "login.html";
-            }, 800);
-        } else {
-            showAlert("Gagal", data.message);
-        }
+    registerData = {
+        username,
+        phone,
+        email,
+        password,
+        referral
+    };
 
-    } catch (err) {
-        hideLoading();
-        showAlert("Error", "Server tidak merespon");
-    }
+    document.getElementById("otpText").innerHTML =
+    `Kode OTP telah dikirim ke <b>${email}</b>`;
+
+    document
+    .getElementById("otpPopup")
+    .classList.add("show");
+
+}else{
+
+    showAlert("Gagal", data.message);
+
+}
+
+}catch(err){
+
+    hideLoading();
+
+    showAlert(
+        "Error",
+        "Server tidak merespon"
+    );
+
+}
 }
 
 window.addEventListener("load", () => {
@@ -157,5 +177,144 @@ window.addEventListener("load", () => {
             referralInput.readOnly = true;
         }
     }
+
+});
+
+function getOTP(){
+
+    let otp = "";
+
+    document
+    .querySelectorAll(".otp-input")
+    .forEach(input=>{
+        otp += input.value;
+    });
+
+    return otp;
+}
+
+async function verifyOTP(){
+
+   if(!registerData){
+    return showAlert(
+        "Error",
+        "Data registrasi tidak ditemukan"
+    );
+}
+
+    const otp = getOTP();
+
+    if(otp.length !== 6){
+        return showAlert(
+            "Peringatan",
+            "Masukkan 6 digit OTP"
+        );
+    }
+
+    showLoading();
+
+    try{
+
+        const res = await fetch(
+        "https://invest-production-dfd6.up.railway.app/verify-otp",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                email: registerData.email,
+                otp
+            })
+        });
+
+        const data = await res.json();
+
+        if(!data.status){
+
+            hideLoading();
+
+            return showAlert(
+                "Gagal",
+                "OTP tidak valid"
+            );
+        }
+
+        const registerRes = await fetch(
+        "https://invest-production-dfd6.up.railway.app/register",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(registerData)
+        });
+
+        const registerDataRes =
+        await registerRes.json();
+
+        hideLoading();
+
+        if(registerDataRes.status){
+
+            document
+            .getElementById("otpPopup")
+            .classList.remove("show");
+
+            showAlert(
+                "Berhasil",
+                "Pendaftaran Sukses"
+            );
+
+            setTimeout(()=>{
+                location.href="login.html";
+            },1000);
+
+        }else{
+
+            showAlert(
+                "Gagal",
+                registerDataRes.message
+            );
+
+        }
+
+    }catch(err){
+
+        hideLoading();
+
+        showAlert(
+            "Error",
+            "Server tidak merespon"
+        );
+    }
+}
+
+document
+.querySelectorAll(".otp-input")
+.forEach((input,index,arr)=>{
+
+    input.addEventListener("input",()=>{
+
+        if(
+            input.value.length === 1 &&
+            arr[index+1]
+        ){
+            arr[index+1].focus();
+        }
+
+    });
+
+    input.addEventListener("keydown",(e)=>{
+
+        if(
+            e.key === "Backspace" &&
+            input.value === "" &&
+            arr[index-1]
+        ){
+            arr[index-1].focus();
+        }
+
+    });
 
 });
