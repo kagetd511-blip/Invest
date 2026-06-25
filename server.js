@@ -23,7 +23,7 @@ app.use(express.urlencoded({
 // TELEGRAM BOT
 // =========================
 const bot = new TelegramBot(process.env.BOT_TOKEN, {
-    polling: true
+    polling: false
 });
 
 function send(msg) {
@@ -227,7 +227,10 @@ app.post("/send-otp", async (req,res)=>{
             expired: Date.now() + (5 * 60 * 1000)
         };
 
-        await transporter.sendMail({
+        // ❌ SEBELUM: await transporter.sendMail
+        // ✅ SESUDAH: tanpa await (biar gak nahan response)
+
+        transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
             subject: "Kode OTP Verifikasi",
@@ -236,8 +239,9 @@ app.post("/send-otp", async (req,res)=>{
                 <h1>${otp}</h1>
                 <p>Berlaku 5 menit</p>
             `
-        });
+        }).catch(err => console.log(err));
 
+        // ✅ INI YANG PENTING
         res.json({
             status:true
         });
