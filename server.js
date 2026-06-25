@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 
@@ -37,6 +38,16 @@ function send(msg) {
     }
 }
 
+const otpStore = {};
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
 // =========================
 // HOME ROUTE
 // =========================
@@ -57,7 +68,10 @@ const User = mongoose.model("User", {
         type: String,
         unique: true
     },
-    email: String,
+    email: {
+    type: String,
+    unique: true
+},
     password: String,
     referral: String,
     saldo: {
@@ -199,11 +213,98 @@ function hitungKomisiReferral(urutan, nominal){
     return Math.floor(nominal * 0.08);
 }
 
+app.post("/send-otp", async (req,res)=>{
+
+    try{
+
+        const { email } = req.body;
+
+        const otp =
+        Math.floor(100000 + Math.random() * 900000);
+
+        otpStore[email] = {
+            otp,
+            expired: Date.now() + (5 * 60 * 1000)
+        };
+
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Kode OTP Verifikasi",
+            html: `
+                <h2>Verifikasi Email</h2>
+                <h1>${otp}</h1>
+                <p>Berlaku 5 menit</p>
+            `
+        });
+
+        res.json({
+            status:true
+        });
+
+    }catch(err){
+
+        res.json({
+            status:false,
+            message:err.message
+        });
+
+    }
+
+});
+
 // =========================
 // REGISTER
 // =========================
 app.post("/register", async (req, res) => {
     try {
+
+        const { email, otp } = req.body;
+
+const otpData = otpStore[email];
+
+if(!otpData){
+    return res.json({
+        status:false,
+        message:"OTP belum dikirim"
+    });
+}
+
+if(Date.now() > otpData.expired){
+    return res.json({
+        status:false,
+        message:"OTP sudah kadaluarsa"
+    });
+}
+
+if(String(otpData.otp) !== String(otp)){
+    return res.json({
+        status:false,
+        message:"OTP salah"
+    });
+}
+
+        const cek = await User.findOne({ email });
+
+if(cek){
+    return res.json({
+        status:false,
+        message:"Email sudah digunakan"
+    });
+}
+
+        const cekPhone = await User.findOne({
+    phone: req.body.phone
+});
+
+if(cekPhone){
+    return res.json({
+        status:false,
+        message:"Nomor HP sudah digunakan"
+    });
+}
+
+delete otpStore[email];
 
         const u = new User(req.body);
 
