@@ -39,6 +39,22 @@ function goLogin() {
     }, 1200);
 }
 
+let captchaAnswer = 0;
+
+function generateCaptcha() {
+    const a = Math.floor(Math.random() * 10) + 1;
+    const b = Math.floor(Math.random() * 10) + 1;
+
+    captchaAnswer = a + b;
+
+    document.getElementById("captchaQuestion").innerText =
+        `${a} + ${b} = ?`;
+
+    document.getElementById("captchaInput").value = "";
+}
+
+window.addEventListener("load", generateCaptcha);
+
 /* REGISTER */
 async function register() {
 
@@ -63,6 +79,13 @@ async function register() {
     if (password !== confirmPassword) {
         return showAlert("Peringatan", "Password tidak cocok");
     }
+
+let captcha = document.getElementById("captchaInput").value.trim();
+
+if (parseInt(captcha) !== captchaAnswer) {
+    generateCaptcha();
+    return showAlert("Peringatan", "Kode captcha salah");
+}
 
     showLoading();
 
