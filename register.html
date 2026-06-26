@@ -1466,6 +1466,30 @@ h2{
         <input type="text" id="referral" placeholder="Kode Referral (opsional)">
     </div>
 
+    <div class="input-group">
+    <input type="text" id="captchaInput" placeholder="Masukkan hasil captcha">
+</div>
+
+<div style="
+margin-top:-5px;
+margin-bottom:15px;
+color:#fff;
+font-weight:bold;
+text-align:center;
+font-size:18px;">
+    <span id="captchaQuestion"></span>
+    <button type="button"
+        onclick="generateCaptcha()"
+        style="
+        margin-left:10px;
+        background:none;
+        border:none;
+        color:#00ff88;
+        cursor:pointer;">
+        <i class="fa-solid fa-rotate"></i>
+    </button>
+</div>
+
     <!-- BUTTON -->
     <button type="button" id="registerBtn" class="login-btn">
         Daftar
